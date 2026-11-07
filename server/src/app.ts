@@ -7,6 +7,7 @@ import { signJwt, verifyJwt } from "./adapters/crypto";
 import { CORS_HEADERS, HttpError, Router, escapeHtml, html, isoDate, json, numIn, oneOf, optNumIn, optStr, readJson, redirect, str } from "./http";
 import type { Deps, PickoraEvent, User } from "./ports";
 import { applyRatingWebhook, linkDupr, pullHistory } from "./services/duprSync";
+import { MockPaymentProvider } from "./adapters/payments";
 import { confirmScore, eventDetail, generateSchedule, markFailed, markPaid, publishEvent, refundEntry, register, reportScore, requireEvent, requireOrganizer } from "./services/events";
 
 const SESSION_TTL = 60 * 60 * 24 * 60; // 60 days
@@ -72,10 +73,17 @@ function eventFromBody(b: any, organizerId: string, id: string, now: string): Pi
   };
 }
 
-function returnUrls(deps: Deps, client: string | null, eventId: string) {
-  const base = client === "web" ? `${deps.config.webAppUrl}#/events/${eventId}` : `${deps.config.appScheme}://events/${eventId}`;
-  return { success: `${base}${client === "web" ? "?" : "?"}paid=1`, cancel: `${base}?paid=0` };
+/** Stripe only accepts https return links, so they point at /v1/bounce, which forwards to the app or web app. */
+function bounceUrl(deps: Deps, client: string | null, to: string, query: Record<string, string>): string {
+  const q = new URLSearchParams({ client: client === "web" ? "web" : "app", to, ...query });
+  return `${deps.config.publicBaseUrl}/v1/bounce?${q}`;
 }
+
+function returnUrls(deps: Deps, client: string | null, eventId: string) {
+  return { success: bounceUrl(deps, client, `events/${eventId}`, { paid: "1" }), cancel: bounceUrl(deps, client, `events/${eventId}`, { paid: "0" }) };
+}
+
+const BOUNCE_TARGET = /^(events\/[A-Za-z0-9_-]{1,64}|payouts|dupr)$/;
 
 // ---------- HTML pages hosted by the API ----------
 
@@ -200,7 +208,9 @@ export function buildRouter(): Router<Ctx> {
         "DUPR (test)",
         `<div class="card"><p><b>Test DUPR login</b></p><p class="muted">Pickora is not connected to real DUPR yet, so this stands in for it. You'll get sample ratings and matches.</p></div><button id="go">Log in and allow access</button>`,
         `<script>document.getElementById('go').onclick=function(){var n=Math.random().toString(36).slice(2,8);parent.postMessage({userToken:'mock-'+n,refreshToken:'refresh-'+n,id:'mock-'+n,duprId:'MOCK'},location.origin);};</script>`,
-      ).replace("x-frame-options", "x-frame"),
+      ),
+      200,
+      { frameable: true },
     ),
   );
 
@@ -377,8 +387,8 @@ export function buildRouter(): Router<Ctx> {
       acct = { userId: user.id, provider: deps.payments.name, providerAccountId: id, chargesEnabled: false, payoutsEnabled: false, detailsSubmitted: false };
       await deps.store.savePayoutAccount(acct);
     }
-    const back = url.searchParams.get("client") === "web" ? `${deps.config.webAppUrl}#/payouts` : `${deps.config.appScheme}://payouts`;
-    const link = await deps.payments.onboardingLink(acct.providerAccountId, `${back}?status=done`, `${back}?status=retry`);
+    const client = url.searchParams.get("client");
+    const link = await deps.payments.onboardingLink(acct.providerAccountId, bounceUrl(deps, client, "payouts", { status: "done" }), bounceUrl(deps, client, "payouts", { status: "retry" }));
     return json({ url: link, callbackScheme: deps.config.appScheme });
   });
 
@@ -413,15 +423,26 @@ export function buildRouter(): Router<Ctx> {
     return json({ received: true });
   });
 
-  // Stand-in checkout used by MockPaymentProvider: marks the payment paid and returns to the app.
+  // Forwards Stripe's https return to the app (pickora://…) or the web app. Only known targets, so it's not an open redirect.
+  r.on("GET", "/v1/bounce", async (_req, { deps }, _p, url) => {
+    const to = url.searchParams.get("to") ?? "";
+    if (!BOUNCE_TARGET.test(to)) throw new HttpError(400, "Unknown destination", "invalid");
+    const rest = new URLSearchParams(url.searchParams);
+    rest.delete("to");
+    const client = rest.get("client");
+    rest.delete("client");
+    const qs = rest.toString() ? `?${rest}` : "";
+    return redirect(client === "web" ? `${deps.config.webAppUrl}#/${to}${qs}` : `${deps.config.appScheme}://${to}${qs}`);
+  });
+
+  // Stand-in checkout used by MockPaymentProvider: marks the payment paid and follows the success link.
   r.on("GET", "/v1/payments/mock-pay", async (_req, { deps }, _p, url) => {
-    if (deps.payments.name !== "mock") throw new HttpError(404, "Not found", "not_found");
+    if (!(deps.payments instanceof MockPaymentProvider)) throw new HttpError(404, "Not found", "not_found");
     const session = url.searchParams.get("session") ?? "";
     const payment = await deps.store.getPaymentByProviderRef(session);
     if (!payment) throw new HttpError(404, "Unknown checkout", "not_found");
     await markPaid(deps, session);
-    const ev = await deps.store.getEvent(payment.eventId);
-    return redirect(`${deps.config.appScheme}://events/${ev?.id ?? ""}?paid=1`);
+    return redirect(deps.payments.sessions.get(session)?.successUrl ?? `${deps.config.appScheme}://events/${payment.eventId}?paid=1`);
   });
 
   return r;

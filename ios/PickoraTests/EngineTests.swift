@@ -39,7 +39,7 @@ final class EngineTests: XCTestCase {
         let file = try decoder.decode(FormFile.self, from: vector("form"))
         XCTAssertFalse(file.form.isEmpty)
         for c in file.form {
-            let got = Form.score(c.matches)
+            let got = FormEngine.score(c.matches)
             if let want = c.expected {
                 let g = try XCTUnwrap(got, c.name)
                 XCTAssertEqual(g.score, want.score, c.name)
@@ -52,14 +52,14 @@ final class EngineTests: XCTestCase {
             } else {
                 XCTAssertNil(got, c.name)
             }
-            XCTAssertEqual(Form.insights(c.matches), c.insights, c.name)
+            XCTAssertEqual(FormEngine.insights(c.matches), c.insights, c.name)
         }
     }
 
     func testWinProbabilityMatchesTheAPI() throws {
         let file = try decoder.decode(FormFile.self, from: vector("form"))
         for w in file.win {
-            XCTAssertEqual(Form.winProbability(w.a, w.b, formA: w.formA, formB: w.formB), w.p, accuracy: 1e-9)
+            XCTAssertEqual(FormEngine.winProbability(w.a, w.b, formA: w.formA, formB: w.formB), w.p, accuracy: 1e-9)
         }
     }
 

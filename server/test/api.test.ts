@@ -39,6 +39,14 @@ async function connectDupr(token: string, who: string) {
 }
 
 describe("api", () => {
+  test("stand-in DUPR login can be framed by our page; other pages can't", async () => {
+    const mock = await call("GET", "/v1/dupr/mock-login");
+    expect(mock.headers.get("content-security-policy")).toBe("frame-ancestors 'self'");
+    expect(mock.headers.get("x-frame-options")).toBeNull();
+    const expired = await call("GET", "/v1/dupr/connect?t=x");
+    expect(expired.headers.get("x-frame-options")).toBe("DENY");
+  });
+
   test("health lists adapters", async () => {
     const r = await call("GET", "/v1/health");
     expect(r.body.dupr).toBe("dupr-mock");
@@ -116,7 +124,7 @@ describe("api", () => {
 
     expect((await call("POST", `/v1/events/${id}/publish`, org)).status).toBe(409); // no payout account yet
     const onboard = await call("POST", "/v1/payouts/onboard", org);
-    expect(onboard.body.url).toContain("pickora://payouts");
+    expect(onboard.body.url).toContain("/v1/bounce?client=app&to=payouts");
     expect((await call("POST", `/v1/events/${id}/publish`, org)).body.event.status).toBe("open");
 
     // Team 1: p1 + p2. Partner is found by DUPR ID.
@@ -127,6 +135,11 @@ describe("api", () => {
     expect(reg1.body.checkoutUrl).toContain("/v1/payments/mock-pay");
     const paid = await call("GET", new URL(reg1.body.checkoutUrl).pathname + new URL(reg1.body.checkoutUrl).search);
     expect(paid.status).toBe(302);
+    const back = new URL(paid.headers.get("location")!);
+    expect(back.pathname).toBe("/v1/bounce");
+    const bounced = await call("GET", back.pathname + back.search);
+    expect(bounced.headers.get("location")).toBe(`pickora://events/${id}?paid=1`);
+    expect((await call("GET", "/v1/bounce?to=https://evil.example")).status).toBe(400);
 
     const p4 = (await call("GET", "/v1/me", players[3])).body.user.id;
     const reg2 = await call("POST", `/v1/events/${id}/register`, players[2], { partnerUserId: p4 });

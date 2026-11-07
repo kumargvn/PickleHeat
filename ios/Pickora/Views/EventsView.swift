@@ -100,6 +100,10 @@ struct EventDetailView: View {
     @State private var scoring: EventMatch?
     @State private var registering = false
 
+    init(eventID: String) {
+        self.eventID = eventID
+    }
+
     var body: some View {
         ScrollView {
             if let d = detail {

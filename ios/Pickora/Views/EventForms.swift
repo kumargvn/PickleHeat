@@ -129,6 +129,11 @@ struct RegisterView: View {
     @State private var partnerDupr = ""
     @State private var teamName = ""
 
+    init(event: PickoraEvent, onDone: @escaping () async -> Void) {
+        self.event = event
+        self.onDone = onDone
+    }
+
     private var myRating: Double? {
         event.format == .singles ? (model.me?.dupr.singlesRating ?? model.me?.dupr.doublesRating) : model.me?.dupr.doublesRating
     }

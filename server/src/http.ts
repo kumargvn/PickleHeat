@@ -58,11 +58,11 @@ export function json(body: unknown, status = 200): Response {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json; charset=utf-8", ...CORS_HEADERS } });
 }
 
-export function html(body: string, status = 200): Response {
-  return new Response(body, {
-    status,
-    headers: { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", "x-frame-options": "DENY", ...CORS_HEADERS },
-  });
+export function html(body: string, status = 200, opts: { frameable?: boolean } = {}): Response {
+  const headers: Record<string, string> = { "content-type": "text/html; charset=utf-8", "cache-control": "no-store", ...CORS_HEADERS };
+  // Our pages are never framed by other sites; the stand-in DUPR login is framed by our own connect page.
+  headers[opts.frameable ? "content-security-policy" : "x-frame-options"] = opts.frameable ? "frame-ancestors 'self'" : "DENY";
+  return new Response(body, { status, headers });
 }
 
 export function redirect(location: string): Response {

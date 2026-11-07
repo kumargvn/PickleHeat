@@ -45,7 +45,7 @@ final class DemoService: PickoraService {
     private var matches: [PlayedMatch] { duprConnected ? sample.matches(today: today) : [] }
 
     private func currentMe() -> Me {
-        let form = Form.score(matches)
+        let form = FormEngine.score(matches)
         return Me(
             token: "demo",
             user: user,
@@ -111,7 +111,7 @@ final class DemoService: PickoraService {
     // MARK: insights & discovery
 
     func form() async throws -> FormPayload {
-        FormPayload(form: Form.score(matches), insights: Form.insights(matches), matches: Form.newestFirst(matches))
+        FormPayload(form: FormEngine.score(matches), insights: FormEngine.insights(matches), matches: FormEngine.newestFirst(matches))
     }
 
     func recommended(lat: Double?, lng: Double?, radius: Double?) async throws -> RecommendedPayload {

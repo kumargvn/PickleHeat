@@ -2,7 +2,7 @@ import Foundation
 
 /// Form score, win probability and score-based insights.
 /// Same math as server/src/domain/form.ts; shared/vectors/form.json keeps the two identical.
-enum Form {
+enum FormEngine {
     static let window = 8
     static let decay = 0.8
     static let gain = 400.0

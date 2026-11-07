@@ -62,12 +62,12 @@ enum Recommender {
             } else {
                 reasons.append("Open bracket, no rating cap")
             }
-            reasons.append("\(Form.jsRound(dist)) mi away")
+            reasons.append("\(FormEngine.jsRound(dist)) mi away")
             if d <= 14 { reasons.append(d == 0 ? "Starts today" : "Starts in \(d) day\(d == 1 ? "" : "s")") }
-            if hot, let maxR = best.ev.maxRating, best.rating + Form.ratingBoost(player.form) > maxR {
+            if hot, let maxR = best.ev.maxRating, best.rating + FormEngine.ratingBoost(player.form) > maxR {
                 reasons.append("You're in hot form. Consider the next bracket up")
             }
-            out.append(Recommendation(tournament: t, event: best.ev, score: Double(Form.jsRound(score * 1000)) / 1000, distanceMiles: Double(Form.jsRound(dist * 10)) / 10, reasons: reasons))
+            out.append(Recommendation(tournament: t, event: best.ev, score: Double(FormEngine.jsRound(score * 1000)) / 1000, distanceMiles: Double(FormEngine.jsRound(dist * 10)) / 10, reasons: reasons))
         }
         out.sort { $0.score != $1.score ? $0.score > $1.score : $0.distanceMiles < $1.distanceMiles }
         return Array(out.prefix(limit))
