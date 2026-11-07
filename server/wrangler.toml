@@ -1,0 +1,20 @@
+# Cloudflare Workers deployment. Secrets (JWT_SECRET, DATABASE_URL, STRIPE_*, DUPR_*) are set with
+#   npx wrangler secret put NAME
+# and never live in this file.
+name = "pickora-api"
+main = "src/entry/worker.ts"
+compatibility_date = "2026-10-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+PUBLIC_BASE_URL = "https://pickora-api.YOUR-SUBDOMAIN.workers.dev"
+WEB_APP_URL = "https://kumargvn.github.io/pickora/app/"
+APPLE_AUDIENCES = "com.gudivada.pickora"
+PLATFORM_FEE_BPS = "0"
+DUPR_ENV = "uat"
+ALLOW_DEV_AUTH = "false"
+SAMPLE_TOURNAMENTS = "true"
+
+# Every hour: refresh DUPR tokens about to expire and retry DUPR uploads that failed.
+[triggers]
+crons = ["17 * * * *"]

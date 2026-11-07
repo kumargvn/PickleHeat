@@ -1,0 +1,587 @@
+{
+  "form": [
+    {
+      "name": "sample player",
+      "matches": [
+        {
+          "id": "m1",
+          "playedAt": "2026-11-06T18:00:00Z",
+          "teamRating": 4.08,
+          "opponentRating": 4.15,
+          "games": [
+            {
+              "us": 11,
+              "them": 8
+            },
+            {
+              "us": 11,
+              "them": 9
+            }
+          ],
+          "partnerName": "Priya K.",
+          "opponentNames": [
+            "Chen W.",
+            "Ana A."
+          ],
+          "eventName": "Tuesday Night 4.0 Ladder"
+        },
+        {
+          "id": "m2",
+          "playedAt": "2026-11-03T18:00:00Z",
+          "teamRating": 4.1,
+          "opponentRating": 3.98,
+          "games": [
+            {
+              "us": 11,
+              "them": 6
+            },
+            {
+              "us": 9,
+              "them": 11
+            },
+            {
+              "us": 11,
+              "them": 7
+            }
+          ],
+          "partnerName": "Sam O.",
+          "opponentNames": [
+            "Marco D.",
+            "Lena S."
+          ],
+          "eventName": "Sunday Mixed League"
+        },
+        {
+          "id": "m3",
+          "playedAt": "2026-11-01T18:00:00Z",
+          "teamRating": 4.05,
+          "opponentRating": 4.2,
+          "games": [
+            {
+              "us": 11,
+              "them": 9
+            },
+            {
+              "us": 12,
+              "them": 10
+            }
+          ],
+          "partnerName": "Priya K.",
+          "opponentNames": [
+            "Brooks T.",
+            "Hale R."
+          ],
+          "eventName": "Tuesday Night 4.0 Ladder"
+        },
+        {
+          "id": "m4",
+          "playedAt": "2026-10-29T18:00:00Z",
+          "teamRating": 4.12,
+          "opponentRating": 4.02,
+          "games": [
+            {
+              "us": 11,
+              "them": 5
+            },
+            {
+              "us": 11,
+              "them": 7
+            }
+          ],
+          "partnerName": "Dev P.",
+          "opponentNames": [
+            "Okafor N.",
+            "Patel R."
+          ],
+          "eventName": "Open play"
+        },
+        {
+          "id": "m5",
+          "playedAt": "2026-10-26T18:00:00Z",
+          "teamRating": 4.07,
+          "opponentRating": 4,
+          "games": [
+            {
+              "us": 8,
+              "them": 11
+            },
+            {
+              "us": 11,
+              "them": 9
+            },
+            {
+              "us": 9,
+              "them": 11
+            }
+          ],
+          "partnerName": "Sam O.",
+          "opponentNames": [
+            "Nguyen L.",
+            "Ortiz J."
+          ],
+          "eventName": "Sunday Mixed League"
+        },
+        {
+          "id": "m6",
+          "playedAt": "2026-10-23T18:00:00Z",
+          "teamRating": 4.09,
+          "opponentRating": 4.11,
+          "games": [
+            {
+              "us": 11,
+              "them": 7
+            },
+            {
+              "us": 11,
+              "them": 8
+            }
+          ],
+          "partnerName": "Priya K.",
+          "opponentNames": [
+            "Kim H.",
+            "Lopez M."
+          ],
+          "eventName": "Tuesday Night 4.0 Ladder"
+        },
+        {
+          "id": "m7",
+          "playedAt": "2026-10-19T18:00:00Z",
+          "teamRating": 4.04,
+          "opponentRating": 3.95,
+          "games": [
+            {
+              "us": 11,
+              "them": 9
+            },
+            {
+              "us": 11,
+              "them": 4
+            }
+          ],
+          "partnerName": "Dev P.",
+          "opponentNames": [
+            "Grant B.",
+            "Shah A."
+          ],
+          "eventName": "Open play"
+        },
+        {
+          "id": "m8",
+          "playedAt": "2026-10-15T18:00:00Z",
+          "teamRating": 4.06,
+          "opponentRating": 4.01,
+          "games": [
+            {
+              "us": 7,
+              "them": 11
+            },
+            {
+              "us": 10,
+              "them": 12
+            }
+          ],
+          "partnerName": "Sam O.",
+          "opponentNames": [
+            "Ruiz C.",
+            "Ford E."
+          ],
+          "eventName": "Sunday Mixed League"
+        },
+        {
+          "id": "m9",
+          "playedAt": "2026-10-11T18:00:00Z",
+          "teamRating": 4.03,
+          "opponentRating": 4.08,
+          "games": [
+            {
+              "us": 9,
+              "them": 11
+            },
+            {
+              "us": 11,
+              "them": 13
+            }
+          ],
+          "partnerName": "Priya K.",
+          "opponentNames": [
+            "Chen W.",
+            "Ana A."
+          ],
+          "eventName": "Tuesday Night 4.0 Ladder"
+        },
+        {
+          "id": "m10",
+          "playedAt": "2026-10-07T18:00:00Z",
+          "teamRating": 4.02,
+          "opponentRating": 3.94,
+          "games": [
+            {
+              "us": 11,
+              "them": 8
+            },
+            {
+              "us": 8,
+              "them": 11
+            },
+            {
+              "us": 9,
+              "them": 11
+            }
+          ],
+          "partnerName": "Dev P.",
+          "opponentNames": [
+            "Marco D.",
+            "Lena S."
+          ],
+          "eventName": "Open play"
+        }
+      ],
+      "expected": {
+        "score": 74,
+        "label": "Rising",
+        "matchesUsed": 8,
+        "residuals": [
+          0.07417501103000257,
+          0.04637383920398741,
+          0.06919238067019323,
+          0.13267163936341309,
+          -0.03549617574099789,
+          0.09747279416940563,
+          0.11562228367856486,
+          -0.08219508170905138
+        ],
+        "weightedResidual": 0.06103085109940695,
+        "previousScore": 70
+      },
+      "insights": {
+        "record": {
+          "wins": 6,
+          "losses": 2
+        },
+        "pointShare": 0.5483870967741935,
+        "closeGames": {
+          "wins": 5,
+          "losses": 3
+        },
+        "vsHigherRated": {
+          "wins": 2,
+          "losses": 0
+        },
+        "traits": {
+          "clutch": 63,
+          "consistency": 30,
+          "giantKiller": 100,
+          "momentum": 60
+        },
+        "tip": "Your results swing a lot match to match. A steady warm-up routine helps."
+      }
+    },
+    {
+      "name": "too few matches",
+      "matches": [
+        {
+          "id": "a",
+          "playedAt": "2026-11-01T18:00:00Z",
+          "teamRating": 4,
+          "opponentRating": 4,
+          "games": [
+            {
+              "us": 11,
+              "them": 5
+            }
+          ]
+        },
+        {
+          "id": "b",
+          "playedAt": "2026-11-02T18:00:00Z",
+          "teamRating": 4,
+          "opponentRating": 4,
+          "games": [
+            {
+              "us": 11,
+              "them": 5
+            }
+          ]
+        }
+      ],
+      "expected": null,
+      "insights": {
+        "record": {
+          "wins": 2,
+          "losses": 0
+        },
+        "pointShare": 0.6875,
+        "closeGames": {
+          "wins": 0,
+          "losses": 0
+        },
+        "vsHigherRated": {
+          "wins": 0,
+          "losses": 0
+        },
+        "traits": {
+          "clutch": 50,
+          "consistency": 100,
+          "giantKiller": 50,
+          "momentum": 50
+        },
+        "tip": "Play a few more DUPR matches to unlock your insights."
+      }
+    },
+    {
+      "name": "cold streak",
+      "matches": [
+        {
+          "id": "c1",
+          "playedAt": "2026-10-01T18:00:00Z",
+          "teamRating": 3.5,
+          "opponentRating": 3.4,
+          "games": [
+            {
+              "us": 5,
+              "them": 11
+            },
+            {
+              "us": 7,
+              "them": 11
+            }
+          ]
+        },
+        {
+          "id": "c2",
+          "playedAt": "2026-10-02T18:00:00Z",
+          "teamRating": 3.5,
+          "opponentRating": 3.4,
+          "games": [
+            {
+              "us": 5,
+              "them": 11
+            },
+            {
+              "us": 7,
+              "them": 11
+            }
+          ]
+        },
+        {
+          "id": "c3",
+          "playedAt": "2026-10-03T18:00:00Z",
+          "teamRating": 3.5,
+          "opponentRating": 3.4,
+          "games": [
+            {
+              "us": 5,
+              "them": 11
+            },
+            {
+              "us": 7,
+              "them": 11
+            }
+          ]
+        },
+        {
+          "id": "c4",
+          "playedAt": "2026-10-04T18:00:00Z",
+          "teamRating": 3.5,
+          "opponentRating": 3.4,
+          "games": [
+            {
+              "us": 5,
+              "them": 11
+            },
+            {
+              "us": 7,
+              "them": 11
+            }
+          ]
+        },
+        {
+          "id": "c5",
+          "playedAt": "2026-10-05T18:00:00Z",
+          "teamRating": 3.5,
+          "opponentRating": 3.4,
+          "games": [
+            {
+              "us": 5,
+              "them": 11
+            },
+            {
+              "us": 7,
+              "them": 11
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "score": 0,
+        "label": "Cold",
+        "matchesUsed": 5,
+        "residuals": [
+          -0.16144600769541045,
+          -0.16144600769541045,
+          -0.16144600769541045,
+          -0.16144600769541045,
+          -0.16144600769541045
+        ],
+        "weightedResidual": -0.16144600769541043,
+        "previousScore": 0
+      },
+      "insights": {
+        "record": {
+          "wins": 0,
+          "losses": 5
+        },
+        "pointShare": 0.35294117647058826,
+        "closeGames": {
+          "wins": 0,
+          "losses": 0
+        },
+        "vsHigherRated": {
+          "wins": 0,
+          "losses": 0
+        },
+        "traits": {
+          "clutch": 50,
+          "consistency": 100,
+          "giantKiller": 50,
+          "momentum": 50
+        },
+        "tip": "Tight games are slipping away. Play higher-percentage shots at 9-all and up."
+      }
+    },
+    {
+      "name": "exactly at rating",
+      "matches": [
+        {
+          "id": "e1",
+          "playedAt": "2026-10-11T18:00:00Z",
+          "teamRating": 3.8,
+          "opponentRating": 3.8,
+          "games": [
+            {
+              "us": 11,
+              "them": 9
+            },
+            {
+              "us": 9,
+              "them": 11
+            }
+          ]
+        },
+        {
+          "id": "e2",
+          "playedAt": "2026-10-12T18:00:00Z",
+          "teamRating": 3.8,
+          "opponentRating": 3.8,
+          "games": [
+            {
+              "us": 11,
+              "them": 9
+            },
+            {
+              "us": 9,
+              "them": 11
+            }
+          ]
+        },
+        {
+          "id": "e3",
+          "playedAt": "2026-10-13T18:00:00Z",
+          "teamRating": 3.8,
+          "opponentRating": 3.8,
+          "games": [
+            {
+              "us": 11,
+              "them": 9
+            },
+            {
+              "us": 9,
+              "them": 11
+            }
+          ]
+        },
+        {
+          "id": "e4",
+          "playedAt": "2026-10-14T18:00:00Z",
+          "teamRating": 3.8,
+          "opponentRating": 3.8,
+          "games": [
+            {
+              "us": 11,
+              "them": 9
+            },
+            {
+              "us": 9,
+              "them": 11
+            }
+          ]
+        }
+      ],
+      "expected": {
+        "score": 50,
+        "label": "Steady",
+        "matchesUsed": 4,
+        "residuals": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "weightedResidual": 0,
+        "previousScore": null
+      },
+      "insights": {
+        "record": {
+          "wins": 0,
+          "losses": 4
+        },
+        "pointShare": 0.5,
+        "closeGames": {
+          "wins": 4,
+          "losses": 4
+        },
+        "vsHigherRated": {
+          "wins": 0,
+          "losses": 0
+        },
+        "traits": {
+          "clutch": 50,
+          "consistency": 100,
+          "giantKiller": 50,
+          "momentum": 50
+        },
+        "tip": "Tight games are slipping away. Play higher-percentage shots at 9-all and up."
+      }
+    }
+  ],
+  "win": [
+    {
+      "a": 4.12,
+      "b": 3.97,
+      "formA": null,
+      "formB": null,
+      "p": 0.5854986786718094
+    },
+    {
+      "a": 4.12,
+      "b": 3.97,
+      "formA": 78,
+      "formB": 63,
+      "p": 0.6567226293255249
+    },
+    {
+      "a": 3.5,
+      "b": 4.5,
+      "formA": 50,
+      "formB": 50,
+      "p": 0.09090909090909091
+    },
+    {
+      "a": 4,
+      "b": 4,
+      "formA": 90,
+      "formB": 20,
+      "p": 0.8046307250295759
+    }
+  ]
+}

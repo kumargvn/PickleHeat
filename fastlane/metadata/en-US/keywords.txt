@@ -1,0 +1,1 @@
+pickleball,DUPR,league,tournament,ladder,round robin,rating,doubles,bracket,scores,club,court

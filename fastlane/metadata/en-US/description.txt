@@ -1,0 +1,24 @@
+Pickora is the pickleball app for players who want to know how they're really playing, and organizers who are done with group texts and spreadsheets.
+
+YOUR FORM, NOT JUST YOUR RATING
+Connect DUPR once. Pickora reads your last 8 DUPR matches and compares the points you actually won with what your rating predicted. The result is a Form score from 0 to 100: 50 means you're playing right at your rating, 75+ means you're hot.
+
+INSIGHTS FROM YOUR SCORES
+• Record, point share and close-game record
+• How you do against higher-rated teams
+• Player DNA: Clutch, Consistency, Giant-killer and Momentum
+• A tip based on your weakest area
+
+LEAGUES AND TOURNAMENTS
+• Create a league for your regular group or run a full tournament
+• Set a DUPR range; players outside it can't register
+• Automatic round robins, snake-seeded pools and standings
+• Players enter scores, the other team confirms, and results go to DUPR automatically
+
+ENTRY FEES, PAID TO YOU
+Players pay by card or Apple Pay through Stripe. Fees go straight to the organizer's linked bank account.
+
+TOURNAMENTS PICKED FOR YOU
+Pickora suggests nearby tournaments with an event that fits your rating, and nudges you up a bracket when you're in hot form.
+
+DUPR is a trademark of its owner. Pickora is an independent app.

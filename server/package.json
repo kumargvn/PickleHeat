@@ -1,0 +1,19 @@
+{
+  "name": "pickora-api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run src/entry/bun.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "vectors": "bun run scripts/make-vectors.ts",
+    "deploy": "wrangler deploy"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "wrangler": "^4.0.0"
+  }
+}

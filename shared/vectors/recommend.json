@@ -1,0 +1,50 @@
+{
+  "today": "2026-11-07",
+  "player": {
+    "doublesRating": 4.12,
+    "singlesRating": 3.86,
+    "form": 78,
+    "lat": 30.5083,
+    "lng": -97.6789,
+    "maxDistanceMiles": 75,
+    "formats": [
+      "doubles",
+      "mixed"
+    ]
+  },
+  "recommendations": [
+    {
+      "tournamentId": "s-hillcountry",
+      "eventId": "e1",
+      "score": 0.882,
+      "distanceMiles": 8.6,
+      "reasons": [
+        "Your 4.12 fits the 3.75–4.24 bracket",
+        "9 mi away",
+        "You're in hot form. Consider the next bracket up"
+      ]
+    },
+    {
+      "tournamentId": "s-fallslam",
+      "eventId": "e1",
+      "score": 0.874,
+      "distanceMiles": 1,
+      "reasons": [
+        "Your 4.12 fits the 3.50–4.25 bracket",
+        "1 mi away",
+        "Starts in 8 days",
+        "You're in hot form. Consider the next bracket up"
+      ]
+    },
+    {
+      "tournamentId": "s-capitol",
+      "eventId": "e2",
+      "score": 0.74,
+      "distanceMiles": 17.1,
+      "reasons": [
+        "Your 4.12 fits the 4.00–4.49 bracket",
+        "17 mi away"
+      ]
+    }
+  ]
+}

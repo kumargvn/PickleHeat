@@ -1,0 +1,234 @@
+{
+  "roundRobin": {
+    "entrants": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "pairings": [
+      {
+        "round": 1,
+        "home": "B",
+        "away": "E"
+      },
+      {
+        "round": 1,
+        "home": "C",
+        "away": "D"
+      },
+      {
+        "round": 2,
+        "home": "E",
+        "away": "A"
+      },
+      {
+        "round": 2,
+        "home": "C",
+        "away": "B"
+      },
+      {
+        "round": 3,
+        "home": "A",
+        "away": "D"
+      },
+      {
+        "round": 3,
+        "home": "E",
+        "away": "C"
+      },
+      {
+        "round": 4,
+        "home": "C",
+        "away": "A"
+      },
+      {
+        "round": 4,
+        "home": "B",
+        "away": "D"
+      },
+      {
+        "round": 5,
+        "home": "A",
+        "away": "B"
+      },
+      {
+        "round": 5,
+        "home": "D",
+        "away": "E"
+      }
+    ]
+  },
+  "pools": {
+    "seeded": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "count": 3,
+    "pools": [
+      [
+        "1",
+        "6",
+        "7"
+      ],
+      [
+        "2",
+        "5"
+      ],
+      [
+        "3",
+        "4"
+      ]
+    ]
+  },
+  "bracket": {
+    "seeded": [
+      "s1",
+      "s2",
+      "s3",
+      "s4",
+      "s5",
+      "s6"
+    ],
+    "firstRound": [
+      {
+        "round": 1,
+        "slot": 1,
+        "top": "s1",
+        "bottom": null
+      },
+      {
+        "round": 1,
+        "slot": 2,
+        "top": "s4",
+        "bottom": "s5"
+      },
+      {
+        "round": 1,
+        "slot": 3,
+        "top": "s2",
+        "bottom": null
+      },
+      {
+        "round": 1,
+        "slot": 4,
+        "top": "s3",
+        "bottom": "s6"
+      }
+    ]
+  },
+  "standings": {
+    "entrants": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "results": [
+      {
+        "home": "A",
+        "away": "B",
+        "games": [
+          {
+            "home": 11,
+            "away": 7
+          }
+        ]
+      },
+      {
+        "home": "C",
+        "away": "A",
+        "games": [
+          {
+            "home": 11,
+            "away": 9
+          }
+        ]
+      },
+      {
+        "home": "B",
+        "away": "C",
+        "games": [
+          {
+            "home": 11,
+            "away": 3
+          }
+        ]
+      },
+      {
+        "home": "D",
+        "away": "E",
+        "games": [
+          {
+            "home": 4,
+            "away": 11
+          }
+        ]
+      },
+      {
+        "home": "A",
+        "away": "E",
+        "games": [
+          {
+            "home": 11,
+            "away": 10
+          }
+        ]
+      }
+    ],
+    "table": [
+      {
+        "entrant": "A",
+        "played": 3,
+        "wins": 2,
+        "losses": 1,
+        "pointsFor": 31,
+        "pointsAgainst": 28,
+        "diff": 3
+      },
+      {
+        "entrant": "E",
+        "played": 2,
+        "wins": 1,
+        "losses": 1,
+        "pointsFor": 21,
+        "pointsAgainst": 15,
+        "diff": 6
+      },
+      {
+        "entrant": "B",
+        "played": 2,
+        "wins": 1,
+        "losses": 1,
+        "pointsFor": 18,
+        "pointsAgainst": 14,
+        "diff": 4
+      },
+      {
+        "entrant": "C",
+        "played": 2,
+        "wins": 1,
+        "losses": 1,
+        "pointsFor": 14,
+        "pointsAgainst": 20,
+        "diff": -6
+      },
+      {
+        "entrant": "D",
+        "played": 1,
+        "wins": 0,
+        "losses": 1,
+        "pointsFor": 4,
+        "pointsAgainst": 11,
+        "diff": -7
+      }
+    ]
+  }
+}

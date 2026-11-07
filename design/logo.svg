@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <rect width="1024" height="1024" fill="#0A0F24"/>
+  <!-- form ring: a 3/4 arc, the app's signature -->
+  <circle cx="512" cy="512" r="330" fill="none" stroke="#1C2550" stroke-width="64"/>
+  <circle cx="512" cy="512" r="330" fill="none" stroke="#FF6B4A" stroke-width="64" stroke-linecap="round"
+          stroke-dasharray="1555 2074" transform="rotate(-90 512 512)"/>
+  <!-- the ball -->
+  <circle cx="512" cy="512" r="232" fill="#D4FF3A"/>
+  <g fill="#0A0F24">
+    <circle cx="430" cy="420" r="30"/>
+    <circle cx="560" cy="392" r="30"/>
+    <circle cx="640" cy="500" r="30"/>
+    <circle cx="470" cy="548" r="30"/>
+    <circle cx="590" cy="630" r="30"/>
+    <circle cx="420" cy="660" r="26"/>
+    <circle cx="360" cy="520" r="24"/>
+  </g>
+</svg>

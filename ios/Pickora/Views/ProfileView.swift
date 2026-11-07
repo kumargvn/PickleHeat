@@ -1,0 +1,108 @@
+import SwiftUI
+
+struct ProfileView: View {
+    @EnvironmentObject var model: AppModel
+    @State private var city = ""
+    @State private var distance: Double = 75
+    @State private var confirmDelete = false
+    @State private var confirmDisconnect = false
+
+    var body: some View {
+        Form {
+            Section {
+                HStack(spacing: 14) {
+                    Text(initials).font(Theme.display(18)).foregroundStyle(Theme.ink)
+                        .frame(width: 52, height: 52).background(Theme.coral, in: Circle())
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(model.me?.user.name ?? "").font(Theme.display(20))
+                        if let email = model.me?.user.email { Text(email).font(.footnote).foregroundStyle(Theme.muted) }
+                    }
+                }
+            }
+
+            Section {
+                row("DUPR ID", model.me?.dupr.duprId ?? "—")
+                row("Doubles", ratingText(model.me?.dupr.doublesRating))
+                row("Singles", ratingText(model.me?.dupr.singlesRating))
+                if let synced = model.me?.dupr.matchesSyncedAt, let d = ISO8601DateFormatter().date(from: synced) {
+                    row("Last sync", d.formatted(.relative(presentation: .named)))
+                }
+                Button("Sync now") { Task { await model.syncDupr() } }
+                Button("Disconnect DUPR", role: .destructive) { confirmDisconnect = true }
+            } header: { Text("DUPR") } footer: {
+                Text("Ratings update automatically when DUPR changes them. Confirmed Pickora matches are sent to DUPR for you.")
+            }
+
+            Section {
+                Button("Use my current location") { Task { await model.useCurrentLocation() } }
+                HStack {
+                    TextField("Or type a city, e.g. Austin, TX", text: $city).submitLabel(.search)
+                        .onSubmit { Task { await model.setHome(city: city) } }
+                    if !city.isEmpty { Button("Set") { Task { await model.setHome(city: city) } } }
+                }
+                VStack(alignment: .leading) {
+                    Text("Search within \(Int(distance)) miles")
+                    Slider(value: $distance, in: 10...300, step: 5, onEditingChanged: { editing in
+                        if !editing { Task { await model.updateProfile(maxDistanceMiles: distance) } }
+                    })
+                }
+                ForEach(EventFormat.allCases) { f in
+                    Toggle(f.title, isOn: Binding(
+                        get: { model.me?.user.formats.contains(f) ?? false },
+                        set: { on in
+                            var list = model.me?.user.formats ?? []
+                            if on { if !list.contains(f) { list.append(f) } } else { list.removeAll { $0 == f } }
+                            if !list.isEmpty { Task { await model.updateProfile(formats: list) } }
+                        }
+                    ))
+                }
+            } header: { Text("Tournament finder") } footer: {
+                Text(model.me?.user.lat != nil ? "Home area set." : "Set your area to get tournament picks.")
+            }
+
+            Section("Getting paid") {
+                if model.me?.payouts.ready == true {
+                    Label("Payout account linked", systemImage: "checkmark.seal.fill").foregroundStyle(Theme.lime)
+                } else {
+                    Button("Link payout account") { Task { await model.linkPayouts() } }
+                }
+            }
+
+            Section {
+                Link("Privacy Policy", destination: AppConfig.privacyURL)
+                Link("Support", destination: AppConfig.supportURL)
+                if model.isDemo {
+                    Text("Demo mode: sample data on this phone only. Nothing is charged or sent to DUPR.").font(.footnote).foregroundStyle(Theme.muted)
+                }
+                Button("Sign out") { model.signOut() }
+                Button("Delete account", role: .destructive) { confirmDelete = true }
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.ink.ignoresSafeArea())
+        .navigationTitle("Profile")
+        .onAppear { distance = model.me?.user.maxDistanceMiles ?? 75 }
+        .confirmationDialog("Delete your Pickora account?", isPresented: $confirmDelete, titleVisibility: .visible) {
+            Button("Delete account", role: .destructive) { Task { await model.deleteAccount() } }
+        } message: {
+            Text("This removes your profile, DUPR link and payout link from Pickora. Results already sent to DUPR stay on DUPR.")
+        }
+        .confirmationDialog("Disconnect DUPR?", isPresented: $confirmDisconnect, titleVisibility: .visible) {
+            Button("Disconnect", role: .destructive) { Task { await model.disconnectDupr() } }
+        } message: {
+            Text("You'll need to connect again to see your form and join DUPR events.")
+        }
+    }
+
+    private var initials: String {
+        (model.me?.user.name ?? "?").split(separator: " ").prefix(2).compactMap { $0.first.map(String.init) }.joined()
+    }
+
+    private func row(_ title: String, _ value: String) -> some View {
+        HStack {
+            Text(title)
+            Spacer()
+            Text(value).foregroundStyle(Theme.muted).monospacedDigit()
+        }
+    }
+}

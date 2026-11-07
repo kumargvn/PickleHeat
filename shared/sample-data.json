@@ -1,0 +1,53 @@
+{
+  "_note": "Sample data for demo mode and the sample tournament feed. Not real people or events. Dates are relative to today (daysAgo / startInDays).",
+  "player": {
+    "id": "demo-jordan",
+    "name": "Jordan Reyes",
+    "duprId": "DEMO-JR42",
+    "doublesRating": 4.12,
+    "singlesRating": 3.86,
+    "lat": 30.5083,
+    "lng": -97.6789,
+    "homeArea": "Central Texas"
+  },
+  "matches": [
+    { "id": "m1", "daysAgo": 1,  "teamRating": 4.08, "opponentRating": 4.15, "games": [[11, 8], [11, 9]], "partnerName": "Priya K.", "opponentNames": ["Chen W.", "Ana A."], "eventName": "Tuesday Night 4.0 Ladder" },
+    { "id": "m2", "daysAgo": 4,  "teamRating": 4.10, "opponentRating": 3.98, "games": [[11, 6], [9, 11], [11, 7]], "partnerName": "Sam O.", "opponentNames": ["Marco D.", "Lena S."], "eventName": "Sunday Mixed League" },
+    { "id": "m3", "daysAgo": 6,  "teamRating": 4.05, "opponentRating": 4.20, "games": [[11, 9], [12, 10]], "partnerName": "Priya K.", "opponentNames": ["Brooks T.", "Hale R."], "eventName": "Tuesday Night 4.0 Ladder" },
+    { "id": "m4", "daysAgo": 9,  "teamRating": 4.12, "opponentRating": 4.02, "games": [[11, 5], [11, 7]], "partnerName": "Dev P.", "opponentNames": ["Okafor N.", "Patel R."], "eventName": "Open play" },
+    { "id": "m5", "daysAgo": 12, "teamRating": 4.07, "opponentRating": 4.00, "games": [[8, 11], [11, 9], [9, 11]], "partnerName": "Sam O.", "opponentNames": ["Nguyen L.", "Ortiz J."], "eventName": "Sunday Mixed League" },
+    { "id": "m6", "daysAgo": 15, "teamRating": 4.09, "opponentRating": 4.11, "games": [[11, 7], [11, 8]], "partnerName": "Priya K.", "opponentNames": ["Kim H.", "Lopez M."], "eventName": "Tuesday Night 4.0 Ladder" },
+    { "id": "m7", "daysAgo": 19, "teamRating": 4.04, "opponentRating": 3.95, "games": [[11, 9], [11, 4]], "partnerName": "Dev P.", "opponentNames": ["Grant B.", "Shah A."], "eventName": "Open play" },
+    { "id": "m8", "daysAgo": 23, "teamRating": 4.06, "opponentRating": 4.01, "games": [[7, 11], [10, 12]], "partnerName": "Sam O.", "opponentNames": ["Ruiz C.", "Ford E."], "eventName": "Sunday Mixed League" },
+    { "id": "m9", "daysAgo": 27, "teamRating": 4.03, "opponentRating": 4.08, "games": [[9, 11], [11, 13]], "partnerName": "Priya K.", "opponentNames": ["Chen W.", "Ana A."], "eventName": "Tuesday Night 4.0 Ladder" },
+    { "id": "m10", "daysAgo": 31, "teamRating": 4.02, "opponentRating": 3.94, "games": [[11, 8], [8, 11], [9, 11]], "partnerName": "Dev P.", "opponentNames": ["Marco D.", "Lena S."], "eventName": "Open play" }
+  ],
+  "tournaments": [
+    { "id": "s-fallslam", "name": "Fall Slam Doubles", "startInDays": 8, "lengthDays": 1, "venue": "Sample Racquet Center", "city": "Round Rock", "state": "TX", "lat": 30.5160, "lng": -97.6650, "registrationOpen": true,
+      "events": [
+        { "id": "e1", "name": "Men's Doubles 3.5–4.25", "format": "doubles", "minRating": 3.5, "maxRating": 4.25, "feeCents": 3500 },
+        { "id": "e2", "name": "Mixed Doubles 4.0+", "format": "mixed", "minRating": 4.0, "maxRating": null, "feeCents": 3500 } ] },
+    { "id": "s-hillcountry", "name": "Hill Country Classic", "startInDays": 20, "lengthDays": 2, "venue": "Sample Sports Park", "city": "Georgetown", "state": "TX", "lat": 30.6327, "lng": -97.6772, "registrationOpen": true,
+      "events": [
+        { "id": "e1", "name": "Doubles 4.0", "format": "doubles", "minRating": 3.75, "maxRating": 4.24, "feeCents": 4500 },
+        { "id": "e2", "name": "Doubles 4.5", "format": "doubles", "minRating": 4.25, "maxRating": 4.74, "feeCents": 4500 },
+        { "id": "e3", "name": "Singles 3.5–4.0", "format": "singles", "minRating": 3.5, "maxRating": 4.0, "feeCents": 3000 } ] },
+    { "id": "s-capitol", "name": "Capitol City Open", "startInDays": 34, "lengthDays": 3, "venue": "Sample Tennis & Pickleball Club", "city": "Austin", "state": "TX", "lat": 30.2672, "lng": -97.7431, "registrationOpen": true,
+      "events": [
+        { "id": "e1", "name": "Open Doubles", "format": "doubles", "minRating": null, "maxRating": null, "feeCents": 6000 },
+        { "id": "e2", "name": "Mixed 4.0–4.49", "format": "mixed", "minRating": 4.0, "maxRating": 4.49, "feeCents": 5500 } ] },
+    { "id": "s-bluebonnet", "name": "Bluebonnet Shootout", "startInDays": 13, "lengthDays": 1, "venue": "Sample Community Courts", "city": "Temple", "state": "TX", "lat": 31.0982, "lng": -97.3428, "registrationOpen": true,
+      "events": [
+        { "id": "e1", "name": "Doubles 3.0–3.49", "format": "doubles", "minRating": 3.0, "maxRating": 3.49, "feeCents": 2500 } ] },
+    { "id": "s-gulf", "name": "Gulf Coast Championships", "startInDays": 26, "lengthDays": 3, "venue": "Sample Bayfront Center", "city": "Corpus Christi", "state": "TX", "lat": 27.8006, "lng": -97.3964, "registrationOpen": true,
+      "events": [
+        { "id": "e1", "name": "Doubles 4.0", "format": "doubles", "minRating": 3.75, "maxRating": 4.25, "feeCents": 7000 } ] },
+    { "id": "s-closed", "name": "Lakeway Invitational", "startInDays": 5, "lengthDays": 1, "venue": "Sample Lake Club", "city": "Lakeway", "state": "TX", "lat": 30.3638, "lng": -97.9797, "registrationOpen": false,
+      "events": [
+        { "id": "e1", "name": "Doubles 4.0", "format": "doubles", "minRating": 3.75, "maxRating": 4.25, "feeCents": 4000 } ] }
+  ],
+  "leagues": [
+    { "id": "l-tuesday", "name": "Tuesday Night 4.0 Ladder", "kind": "league", "format": "doubles", "weeks": 8, "currentWeek": 6, "players": 16, "rank": 2, "wins": 9, "losses": 3, "feeCents": 6000 },
+    { "id": "l-sunday", "name": "Sunday Mixed League", "kind": "league", "format": "mixed", "weeks": 10, "currentWeek": 3, "players": 24, "rank": 5, "wins": 4, "losses": 2, "feeCents": 5000 }
+  ]
+}
