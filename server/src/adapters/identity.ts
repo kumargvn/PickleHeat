@@ -15,7 +15,7 @@ interface Jwk {
 export class AppleIdentityVerifier implements IdentityVerifier {
   private keys: { at: number; keys: Jwk[] } | null = null;
 
-  /** @param audiences bundle ID (iOS) and Services ID (web), e.g. ["com.gudivada.pickora", "com.gudivada.pickora.web"] */
+  /** @param audiences bundle ID (iOS) and Services ID (web), e.g. ["com.gudivada.pickleheat", "com.gudivada.pickleheat.web"] */
   constructor(private audiences: string[], private fetchFn: typeof fetch = fetch) {}
 
   private async jwks(): Promise<Jwk[]> {

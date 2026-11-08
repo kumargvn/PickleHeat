@@ -163,7 +163,7 @@ struct InsightsView: View {
     }
 
     private var methodNote: some View {
-        Text("How Form works: for each of your last 8 DUPR matches, Pickora compares the share of points you won with the share your team's rating gap predicts. Recent matches count more. 50 means playing exactly at your rating.")
+        Text("How Form works: for each of your last 8 DUPR matches, PickleHeat compares the share of points you won with the share your team's rating gap predicts. Recent matches count more. 50 means playing exactly at your rating.")
             .font(.footnote).foregroundStyle(Theme.muted)
     }
 }

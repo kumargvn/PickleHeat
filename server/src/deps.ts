@@ -4,7 +4,7 @@ import { ChainedIdentityVerifier, AppleIdentityVerifier, DevIdentityVerifier } f
 import { DuprHttpProvider, MockDuprProvider } from "./adapters/dupr";
 import { MockPaymentProvider, StripeConnectProvider } from "./adapters/payments";
 import { SampleTournamentSource } from "./adapters/sample";
-import { FluidPbSource, PickleballComSource, PickoraEventsSource } from "./adapters/tournamentSources";
+import { FluidPbSource, PickleballComSource, PickleHeatEventsSource } from "./adapters/tournamentSources";
 import type { Deps, Store, TournamentSource } from "./ports";
 
 export interface Env {
@@ -32,7 +32,7 @@ export function buildDeps(env: Env, store: Store): Deps {
   if (!env.JWT_SECRET || env.JWT_SECRET.length < 32) throw new Error("JWT_SECRET must be set (32+ characters)");
   const base = env.PUBLIC_BASE_URL.replace(/\/$/, "");
   const allowDevAuth = env.ALLOW_DEV_AUTH === "true";
-  const apple = new AppleIdentityVerifier((env.APPLE_AUDIENCES ?? "com.gudivada.pickora").split(",").map((s) => s.trim()).filter(Boolean));
+  const apple = new AppleIdentityVerifier((env.APPLE_AUDIENCES ?? "com.gudivada.pickleheat").split(",").map((s) => s.trim()).filter(Boolean));
 
   const dupr = env.DUPR_CLIENT_KEY && env.DUPR_CLIENT_SECRET
     ? new DuprHttpProvider({ env: env.DUPR_ENV === "production" ? "production" : "uat", clientKey: env.DUPR_CLIENT_KEY, clientSecret: env.DUPR_CLIENT_SECRET, clubId: env.DUPR_CLUB_ID })
@@ -44,7 +44,7 @@ export function buildDeps(env: Env, store: Store): Deps {
 
   const webAppUrl = (env.WEB_APP_URL ?? base).replace(/\/$/, "");
   const sources: TournamentSource[] = [
-    new PickoraEventsSource(() => store.listOpenEvents(), webAppUrl),
+    new PickleHeatEventsSource(() => store.listOpenEvents(), webAppUrl),
     new PickleballComSource(env.PICKLEBALL_COM_API_TOKEN),
     new FluidPbSource(env.FLUIDPB_API_TOKEN),
   ];
@@ -59,7 +59,7 @@ export function buildDeps(env: Env, store: Store): Deps {
     config: {
       publicBaseUrl: base,
       jwtSecret: env.JWT_SECRET,
-      appScheme: "pickora",
+      appScheme: "pickleheat",
       webAppUrl,
       platformFeeBps: Number(env.PLATFORM_FEE_BPS ?? 0),
       allowDevAuth,

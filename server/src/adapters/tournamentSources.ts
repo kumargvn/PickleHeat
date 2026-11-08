@@ -95,9 +95,9 @@ export class FluidPbSource implements TournamentSource {
   }
 }
 
-/** Pickora's own open tournaments, so they show up alongside outside feeds. */
-export class PickoraEventsSource implements TournamentSource {
-  readonly name = "pickora";
+/** PickleHeat's own open tournaments, so they show up alongside outside feeds. */
+export class PickleHeatEventsSource implements TournamentSource {
+  readonly name = "pickleheat";
   readonly enabled = true;
   constructor(private list: () => Promise<{ id: string; name: string; startDate: string; endDate: string | null; venue: string; city: string; state: string; lat: number | null; lng: number | null; format: EventFormat; minRating: number | null; maxRating: number | null; feeCents: number; kind: string; status: string }[]>, private webAppUrl: string) {}
 
@@ -107,7 +107,7 @@ export class PickoraEventsSource implements TournamentSource {
       .filter((e) => e.kind === "tournament" && e.status === "open" && e.lat != null && e.lng != null && e.startDate >= q.today)
       .filter((e) => distanceMiles(q.lat, q.lng, e.lat!, e.lng!) <= q.radiusMiles)
       .map((e) => ({
-        id: `pickora-${e.id}`,
+        id: `pickleheat-${e.id}`,
         source: this.name,
         name: e.name,
         url: `${this.webAppUrl}#/events/${e.id}`,

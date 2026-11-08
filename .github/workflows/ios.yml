@@ -49,8 +49,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild test \
-            -project Pickora.xcodeproj \
-            -scheme Pickora \
+            -project PickleHeat.xcodeproj \
+            -scheme PickleHeat \
             -destination "id=${{ steps.sim.outputs.udid }}" \
             CODE_SIGNING_ALLOWED=NO \
             | tee xcodebuild.log
@@ -64,7 +64,7 @@ jobs:
           lines = []
           for line in open("xcodebuild.log", errors="replace"):
               if re.search(r"error:|\*\* (BUILD|TEST) FAILED|Test Case .* failed|XCTAssert", line):
-                  line = line.strip().replace("/Users/runner/work/pickora/pickora/ios/", "")
+                  line = line.strip().replace("/Users/runner/work/PickleHeat/PickleHeat/ios/", "")
                   if line not in lines:
                       lines.append(line)
           for k in range(0, min(len(lines), 80), 10):
@@ -90,8 +90,8 @@ jobs:
       ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
       BUILD_NUMBER: ${{ github.run_number }}
-      # Leave the PICKORA_API_URL repository variable empty to ship demo mode.
-      PICKORA_API_URL: ${{ vars.PICKORA_API_URL }}
+      # Leave the PICKLEHEAT_API_URL repository variable empty to ship demo mode.
+      PICKLEHEAT_API_URL: ${{ vars.PICKLEHEAT_API_URL }}
     steps:
       - uses: actions/checkout@v4
 
@@ -124,11 +124,11 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild archive \
-            -project Pickora.xcodeproj \
-            -scheme Pickora \
+            -project PickleHeat.xcodeproj \
+            -scheme PickleHeat \
             -configuration Release \
             -destination 'generic/platform=iOS' \
-            -archivePath "$RUNNER_TEMP/Pickora.xcarchive" \
+            -archivePath "$RUNNER_TEMP/PickleHeat.xcarchive" \
             -allowProvisioningUpdates \
             -authenticationKeyPath "$ASC_KEY_PATH" \
             -authenticationKeyID "$ASC_KEY_ID" \
@@ -136,7 +136,7 @@ jobs:
             DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
             CODE_SIGN_STYLE=Automatic \
             CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
-            PICKORA_API_URL="$PICKORA_API_URL"
+            PICKLEHEAT_API_URL="$PICKLEHEAT_API_URL"
 
       - name: Export and upload to App Store Connect
         run: |
@@ -156,7 +156,7 @@ jobs:
           EOF
           set -o pipefail
           xcodebuild -exportArchive \
-            -archivePath "$RUNNER_TEMP/Pickora.xcarchive" \
+            -archivePath "$RUNNER_TEMP/PickleHeat.xcarchive" \
             -exportOptionsPlist "$RUNNER_TEMP/ExportOptions.plist" \
             -exportPath "$RUNNER_TEMP/export" \
             -allowProvisioningUpdates \

@@ -30,7 +30,7 @@ struct ProfileView: View {
                 Button("Sync now") { Task { await model.syncDupr() } }
                 Button("Disconnect DUPR", role: .destructive) { confirmDisconnect = true }
             } header: { Text("DUPR") } footer: {
-                Text("Ratings update automatically when DUPR changes them. Confirmed Pickora matches are sent to DUPR for you.")
+                Text("Ratings update automatically when DUPR changes them. Confirmed PickleHeat matches are sent to DUPR for you.")
             }
 
             Section {
@@ -82,10 +82,10 @@ struct ProfileView: View {
         .background(Theme.ink.ignoresSafeArea())
         .navigationTitle("Profile")
         .onAppear { distance = model.me?.user.maxDistanceMiles ?? 75 }
-        .confirmationDialog("Delete your Pickora account?", isPresented: $confirmDelete, titleVisibility: .visible) {
+        .confirmationDialog("Delete your PickleHeat account?", isPresented: $confirmDelete, titleVisibility: .visible) {
             Button("Delete account", role: .destructive) { Task { await model.deleteAccount() } }
         } message: {
-            Text("This removes your profile, DUPR link and payout link from Pickora. Results already sent to DUPR stay on DUPR.")
+            Text("This removes your profile, DUPR link and payout link from PickleHeat. Results already sent to DUPR stay on DUPR.")
         }
         .confirmationDialog("Disconnect DUPR?", isPresented: $confirmDisconnect, titleVisibility: .visible) {
             Button("Disconnect", role: .destructive) { Task { await model.disconnectDupr() } }

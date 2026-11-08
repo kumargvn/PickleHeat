@@ -1,8 +1,8 @@
-// Pickora web app: players and organizers, same API as the iPhone app.
+// PickleHeat web app: players and organizers, same API as the iPhone app.
 import { DemoService, LiveService } from "./services.js";
 
-const cfg = window.PICKORA_CONFIG ?? {};
-const svc = cfg.PICKORA_API_URL ? new LiveService(cfg.PICKORA_API_URL) : new DemoService();
+const cfg = window.PICKLEHEAT_CONFIG ?? {};
+const svc = cfg.PICKLEHEAT_API_URL ? new LiveService(cfg.PICKLEHEAT_API_URL) : new DemoService();
 const state = { me: null, form: null, recs: null, events: [], tab: "foryou", detail: null, kind: "tournament" };
 const view = document.getElementById("view");
 
@@ -65,7 +65,7 @@ window.addEventListener("hashchange", route);
 async function signin() {
   view.innerHTML = `<div class="stack" style="max-width:460px;margin:40px auto;text-align:center">
     <img src="../logo.png" alt="" style="width:112px;height:112px;border-radius:28px;margin:0 auto">
-    <h1 style="font-size:44px">Pickora</h1>
+    <h1 style="font-size:44px">PickleHeat</h1>
     <p class="muted">Leagues, tournaments and your DUPR form, all in one place.</p>
     ${svc.isDemo ? `<button class="btn block" data-act="demo">Try the demo</button><p class="small muted">Demo mode: sample data, nothing leaves your browser.</p>`
       : `<div id="appleid-signin" data-color="white" data-border="false" data-type="sign in" style="height:52px"></div>`}
@@ -92,11 +92,11 @@ function loadAppleJs() {
 async function dupr() {
   view.innerHTML = `<div class="stack" style="max-width:520px;margin:24px auto">
     <div class="hero lime center"><div class="big" style="font-size:40px">Connect DUPR</div>
-      <p>One time, about 30 seconds. Pickora then keeps your rating up to date and sends your league and tournament scores to DUPR for you.</p></div>
+      <p>One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR for you.</p></div>
     <div class="card stack small">
       <div class="row">${tile("↓", "var(--lime)")} Your DUPR ratings and recent matches come in</div>
-      <div class="row">${tile("↑", "var(--coral)")} Confirmed Pickora match scores go to DUPR</div>
-      <div class="row">${tile("🔒", "var(--sky)")} You log in on DUPR's own page. Pickora never sees your password</div>
+      <div class="row">${tile("↑", "var(--coral)")} Confirmed PickleHeat match scores go to DUPR</div>
+      <div class="row">${tile("🔒", "var(--sky)")} You log in on DUPR's own page. PickleHeat never sees your password</div>
     </div>
     <button class="btn block" data-act="connect-dupr">Connect my DUPR account</button>
     ${svc.isDemo ? `<p class="small muted center">Demo mode: this links a sample DUPR profile.</p>` : ""}
@@ -172,7 +172,7 @@ async function insights() {
       <div class="card stack"><span class="tiny muted">Player DNA</span>${meter("Clutch", "Wins tight games", t.clutch)}${meter("Consistency", "Low swing", t.consistency)}${meter("Giant-killer", "vs higher DUPR", t.giantKiller)}${meter("Momentum", "Form trend", t.momentum)}</div>
       <div class="card" style="background:rgba(92,200,255,.12);border-color:rgba(92,200,255,.35)">💡 ${esc(i.tip)}</div></div></div>
     <h2>Recent DUPR matches</h2><div class="grid">${p.matches.slice(0, 10).map((m) => { const w = won(m); return `<div class="card row"><span class="wl" style="background:${w ? "var(--lime)" : "var(--coral)"}">${w ? "W" : "L"}</span><span style="flex:1;min-width:0"><b>${m.games.map((g) => `${g.us}–${g.them}`).join(", ")}</b><br><span class="small muted">${[m.partnerName && "w/ " + esc(m.partnerName), m.opponentNames && "vs " + esc(m.opponentNames.join(" & "))].filter(Boolean).join(" · ")}</span></span><span class="small muted">${new Date(m.playedAt).toLocaleDateString(undefined, { month: "short", day: "numeric" })}</span></div>`; }).join("")}</div>
-    <p class="small muted">How Form works: for each of your last 8 DUPR matches, Pickora compares the share of points you won with the share your team's rating gap predicts. Recent matches count more. 50 means playing exactly at your rating.</p></div>`;
+    <p class="small muted">How Form works: for each of your last 8 DUPR matches, PickleHeat compares the share of points you won with the share your team's rating gap predicts. Recent matches count more. 50 means playing exactly at your rating.</p></div>`;
 }
 
 function won(m) {
@@ -188,7 +188,7 @@ async function events() {
   const recs = state.recs;
   const body = state.tab === "foryou"
     ? (recs ? (recs.recommendations.length ? recs.recommendations.map(recCard).join("") : `<p class="card muted">No open tournaments within ${state.me.user.maxDistanceMiles} miles fit your rating right now. Try a bigger distance in Profile.</p>`) + `<p class="small muted" style="grid-column:1/-1">Searched: ${recs.sources.filter((s) => s.ok).map((s) => esc(s.name)).join(", ")}. PickleballTournaments and FluidPB appear here once their data access is switched on.</p>`
-      : `<div class="card stack"><h2>Where do you play?</h2><p class="muted">Pickora finds tournaments near you that fit your DUPR rating.</p><button class="btn" data-act="geo">Use my location</button></div>`)
+      : `<div class="card stack"><h2>Where do you play?</h2><p class="muted">PickleHeat finds tournaments near you that fit your DUPR rating.</p><button class="btn" data-act="geo">Use my location</button></div>`)
     : state.events.length ? state.events.map(eventRow).join("") : `<div class="card stack"><h2>No events yet</h2><p class="muted">Start a league with your regular group, or run a tournament and collect entry fees.</p></div>`;
   view.innerHTML = `<div class="stack"><div class="row between wrap"><h1>Events</h1><div class="row"><a class="btn secondary" href="#/create/league">New league</a><a class="btn" href="#/create/tournament">New tournament</a></div></div>
     <div class="seg" role="tablist"><button role="tab" aria-selected="${state.tab === "foryou"}" class="${state.tab === "foryou" ? "on" : ""}" data-act="tab" data-tab="foryou">For you</button><button role="tab" aria-selected="${state.tab === "mine"}" class="${state.tab === "mine" ? "on" : ""}" data-act="tab" data-tab="mine">My events</button></div>
@@ -264,7 +264,7 @@ async function profile() {
     <div class="card row"><span class="tile" style="background:var(--coral);width:52px;height:52px;border-radius:26px">${esc(me.user.name.split(" ").map((x) => x[0]).slice(0, 2).join(""))}</span><div><h2>${esc(me.user.name)}</h2><span class="small muted">${esc(me.user.email ?? "")}</span></div></div>
     <div class="card stack"><span class="tiny muted">DUPR</span><div class="row between"><span>DUPR ID</span><b>${esc(me.dupr.duprId)}</b></div><div class="row between"><span>Doubles / Singles</span><b>${r2(me.dupr.doublesRating)} / ${r2(me.dupr.singlesRating)}</b></div>
       <div class="row wrap"><button class="btn secondary" data-act="sync">Sync now</button><button class="btn danger" data-act="disconnect">Disconnect DUPR</button></div>
-      <span class="small muted">Ratings update automatically. Confirmed Pickora matches are sent to DUPR for you.</span></div>
+      <span class="small muted">Ratings update automatically. Confirmed PickleHeat matches are sent to DUPR for you.</span></div>
     <div class="card stack"><span class="tiny muted">Tournament finder</span><button class="btn secondary" data-act="geo">Use my current location</button>
       <label>Search within (miles)<input id="radius" type="number" min="5" max="1000" value="${me.user.maxDistanceMiles}"></label>
       <div class="row wrap">${["doubles", "mixed", "singles"].map((f) => `<label class="check"><input type="checkbox" data-format="${f}" ${me.user.formats.includes(f) ? "checked" : ""}> ${f[0].toUpperCase() + f.slice(1)}</label>`).join("")}</div>
@@ -289,7 +289,7 @@ const acts = {
   },
   async sync() { state.me = await run(() => svc.syncDupr()); state.form = null; toast("Synced with DUPR"); route(); },
   async disconnect() { if (confirm("Disconnect DUPR? You'll need to connect again to see your form.")) { state.me = await run(() => svc.disconnectDupr()); location.hash = "#/dupr"; } },
-  async delete() { if (confirm("Delete your Pickora account? This can't be undone.")) { await run(() => svc.deleteAccount()); acts.signout(); } },
+  async delete() { if (confirm("Delete your PickleHeat account? This can't be undone.")) { await run(() => svc.deleteAccount()); acts.signout(); } },
   async geo() {
     if (!navigator.geolocation) return toast("Location isn't available in this browser.");
     navigator.geolocation.getCurrentPosition(async (p) => {

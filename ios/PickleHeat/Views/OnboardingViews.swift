@@ -9,7 +9,7 @@ struct SignInView: View {
             Spacer()
             Image("Logo").resizable().frame(width: 128, height: 128).clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             VStack(spacing: 10) {
-                Text("Pickora").font(Theme.display(44)).tracking(-1)
+                Text("PickleHeat").font(Theme.display(44)).tracking(-1)
                 Text("Leagues, tournaments and your\nDUPR form, all in one place.")
                     .font(.system(size: 17)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
             }
@@ -73,13 +73,13 @@ struct DuprConnectView: View {
             }
             VStack(spacing: 10) {
                 Text("Connect DUPR").font(Theme.display(34))
-                Text("One time, about 30 seconds. Pickora then keeps your rating up to date and sends your league and tournament scores to DUPR for you.")
+                Text("One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR for you.")
                     .font(.system(size: 16)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
             }
             VStack(alignment: .leading, spacing: 12) {
                 row("arrow.down.circle.fill", Theme.lime, "Your DUPR ratings and recent matches come in")
-                row("arrow.up.circle.fill", Theme.coral, "Confirmed Pickora match scores go to DUPR")
-                row("lock.fill", Theme.sky, "You log in on DUPR's own page. Pickora never sees your password")
+                row("arrow.up.circle.fill", Theme.coral, "Confirmed PickleHeat match scores go to DUPR")
+                row("lock.fill", Theme.sky, "You log in on DUPR's own page. PickleHeat never sees your password")
             }
             .card()
             Spacer()

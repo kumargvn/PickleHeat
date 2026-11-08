@@ -1,5 +1,5 @@
-// Backends for the web app: LiveService (the Pickora API) and DemoService (sample data in the browser).
-// Same surface as ios/Pickora/Services/PickoraService.swift.
+// Backends for the web app: LiveService (the PickleHeat API) and DemoService (sample data in the browser).
+// Same surface as ios/PickleHeat/Services/PickleHeatService.swift.
 import * as E from "./engine.js";
 
 const today = () => new Date().toISOString().slice(0, 10);
@@ -16,11 +16,11 @@ export class LiveService {
   constructor(baseUrl) {
     this.base = baseUrl.replace(/\/$/, "");
     this.isDemo = false;
-    try { this.token = localStorage.getItem("pickora.token"); } catch { this.token = null; }
+    try { this.token = localStorage.getItem("pickleheat.token"); } catch { this.token = null; }
   }
   setToken(t) {
     this.token = t;
-    try { t ? localStorage.setItem("pickora.token", t) : localStorage.removeItem("pickora.token"); } catch {}
+    try { t ? localStorage.setItem("pickleheat.token", t) : localStorage.removeItem("pickleheat.token"); } catch {}
   }
   async req(method, path, body, query) {
     const url = new URL(this.base + path);
@@ -172,7 +172,7 @@ export class DemoService {
     const players = ["demo-me"];
     if (ev.format !== "singles") {
       const p = OTHERS.find((o) => o.dupr === (partnerDuprId ?? "").trim().toUpperCase());
-      if (!p) throw new ServiceError("No Pickora player has connected that DUPR ID yet. In the demo, try DEMO-PK01.");
+      if (!p) throw new ServiceError("No PickleHeat player has connected that DUPR ID yet. In the demo, try DEMO-PK01.");
       players.push(p.id);
     }
     const entry = { id: this.id("en"), eventId: id, playerIds: players, teamName: teamName || players.map((x) => this.names[x].split(" ")[0]).join(" / "), teamRating: players.reduce((s, x) => s + this.rating(x), 0) / players.length, status: "confirmed", createdAt: new Date().toISOString() };

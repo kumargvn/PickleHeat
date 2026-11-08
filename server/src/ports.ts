@@ -35,7 +35,7 @@ export interface DuprLink {
 export type EventKind = "league" | "tournament";
 export type EventStatus = "draft" | "open" | "closed" | "in_progress" | "completed";
 
-export interface PickoraEvent {
+export interface PickleHeatEvent {
   id: string;
   organizerId: string;
   kind: EventKind;
@@ -134,11 +134,11 @@ export interface Store {
   saveDuprMatches(userId: string, matches: PlayedMatch[]): Promise<void>;
   getDuprMatches(userId: string): Promise<PlayedMatch[]>;
 
-  getEvent(id: string): Promise<PickoraEvent | null>;
-  saveEvent(e: PickoraEvent): Promise<void>;
-  listEventsByOrganizer(userId: string): Promise<PickoraEvent[]>;
-  listOpenEvents(): Promise<PickoraEvent[]>;
-  listEventsForPlayer(userId: string): Promise<PickoraEvent[]>;
+  getEvent(id: string): Promise<PickleHeatEvent | null>;
+  saveEvent(e: PickleHeatEvent): Promise<void>;
+  listEventsByOrganizer(userId: string): Promise<PickleHeatEvent[]>;
+  listOpenEvents(): Promise<PickleHeatEvent[]>;
+  listEventsForPlayer(userId: string): Promise<PickleHeatEvent[]>;
 
   getEntry(id: string): Promise<Entry | null>;
   saveEntry(e: Entry): Promise<void>;
@@ -281,8 +281,8 @@ export interface Deps {
 export interface AppConfig {
   publicBaseUrl: string; // where this API is reachable, for webhooks and DUPR connect page
   jwtSecret: string;
-  appScheme: string; // "pickora" → pickora://...
+  appScheme: string; // "pickleheat" → pickleheat://...
   webAppUrl: string;
-  platformFeeBps: number; // e.g. 300 = 3% kept by Pickora on each entry fee
+  platformFeeBps: number; // e.g. 300 = 3% kept by PickleHeat on each entry fee
   allowDevAuth: boolean;
 }

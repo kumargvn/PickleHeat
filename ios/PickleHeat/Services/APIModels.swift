@@ -1,6 +1,6 @@
 import Foundation
 
-// Shapes of the Pickora API's JSON. See server/src/app.ts.
+// Shapes of the PickleHeat API's JSON. See server/src/app.ts.
 
 struct User: Codable, Hashable {
     var id: String
@@ -82,7 +82,7 @@ enum EventStatus: String, Codable {
     }
 }
 
-struct PickoraEvent: Codable, Hashable, Identifiable {
+struct PickleHeatEvent: Codable, Hashable, Identifiable {
     var id: String
     var organizerId: String
     var kind: EventKind
@@ -201,7 +201,7 @@ struct Money: Codable, Hashable {
 }
 
 struct EventDetail: Codable, Hashable {
-    var event: PickoraEvent
+    var event: PickleHeatEvent
     var entries: [Entry]
     var matches: [EventMatch]
     var standings: [PoolStandings]

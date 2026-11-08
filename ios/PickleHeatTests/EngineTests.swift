@@ -1,5 +1,5 @@
 import XCTest
-@testable import Pickora
+@testable import PickleHeat
 
 /// Replays shared/vectors/*.json, which the API's TypeScript code produced.
 /// If these fail, the iOS engine and the API disagree: fix one to match the other.

@@ -125,7 +125,7 @@ struct HomeView: View {
 }
 
 struct EventRow: View {
-    var event: PickoraEvent
+    var event: PickleHeatEvent
     var userID: String
 
     var body: some View {

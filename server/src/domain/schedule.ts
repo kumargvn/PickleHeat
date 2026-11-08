@@ -1,5 +1,5 @@
 // Round robins, pools, playoff brackets and standings for leagues and tournaments.
-// Mirrored in ios/Pickora/Engine/Schedule.swift.
+// Mirrored in ios/PickleHeat/Engine/Schedule.swift.
 
 export interface Pairing {
   round: number; // 1-based

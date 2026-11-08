@@ -1,4 +1,4 @@
--- Pickora schema. Plain PostgreSQL 14+; no extensions or vendor features.
+-- PickleHeat schema. Plain PostgreSQL 14+; no extensions or vendor features.
 -- Each table: lookup columns + the full record in "data" (see src/adapters/postgresStore.ts).
 
 create table if not exists users (

@@ -1,5 +1,5 @@
 // Tournament recommendations: picks the best event at each nearby tournament
-// for a player and ranks them. Mirrored in ios/Pickora/Engine/Recommender.swift.
+// for a player and ranks them. Mirrored in ios/PickleHeat/Engine/Recommender.swift.
 
 import { formRatingBoost } from "./form";
 import type { EventFormat, PlayerProfileForRecs, Recommendation, TournamentEvent, TournamentListing } from "./types";

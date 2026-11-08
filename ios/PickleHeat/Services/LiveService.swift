@@ -1,9 +1,9 @@
 import Foundation
 import Security
 
-/// Talks to the Pickora API over HTTPS. The session token lives in the Keychain.
+/// Talks to the PickleHeat API over HTTPS. The session token lives in the Keychain.
 @MainActor
-final class LiveService: PickoraService {
+final class LiveService: PickleHeatService {
     let baseURL: URL
     let isDemo = false
     private var token: String? {
@@ -54,7 +54,7 @@ final class LiveService: PickoraService {
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
-            throw ServiceError(message: "Unexpected response from Pickora. Please update the app.", code: "decode", status: status)
+            throw ServiceError(message: "Unexpected response from PickleHeat. Please update the app.", code: "decode", status: status)
         }
     }
 
@@ -120,20 +120,20 @@ final class LiveService: PickoraService {
 
     // MARK: events
 
-    func events() async throws -> [PickoraEvent] {
-        struct R: Decodable { var events: [PickoraEvent] }
+    func events() async throws -> [PickleHeatEvent] {
+        struct R: Decodable { var events: [PickleHeatEvent] }
         let r: R = try await request("GET", "v1/events", query: [URLQueryItem(name: "scope", value: "mine")])
         return r.events
     }
 
-    func createEvent(_ draft: EventDraft) async throws -> PickoraEvent {
-        struct R: Decodable { var event: PickoraEvent }
+    func createEvent(_ draft: EventDraft) async throws -> PickleHeatEvent {
+        struct R: Decodable { var event: PickleHeatEvent }
         let r: R = try await request("POST", "v1/events", body: draft)
         return r.event
     }
 
-    func publish(eventID: String) async throws -> PickoraEvent {
-        struct R: Decodable { var event: PickoraEvent }
+    func publish(eventID: String) async throws -> PickleHeatEvent {
+        struct R: Decodable { var event: PickleHeatEvent }
         let r: R = try await request("POST", "v1/events/\(eventID)/publish")
         return r.event
     }
@@ -183,7 +183,7 @@ private struct AnyEncodable: Encodable {
 
 /// Minimal Keychain wrapper for the session token.
 enum Keychain {
-    private static let service = "com.gudivada.pickora"
+    private static let service = "com.gudivada.pickleheat"
 
     static func get(_ key: String) -> String? {
         let q: [String: Any] = [kSecClass as String: kSecClassGenericPassword, kSecAttrService as String: service, kSecAttrAccount as String: key, kSecReturnData as String: true, kSecMatchLimit as String: kSecMatchLimitOne]

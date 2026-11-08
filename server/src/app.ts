@@ -1,11 +1,11 @@
-// The Pickora API. Pure request → response; all outside services come in through Deps.
+// The PickleHeat API. Pure request → response; all outside services come in through Deps.
 
 import { formScore, insights } from "./domain/form";
 import { recommend } from "./domain/recommend";
 import type { TournamentListing } from "./domain/types";
 import { signJwt, verifyJwt } from "./adapters/crypto";
 import { CORS_HEADERS, HttpError, Router, escapeHtml, html, isoDate, json, numIn, oneOf, optNumIn, optStr, readJson, redirect, str } from "./http";
-import type { Deps, PickoraEvent, User } from "./ports";
+import type { Deps, PickleHeatEvent, User } from "./ports";
 import { applyRatingWebhook, linkDupr, pullHistory } from "./services/duprSync";
 import { MockPaymentProvider } from "./adapters/payments";
 import { confirmScore, eventDetail, generateSchedule, markFailed, markPaid, publishEvent, refundEntry, register, reportScore, requireEvent, requireOrganizer } from "./services/events";
@@ -42,7 +42,7 @@ async function meView(deps: Deps, user: User) {
   };
 }
 
-function eventFromBody(b: any, organizerId: string, id: string, now: string): PickoraEvent {
+function eventFromBody(b: any, organizerId: string, id: string, now: string): PickleHeatEvent {
   const kind = oneOf(b.kind, "kind", ["league", "tournament"] as const);
   const minRating = optNumIn(b.minRating, "minRating", 1, 8);
   const maxRating = optNumIn(b.maxRating, "maxRating", 1, 8);
@@ -97,14 +97,14 @@ iframe{flex:1;width:100%;min-height:640px;border:0;border-radius:18px;background
 .card{background:#141B38;border:1px solid #2A3466;border-radius:18px;padding:18px}
 button,a.btn{display:block;width:100%;height:52px;border:0;border-radius:16px;background:#D4FF3A;color:#0A0F24;font-weight:700;font-size:17px;text-align:center;line-height:52px;text-decoration:none}
 .muted{color:#A9B1D6}.err{color:#FF8A6E}
-</style></head><body><header>Pick<b>ora</b></header><main>${body}</main>${script}</body></html>`;
+</style></head><body><header>Pickle<b>Heat</b></header><main>${body}</main>${script}</body></html>`;
 }
 
 function duprConnectPage(ssoUrl: string, connectToken: string, doneUrl: string, apiBase: string): string {
   const origin = new URL(ssoUrl).origin;
   return page(
     "Connect DUPR",
-    `<p class="muted" id="msg">Log in to DUPR to connect it to Pickora. You only do this once.</p>
+    `<p class="muted" id="msg">Log in to DUPR to connect it to PickleHeat. You only do this once.</p>
 <iframe id="dupr" src="${escapeHtml(ssoUrl)}" allow="payment" title="DUPR login"></iframe>`,
     `<script>
 (function(){
@@ -196,7 +196,7 @@ export function buildRouter(): Router<Ctx> {
   r.on("GET", "/v1/dupr/connect", async (_req, { deps }, _p, url) => {
     const t = url.searchParams.get("t") ?? "";
     const claims = await verifyJwt(t, deps.config.jwtSecret, "dupr_connect", deps.now().getTime());
-    if (!claims) return html(page("Link expired", `<div class="card"><p>This link has expired. Go back to Pickora and tap Connect DUPR again.</p></div>`), 401);
+    if (!claims) return html(page("Link expired", `<div class="card"><p>This link has expired. Go back to PickleHeat and tap Connect DUPR again.</p></div>`), 401);
     const done = url.searchParams.get("client") === "web" ? `${deps.config.webAppUrl}#/dupr` : `${deps.config.appScheme}://dupr`;
     return html(duprConnectPage(deps.dupr.ssoUrl(), t, done, deps.config.publicBaseUrl));
   });
@@ -206,7 +206,7 @@ export function buildRouter(): Router<Ctx> {
     html(
       page(
         "DUPR (test)",
-        `<div class="card"><p><b>Test DUPR login</b></p><p class="muted">Pickora is not connected to real DUPR yet, so this stands in for it. You'll get sample ratings and matches.</p></div><button id="go">Log in and allow access</button>`,
+        `<div class="card"><p><b>Test DUPR login</b></p><p class="muted">PickleHeat is not connected to real DUPR yet, so this stands in for it. You'll get sample ratings and matches.</p></div><button id="go">Log in and allow access</button>`,
         `<script>document.getElementById('go').onclick=function(){var n=Math.random().toString(36).slice(2,8);parent.postMessage({userToken:'mock-'+n,refreshToken:'refresh-'+n,id:'mock-'+n,duprId:'MOCK'},location.origin);};</script>`,
       ),
       200,
@@ -355,7 +355,7 @@ export function buildRouter(): Router<Ctx> {
     const b = await readJson<{ partnerUserId?: string; partnerDuprId?: string; teamName?: string }>(req);
     let partner = b.partnerUserId ?? null;
     if (!partner && b.partnerDuprId) partner = (await deps.store.getDuprLinkByDuprId(b.partnerDuprId.trim().toUpperCase()))?.userId ?? null;
-    if (!partner && b.partnerDuprId) throw new HttpError(404, "No Pickora player has connected that DUPR ID yet", "partner_not_found");
+    if (!partner && b.partnerDuprId) throw new HttpError(404, "No PickleHeat player has connected that DUPR ID yet", "partner_not_found");
     const urls = returnUrls(deps, url.searchParams.get("client"), ev.id);
     const result = await register(deps, ev, user, partner, b.teamName ? str(b.teamName, "teamName", 60) : null, urls.success, urls.cancel);
     return json(result, 201);
@@ -423,7 +423,7 @@ export function buildRouter(): Router<Ctx> {
     return json({ received: true });
   });
 
-  // Forwards Stripe's https return to the app (pickora://…) or the web app. Only known targets, so it's not an open redirect.
+  // Forwards Stripe's https return to the app (pickleheat://…) or the web app. Only known targets, so it's not an open redirect.
   r.on("GET", "/v1/bounce", async (_req, { deps }, _p, url) => {
     const to = url.searchParams.get("to") ?? "";
     if (!BOUNCE_TARGET.test(to)) throw new HttpError(400, "Unknown destination", "invalid");

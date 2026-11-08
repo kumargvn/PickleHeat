@@ -3,7 +3,7 @@ import Foundation
 /// On-device backend with sample data. Used when no API URL is configured (TestFlight preview,
 /// App Review, screenshots). Same behaviour as the API, minus real DUPR and real money.
 @MainActor
-final class DemoService: PickoraService {
+final class DemoService: PickleHeatService {
     let isDemo = true
 
     private let sample = SampleData.shared
@@ -12,7 +12,7 @@ final class DemoService: PickoraService {
     private var user: User
     private var duprConnected = false
     private var payoutsLinked = false
-    private var eventsByID: [String: PickoraEvent] = [:]
+    private var eventsByID: [String: PickleHeatEvent] = [:]
     private var entriesByEvent: [String: [Entry]] = [:]
     private var matchesByEvent: [String: [EventMatch]] = [:]
     private var names: [String: String] = [:]
@@ -132,13 +132,13 @@ final class DemoService: PickoraService {
 
     // MARK: events
 
-    func events() async throws -> [PickoraEvent] {
+    func events() async throws -> [PickleHeatEvent] {
         eventsByID.values.sorted { $0.startDate < $1.startDate }
     }
 
-    func createEvent(_ d: EventDraft) async throws -> PickoraEvent {
+    func createEvent(_ d: EventDraft) async throws -> PickleHeatEvent {
         guard !d.name.trimmingCharacters(in: .whitespaces).isEmpty else { throw ServiceError(message: "Give your event a name.") }
-        let ev = PickoraEvent(
+        let ev = PickleHeatEvent(
             id: newID("ev"), organizerId: meID, kind: d.kind, name: d.name, format: d.format, startDate: d.startDate, endDate: nil,
             weeks: d.weeks, venue: d.venue, city: d.city, state: d.state, lat: d.lat, lng: d.lng, minRating: d.minRating, maxRating: d.maxRating,
             capacity: d.capacity, feeCents: d.feeCents, currency: "usd", requireDuprVerified: d.requireDuprVerified, submitToDupr: d.submitToDupr,
@@ -153,7 +153,7 @@ final class DemoService: PickoraService {
         return ev
     }
 
-    func publish(eventID: String) async throws -> PickoraEvent {
+    func publish(eventID: String) async throws -> PickleHeatEvent {
         guard var ev = eventsByID[eventID] else { throw ServiceError(message: "Event not found") }
         if ev.feeCents > 0 && !payoutsLinked { throw ServiceError(message: "Link a payout account before opening a paid event", code: "payouts_required") }
         ev.status = .open
@@ -210,7 +210,7 @@ final class DemoService: PickoraService {
         if ev.format != .singles {
             let code = (partnerDuprID ?? "").trimmingCharacters(in: .whitespaces).uppercased()
             guard let partner = others.first(where: { $0.dupr == code }) else {
-                throw ServiceError(message: "No Pickora player has connected that DUPR ID yet. In the demo, try DEMO-PK01.", code: "partner_not_found")
+                throw ServiceError(message: "No PickleHeat player has connected that DUPR ID yet. In the demo, try DEMO-PK01.", code: "partner_not_found")
             }
             players.append(partner.id)
         }
@@ -267,7 +267,7 @@ final class DemoService: PickoraService {
     private func seedLeagues() {
         let created = ISO8601DateFormatter().string(from: Date())
         for lg in sample.leagues {
-            let ev = PickoraEvent(
+            let ev = PickleHeatEvent(
                 id: lg.id, organizerId: "demo-cw", kind: .league, name: lg.name, format: lg.format,
                 startDate: DateText.adding(-7 * (lg.currentWeek - 1), to: today), endDate: nil, weeks: lg.weeks,
                 venue: "Sample Community Courts", city: "Round Rock", state: "TX", lat: 30.51, lng: -97.67,

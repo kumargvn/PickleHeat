@@ -1,6 +1,6 @@
 // In-memory Store for tests, local development and the demo API.
 import type { PlayedMatch } from "../domain/types";
-import type { DuprLink, Entry, Match, Payment, PayoutAccount, PickoraEvent, Store, User } from "../ports";
+import type { DuprLink, Entry, Match, Payment, PayoutAccount, PickleHeatEvent, Store, User } from "../ports";
 
 const clone = <T>(x: T): T => structuredClone(x);
 
@@ -8,7 +8,7 @@ export class MemoryStore implements Store {
   users = new Map<string, User>();
   dupr = new Map<string, DuprLink>();
   duprMatches = new Map<string, PlayedMatch[]>();
-  events = new Map<string, PickoraEvent>();
+  events = new Map<string, PickleHeatEvent>();
   entries = new Map<string, Entry>();
   matches = new Map<string, Match>();
   payments = new Map<string, Payment>();
@@ -34,7 +34,7 @@ export class MemoryStore implements Store {
   async getDuprMatches(userId: string) { return clone(this.duprMatches.get(userId) ?? []); }
 
   async getEvent(id: string) { const e = this.events.get(id); return e ? clone(e) : null; }
-  async saveEvent(e: PickoraEvent) { this.events.set(e.id, clone(e)); }
+  async saveEvent(e: PickleHeatEvent) { this.events.set(e.id, clone(e)); }
   async listEventsByOrganizer(userId: string) { return [...this.events.values()].filter((e) => e.organizerId === userId).map(clone); }
   async listOpenEvents() { return [...this.events.values()].filter((e) => e.status === "open").map(clone); }
   async listEventsForPlayer(userId: string) {

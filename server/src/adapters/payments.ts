@@ -1,8 +1,8 @@
 // Payment adapters.
 //
 // StripeConnectProvider: Stripe Connect "destination charges". Each organizer links their own
-// Express account; a player's entry fee is charged by Pickora and transferred to the organizer,
-// minus Pickora's application fee. Uses Stripe's REST API directly (no SDK) so it runs anywhere.
+// Express account; a player's entry fee is charged by PickleHeat and transferred to the organizer,
+// minus PickleHeat's application fee. Uses Stripe's REST API directly (no SDK) so it runs anywhere.
 //
 // MockPaymentProvider: same behaviour without real money, for demo mode and tests.
 
@@ -52,7 +52,7 @@ export class StripeConnectProvider implements PaymentProvider {
       email: user.email ?? undefined,
       capabilities: { card_payments: { requested: true }, transfers: { requested: true } },
       business_type: "individual",
-      metadata: { pickora_user_id: user.id },
+      metadata: { pickleheat_user_id: user.id },
     }, `acct-${user.id}`);
     return a.id as string;
   }
@@ -92,7 +92,7 @@ export class StripeConnectProvider implements PaymentProvider {
   async refund(checkoutSessionId: string): Promise<void> {
     const s = await this.call("GET", `/checkout/sessions/${encodeURIComponent(checkoutSessionId)}`);
     if (!s.payment_intent) throw new Error("Nothing to refund: payment not completed");
-    // Refund the player in full and pull the money back from the organizer, including Pickora's fee.
+    // Refund the player in full and pull the money back from the organizer, including PickleHeat's fee.
     await this.call("POST", "/refunds", { payment_intent: s.payment_intent, reverse_transfer: true, refund_application_fee: true }, `refund-${checkoutSessionId}`);
   }
 

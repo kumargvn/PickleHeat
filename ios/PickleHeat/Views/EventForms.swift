@@ -124,12 +124,12 @@ struct CreateEventView: View {
 struct RegisterView: View {
     @EnvironmentObject var model: AppModel
     @Environment(\.dismiss) private var dismiss
-    let event: PickoraEvent
+    let event: PickleHeatEvent
     var onDone: () async -> Void
     @State private var partnerDupr = ""
     @State private var teamName = ""
 
-    init(event: PickoraEvent, onDone: @escaping () async -> Void) {
+    init(event: PickleHeatEvent, onDone: @escaping () async -> Void) {
         self.event = event
         self.onDone = onDone
     }
@@ -173,7 +173,7 @@ struct RegisterView: View {
                         TextField(model.isDemo ? "Try DEMO-PK01" : "e.g. ABC123", text: $partnerDupr)
                             .textInputAutocapitalization(.characters).autocorrectionDisabled()
                             .padding(14).background(Theme.surface2, in: RoundedRectangle(cornerRadius: 14))
-                        Text("Your partner needs Pickora with DUPR connected.").font(.footnote).foregroundStyle(Theme.muted)
+                        Text("Your partner needs PickleHeat with DUPR connected.").font(.footnote).foregroundStyle(Theme.muted)
                         TextField("Team name (optional)", text: $teamName)
                             .padding(14).background(Theme.surface2, in: RoundedRectangle(cornerRadius: 14))
                     }
@@ -267,7 +267,7 @@ struct ScoreEntryView: View {
                 } header: {
                     Text("\(home)  vs  \(away)")
                 } footer: {
-                    Text("Left number = \(home). The other team confirms, then Pickora sends the result to DUPR.")
+                    Text("Left number = \(home). The other team confirms, then PickleHeat sends the result to DUPR.")
                 }
             }
             .scrollContentBackground(.hidden)

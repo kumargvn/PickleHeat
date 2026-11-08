@@ -73,7 +73,7 @@ describe("api", () => {
     expect(form.body.insights.record.wins).toBeGreaterThan(0);
   });
 
-  test("a DUPR account can only belong to one Pickora account", async () => {
+  test("a DUPR account can only belong to one PickleHeat account", async () => {
     const a = await signIn("a");
     const b = await signIn("b");
     await connectDupr(a, "same");
@@ -138,7 +138,7 @@ describe("api", () => {
     const back = new URL(paid.headers.get("location")!);
     expect(back.pathname).toBe("/v1/bounce");
     const bounced = await call("GET", back.pathname + back.search);
-    expect(bounced.headers.get("location")).toBe(`pickora://events/${id}?paid=1`);
+    expect(bounced.headers.get("location")).toBe(`pickleheat://events/${id}?paid=1`);
     expect((await call("GET", "/v1/bounce?to=https://evil.example")).status).toBe(400);
 
     const p4 = (await call("GET", "/v1/me", players[3])).body.user.id;

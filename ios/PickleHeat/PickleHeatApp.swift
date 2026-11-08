@@ -1,7 +1,7 @@
 import SwiftUI
 
 @main
-struct PickoraApp: App {
+struct PickleHeatApp: App {
     @StateObject private var model = AppModel(service: AppConfig.makeService())
 
     var body: some Scene {

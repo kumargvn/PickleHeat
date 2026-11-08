@@ -59,7 +59,7 @@ struct EventsView: View {
         } else if model.me?.user.lat == nil {
             VStack(alignment: .leading, spacing: 12) {
                 Text("Where do you play?").font(Theme.display(20))
-                Text("Pickora finds tournaments near you that fit your DUPR rating.").foregroundStyle(Theme.muted)
+                Text("PickleHeat finds tournaments near you that fit your DUPR rating.").foregroundStyle(Theme.muted)
                 Button("Use my location") { Task { await model.useCurrentLocation() } }.buttonStyle(PrimaryButtonStyle())
             }
             .card()
@@ -138,7 +138,7 @@ struct EventDetailView: View {
         do { detail = try await model.service.event(id: eventID) } catch { model.errorMessage = error.localizedDescription }
     }
 
-    private func hero(_ e: PickoraEvent) -> some View {
+    private func hero(_ e: PickleHeatEvent) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("\(e.kind.title.uppercased()) · \(e.format.title.uppercased())").font(.system(size: 11, weight: .heavy)).tracking(1.4)
             Text(e.name).font(Theme.display(30)).tracking(-0.5)

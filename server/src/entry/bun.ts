@@ -23,4 +23,4 @@ const deps = buildDeps(
 );
 
 Bun.serve({ port, fetch: (req) => handle(req, deps) });
-console.log(`Pickora API on http://localhost:${port}  (DUPR: ${deps.dupr.name}, payments: ${deps.payments.name})`);
+console.log(`PickleHeat API on http://localhost:${port}  (DUPR: ${deps.dupr.name}, payments: ${deps.payments.name})`);

@@ -60,7 +60,7 @@ final class LocationProvider: NSObject, CLLocationManagerDelegate {
     }
 }
 
-/// Opens a web page (DUPR login, payout setup, checkout) in a secure sheet and waits for pickora://… back.
+/// Opens a web page (DUPR login, payout setup, checkout) in a secure sheet and waits for pickleheat://… back.
 @MainActor
 final class WebAuth: NSObject, ASWebAuthenticationPresentationContextProviding {
     private var session: ASWebAuthenticationSession?

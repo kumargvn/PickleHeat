@@ -1,8 +1,8 @@
 // Two-way DUPR sync.
-//  DUPR → Pickora: link once (SSO), then ratings arrive by webhook and history is refreshed on demand / nightly.
-//  Pickora → DUPR: confirmed league & tournament matches are uploaded; retried until DUPR accepts them.
+//  DUPR → PickleHeat: link once (SSO), then ratings arrive by webhook and history is refreshed on demand / nightly.
+//  PickleHeat → DUPR: confirmed league & tournament matches are uploaded; retried until DUPR accepts them.
 
-import type { Deps, DuprLink, Match, PickoraEvent } from "../ports";
+import type { Deps, DuprLink, Match, PickleHeatEvent } from "../ports";
 import { HttpError } from "../http";
 
 export async function linkDupr(deps: Deps, userId: string, accessToken: string, refreshToken: string): Promise<DuprLink> {
@@ -12,7 +12,7 @@ export async function linkDupr(deps: Deps, userId: string, accessToken: string, 
   if (!profile.duprId) throw new HttpError(400, "DUPR login returned no DUPR ID", "dupr_rejected");
   const existing = await deps.store.getDuprLinkByDuprId(profile.duprId);
   if (existing && existing.userId !== userId) {
-    throw new HttpError(409, "That DUPR account is already connected to another Pickora account", "dupr_taken");
+    throw new HttpError(409, "That DUPR account is already connected to another PickleHeat account", "dupr_taken");
   }
   const now = deps.now();
   const link: DuprLink = {
@@ -72,7 +72,7 @@ export async function applyRatingWebhook(deps: Deps, body: unknown): Promise<num
 }
 
 /** Uploads one confirmed match. Records the error on the match instead of throwing, so a cron can retry. */
-export async function uploadMatch(deps: Deps, ev: PickoraEvent, m: Match): Promise<Match> {
+export async function uploadMatch(deps: Deps, ev: PickleHeatEvent, m: Match): Promise<Match> {
   if (!ev.submitToDupr || m.status !== "confirmed" || m.duprMatchId) return m;
   const home = await deps.store.getEntry(m.homeEntryId);
   const away = await deps.store.getEntry(m.awayEntryId);

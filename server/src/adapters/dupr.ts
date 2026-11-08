@@ -3,7 +3,7 @@
 // DuprHttpProvider talks to the DUPR Partner API. The SSO page and hosts come from DUPR's
 // partner docs (https://dupr.gitbook.io/dupr-raas). Exact endpoint paths and payload field
 // names are set in DUPR_PATHS below and MUST be checked against DUPR's API explorer
-// (api.uat.dupr.gg/api-explorer) once Pickora has partner keys. They are isolated here so
+// (api.uat.dupr.gg/api-explorer) once PickleHeat has partner keys. They are isolated here so
 // nothing else changes when they do.
 //
 // MockDuprProvider behaves the same way with fake data. It is used until partner keys exist.

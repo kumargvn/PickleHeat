@@ -11,7 +11,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var me: Me?
     @Published private(set) var formPayload: FormPayload?
     @Published private(set) var recommendations: RecommendedPayload?
-    @Published private(set) var myEvents: [PickoraEvent] = []
+    @Published private(set) var myEvents: [PickleHeatEvent] = []
     @Published var busy = false
     @Published var errorMessage: String?
     @Published var selectedTab: Tab = .home
@@ -19,11 +19,11 @@ final class AppModel: ObservableObject {
 
     enum Tab: Hashable { case home, events, insights, profile }
 
-    let service: PickoraService
+    let service: PickleHeatService
     private let location = LocationProvider()
     let web = WebAuth()
 
-    init(service: PickoraService) {
+    init(service: PickleHeatService) {
         self.service = service
     }
 
@@ -188,7 +188,7 @@ final class AppModel: ObservableObject {
         await run { _ = try await self.web.open(checkoutURL) }
     }
 
-    // MARK: deep links (pickora://events/<id>)
+    // MARK: deep links (pickleheat://events/<id>)
 
     func handle(url: URL) {
         guard url.scheme == AppConfig.callbackScheme else { return }

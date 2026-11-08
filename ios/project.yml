@@ -1,6 +1,6 @@
 # Xcode project definition. Generate the .xcodeproj with:
 #   brew install xcodegen && xcodegen generate
-name: Pickora
+name: PickleHeat
 
 options:
   bundleIdPrefix: com.gudivada
@@ -15,32 +15,32 @@ settings:
     SWIFT_VERSION: "5.0"
     # Your Apple Team ID. CI passes it in from the APPLE_TEAM_ID secret.
     DEVELOPMENT_TEAM: ""
-    # The Pickora API. Empty = built-in demo mode (sample data, no account needed).
-    # CI passes it in from the PICKORA_API_URL repository variable.
-    PICKORA_API_URL: ""
+    # The PickleHeat API. Empty = built-in demo mode (sample data, no account needed).
+    # CI passes it in from the PICKLEHEAT_API_URL repository variable.
+    PICKLEHEAT_API_URL: ""
 
 targets:
-  Pickora:
+  PickleHeat:
     type: application
     platform: iOS
     sources:
-      - path: Pickora
+      - path: PickleHeat
         excludes:
           - PrivacyInfo.xcprivacy
-      - path: Pickora/PrivacyInfo.xcprivacy
+      - path: PickleHeat/PrivacyInfo.xcprivacy
         buildPhase: resources
       # Sample players, matches and tournaments for demo mode (shared with the API).
       - path: ../shared/sample-data.json
         buildPhase: resources
     entitlements:
-      path: Pickora/Pickora.entitlements
+      path: PickleHeat/PickleHeat.entitlements
       properties:
         com.apple.developer.applesignin:
           - Default
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.gudivada.pickora
-        PRODUCT_NAME: Pickora
+        PRODUCT_BUNDLE_IDENTIFIER: com.gudivada.pickleheat
+        PRODUCT_NAME: PickleHeat
         TARGETED_DEVICE_FAMILY: "1"
         CODE_SIGN_STYLE: Automatic
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
@@ -49,17 +49,17 @@ targets:
     info:
       path: Config/Info.plist
       properties:
-        CFBundleDisplayName: Pickora
+        CFBundleDisplayName: PickleHeat
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSApplicationCategoryType: public.app-category.sports
         ITSAppUsesNonExemptEncryption: false
-        PickoraAPIURL: $(PICKORA_API_URL)
-        NSLocationWhenInUseUsageDescription: Pickora uses your location to find pickleball tournaments near you. You can type a city instead.
+        PickleHeatAPIURL: $(PICKLEHEAT_API_URL)
+        NSLocationWhenInUseUsageDescription: PickleHeat uses your location to find pickleball tournaments near you. You can type a city instead.
         CFBundleURLTypes:
-          - CFBundleURLName: com.gudivada.pickora
+          - CFBundleURLName: com.gudivada.pickleheat
             CFBundleURLSchemes:
-              - pickora
+              - pickleheat
         UILaunchScreen:
           UIColorName: LaunchBackground
           UIImageName: Logo
@@ -68,30 +68,30 @@ targets:
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
 
-  PickoraTests:
+  PickleHeatTests:
     type: bundle.unit-test
     platform: iOS
     sources:
-      - path: PickoraTests
+      - path: PickleHeatTests
       # Expected answers computed by the API's TypeScript code; the Swift engine must match.
       - path: ../shared/vectors
         buildPhase: resources
     dependencies:
-      - target: Pickora
+      - target: PickleHeat
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.gudivada.pickora.tests
+        PRODUCT_BUNDLE_IDENTIFIER: com.gudivada.pickleheat.tests
         GENERATE_INFOPLIST_FILE: YES
 
 schemes:
-  Pickora:
+  PickleHeat:
     build:
       targets:
-        Pickora: all
-        PickoraTests: [test]
+        PickleHeat: all
+        PickleHeatTests: [test]
     test:
       config: Debug
       targets:
-        - PickoraTests
+        - PickleHeatTests
     archive:
       config: Release

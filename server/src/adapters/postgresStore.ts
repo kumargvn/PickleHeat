@@ -3,7 +3,7 @@
 // field needs no migration. Schema: server/db/migrations.
 
 import type { PlayedMatch } from "../domain/types";
-import type { DuprLink, Entry, Match, Payment, PayoutAccount, PickoraEvent, Store, User } from "../ports";
+import type { DuprLink, Entry, Match, Payment, PayoutAccount, PickleHeatEvent, Store, User } from "../ports";
 
 /** Anything that can run a parameterised query ($1, $2 …) and return rows. */
 export interface SqlClient {
@@ -52,17 +52,17 @@ export class PostgresStore implements Store {
   }
   async getDuprMatches(userId: string) { return one<PlayedMatch[]>(await this.q("select data from dupr_matches where user_id = $1", [userId])) ?? []; }
 
-  async getEvent(id: string) { return one<PickoraEvent>(await this.q("select data from events where id = $1", [id])); }
-  async saveEvent(e: PickoraEvent) {
+  async getEvent(id: string) { return one<PickleHeatEvent>(await this.q("select data from events where id = $1", [id])); }
+  async saveEvent(e: PickleHeatEvent) {
     await this.q(
       "insert into events (id, organizer_id, status, start_date, data) values ($1, $2, $3, $4, $5::jsonb) on conflict (id) do update set status = excluded.status, start_date = excluded.start_date, data = excluded.data",
       [e.id, e.organizerId, e.status, e.startDate, j(e)],
     );
   }
-  async listEventsByOrganizer(userId: string) { return many<PickoraEvent>(await this.q("select data from events where organizer_id = $1 order by start_date", [userId])); }
-  async listOpenEvents() { return many<PickoraEvent>(await this.q("select data from events where status = 'open' order by start_date limit 500")); }
+  async listEventsByOrganizer(userId: string) { return many<PickleHeatEvent>(await this.q("select data from events where organizer_id = $1 order by start_date", [userId])); }
+  async listOpenEvents() { return many<PickleHeatEvent>(await this.q("select data from events where status = 'open' order by start_date limit 500")); }
   async listEventsForPlayer(userId: string) {
-    return many<PickoraEvent>(
+    return many<PickleHeatEvent>(
       await this.q(
         "select distinct on (e.id) e.data from events e join entries x on x.event_id = e.id where jsonb_exists(x.data->'playerIds', $1) and x.data->>'status' <> 'withdrawn'",
         [userId],

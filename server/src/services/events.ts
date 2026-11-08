@@ -2,26 +2,26 @@
 
 import { eliminationFirstRound, roundRobin, snakePools, standings, type Standing } from "../domain/schedule";
 import { HttpError } from "../http";
-import type { Deps, Entry, Match, Payment, PickoraEvent, User } from "../ports";
+import type { Deps, Entry, Match, Payment, PickleHeatEvent, User } from "../ports";
 import { uploadMatch } from "./duprSync";
 
 export function platformFee(deps: Deps, amountCents: number): number {
   return Math.round((amountCents * deps.config.platformFeeBps) / 10_000);
 }
 
-export async function requireEvent(deps: Deps, id: string): Promise<PickoraEvent> {
+export async function requireEvent(deps: Deps, id: string): Promise<PickleHeatEvent> {
   const e = await deps.store.getEvent(id);
   if (!e) throw new HttpError(404, "Event not found", "not_found");
   return e;
 }
 
-export async function requireOrganizer(deps: Deps, id: string, userId: string): Promise<PickoraEvent> {
+export async function requireOrganizer(deps: Deps, id: string, userId: string): Promise<PickleHeatEvent> {
   const e = await requireEvent(deps, id);
   if (e.organizerId !== userId) throw new HttpError(403, "Only the organizer can do that", "forbidden");
   return e;
 }
 
-export async function publishEvent(deps: Deps, ev: PickoraEvent): Promise<PickoraEvent> {
+export async function publishEvent(deps: Deps, ev: PickleHeatEvent): Promise<PickleHeatEvent> {
   if (ev.feeCents > 0) {
     let acct = await deps.store.getPayoutAccount(ev.organizerId);
     if (acct && !acct.chargesEnabled) {
@@ -53,7 +53,7 @@ export interface RegisterResult {
   checkoutUrl: string | null;
 }
 
-export async function register(deps: Deps, ev: PickoraEvent, user: User, partnerUserId: string | null, teamName: string | null, successUrl: string, cancelUrl: string): Promise<RegisterResult> {
+export async function register(deps: Deps, ev: PickleHeatEvent, user: User, partnerUserId: string | null, teamName: string | null, successUrl: string, cancelUrl: string): Promise<RegisterResult> {
   if (ev.status !== "open") throw new HttpError(409, "Registration is not open", "closed");
   const singles = ev.format === "singles";
   if (!singles && !partnerUserId) throw new HttpError(422, "Doubles events need a partner", "partner_required");
@@ -141,7 +141,7 @@ export async function markFailed(deps: Deps, providerRef: string): Promise<void>
   if (e && e.status === "pending_payment") await deps.store.saveEntry({ ...e, status: "withdrawn" });
 }
 
-export async function refundEntry(deps: Deps, ev: PickoraEvent, entryId: string): Promise<Entry> {
+export async function refundEntry(deps: Deps, ev: PickleHeatEvent, entryId: string): Promise<Entry> {
   const entry = await deps.store.getEntry(entryId);
   if (!entry || entry.eventId !== ev.id) throw new HttpError(404, "Entry not found", "not_found");
   const payment = (await deps.store.listPaymentsForEvent(ev.id)).find((p) => p.entryId === entry.id && p.status === "paid");
@@ -155,7 +155,7 @@ export async function refundEntry(deps: Deps, ev: PickoraEvent, entryId: string)
 }
 
 /** Builds the match schedule. Leagues: full round robin. Tournaments: snake-seeded pools of ~4, round robin in each. */
-export async function generateSchedule(deps: Deps, ev: PickoraEvent): Promise<Match[]> {
+export async function generateSchedule(deps: Deps, ev: PickleHeatEvent): Promise<Match[]> {
   const existing = await deps.store.listMatches(ev.id);
   if (existing.some((m) => m.status !== "scheduled")) throw new HttpError(409, "Scores are already in; the schedule can't be rebuilt", "locked");
   const entries = (await deps.store.listEntries(ev.id))
@@ -252,14 +252,14 @@ export async function confirmScore(deps: Deps, matchId: string, userId: string):
 }
 
 export interface EventDetail {
-  event: PickoraEvent;
+  event: PickleHeatEvent;
   entries: Entry[];
   matches: Match[];
   standings: { pool: number | null; table: Standing[] }[];
   playoffs: ReturnType<typeof eliminationFirstRound>;
 }
 
-export async function eventDetail(deps: Deps, ev: PickoraEvent): Promise<EventDetail> {
+export async function eventDetail(deps: Deps, ev: PickleHeatEvent): Promise<EventDetail> {
   const entries = await deps.store.listEntries(ev.id);
   const matches = await deps.store.listMatches(ev.id);
   const pools = [...new Set(matches.map((m) => m.pool))];
