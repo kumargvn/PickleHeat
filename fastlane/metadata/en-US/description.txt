@@ -9,14 +9,26 @@ INSIGHTS FROM YOUR SCORES
 • Player DNA: Clutch, Consistency, Giant-killer and Momentum
 • A tip based on your weakest area
 
-LEAGUES AND TOURNAMENTS
-• Create a league for your regular group or run a full tournament
-• Set a DUPR range; players outside it can't register
-• Automatic round robins, snake-seeded pools and standings
-• Players enter scores, the other team confirms, and results go to DUPR automatically
+HEAT CLIMB LEAGUES
+Sign up solo. Each round you're placed in a heat of 4 near your level and play rotating partners. Win your heat to climb; last place drops a heat. Skip a week and you keep your spot, or ask the league for a sub.
 
-ENTRY FEES, PAID TO YOU
-Players pay by card or Apple Pay through Stripe. Fees go straight to the organizer's linked bank account.
+WILDFIRE MIXERS
+New heat, new partners every round. Standings by total games won.
+
+TEAM LEAGUES AND TOURNAMENTS
+• Round robins, pools with playoffs, single and double elimination brackets
+• MLP-style team matches with a DreamBreaker, and trips
+• Set a DUPR range; players outside it can't register
+• Players enter scores, the other side confirms, and results go to DUPR automatically
+• Waitlists, invites, and stats like upsets, nailbiters and point differential
+
+CLUBS AND CHAT
+• Clubs with owners, admins, member pricing and a club chat
+• An event chat for every league and tournament, and a heat chat every round to pick a time and court
+• Notifications when it's your turn to play or confirm a score
+
+ENTRY FEES, PAID TO THE ORGANIZER
+Organizers collect entry fees on the PickleHeat website, straight to their own Stripe account.
 
 TOURNAMENTS PICKED FOR YOU
 PickleHeat suggests nearby tournaments with an event that fits your rating, and nudges you up a bracket when you're in hot form.

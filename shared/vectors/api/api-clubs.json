@@ -1,0 +1,42 @@
+{
+ "mine": [
+  {
+   "club": {
+    "id": "id00001",
+    "name": "Sample Pickleball Club",
+    "description": "Early-morning doubles, weekly ladders and monthly tournaments. All levels welcome.",
+    "city": "Round Rock",
+    "state": "TX",
+    "lat": 30.516,
+    "lng": -97.665,
+    "createdBy": "u-chen",
+    "createdAt": "2026-11-07T15:00:00.000Z"
+   },
+   "memberCount": 24,
+   "leagueCount": 3,
+   "tournamentCount": 1,
+   "myRole": "member",
+   "distanceMiles": 1
+  }
+ ],
+ "nearby": [
+  {
+   "club": {
+    "id": "id00003",
+    "name": "Riverside Paddle Club",
+    "description": "Evening open play and a Sunday mixed league by the river.",
+    "city": "Georgetown",
+    "state": "TX",
+    "lat": 30.6327,
+    "lng": -97.6772,
+    "createdBy": "u-omar",
+    "createdAt": "2026-11-07T15:00:02.000Z"
+   },
+   "memberCount": 5,
+   "leagueCount": 0,
+   "tournamentCount": 0,
+   "myRole": null,
+   "distanceMiles": 9
+  }
+ ]
+}

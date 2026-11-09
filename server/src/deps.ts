@@ -5,7 +5,7 @@ import { DuprHttpProvider, MockDuprProvider } from "./adapters/dupr";
 import { MockPaymentProvider, StripeConnectProvider } from "./adapters/payments";
 import { SampleTournamentSource } from "./adapters/sample";
 import { FluidPbSource, PickleballComSource, PickleHeatEventsSource } from "./adapters/tournamentSources";
-import type { Deps, Store, TournamentSource } from "./ports";
+import type { Deps, PickleHeatEvent, Store, TournamentSource } from "./ports";
 
 export interface Env {
   PUBLIC_BASE_URL: string;
@@ -42,9 +42,9 @@ export function buildDeps(env: Env, store: Store): Deps {
     ? new StripeConnectProvider(env.STRIPE_SECRET_KEY, env.STRIPE_WEBHOOK_SECRET)
     : new MockPaymentProvider(base);
 
-  const webAppUrl = (env.WEB_APP_URL ?? base).replace(/\/$/, "");
+  const webAppUrl = env.WEB_APP_URL ?? `${base}/`;
   const sources: TournamentSource[] = [
-    new PickleHeatEventsSource(() => store.listOpenEvents(), webAppUrl),
+    new PickleHeatEventsSource(() => store.collection<PickleHeatEvent>("events").find({ status: "open" }), webAppUrl),
     new PickleballComSource(env.PICKLEBALL_COM_API_TOKEN),
     new FluidPbSource(env.FLUIDPB_API_TOKEN),
   ];
@@ -65,6 +65,6 @@ export function buildDeps(env: Env, store: Store): Deps {
       allowDevAuth,
     },
     now: () => new Date(),
-    newId: () => crypto.randomUUID(),
+    newId: () => (typeof crypto.randomUUID === "function" ? crypto.randomUUID() : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 12)}`),
   };
 }

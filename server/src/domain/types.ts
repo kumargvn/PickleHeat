@@ -38,7 +38,7 @@ export interface FormResult {
   previousScore: number | null;
 }
 
-export type EventFormat = "doubles" | "mixed" | "singles";
+export type EventFormat = "doubles" | "mixed" | "singles" | "mlp" | "trips";
 
 export interface TournamentEvent {
   id: ID;

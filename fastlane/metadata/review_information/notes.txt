@@ -1,7 +1,9 @@
-Sign in with Apple, or tap "Try the demo" on the first screen to explore with sample data (no account needed).
+Sign in with Apple, or tap "Try the demo" on the first screen to explore a sample club, a Heat Climb league in progress and several tournaments (no account needed). Nothing in the demo is charged or sent anywhere.
 
 After signing in, the app asks the player to connect DUPR (the official pickleball rating system) once. In the demo, "Connect my DUPR account" links a sample profile.
 
-Entry fees are for real-world sports events (league seasons and tournaments) and are paid through Stripe to the organizer, so In-App Purchase does not apply (Guideline 3.1.3(e)).
+Payments: the app itself takes no payments. Entry fees are for real-world sports events (league seasons and in-person tournaments). When an event has a fee, the app opens the PickleHeat website, where the player pays the organizer by card through Stripe (Guideline 3.1.3(e), goods and services consumed outside the app). Organizers set up payouts on the same website. In the demo, the "Pay" button completes a simulated payment without leaving the app.
+
+Things to try in the demo: Events > Sunrise Heat Climb > Heats (confirm or enter a score, ask for a sub), Ladder, Stats; Chats (heat and event chats); a tournament bracket in Fall Slam Doubles.
 
 Account deletion: Profile tab > Delete account.

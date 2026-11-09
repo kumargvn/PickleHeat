@@ -35,13 +35,24 @@ struct FormResult: Codable, Hashable {
 }
 
 enum EventFormat: String, Codable, CaseIterable, Identifiable {
-    case doubles, mixed, singles
+    case doubles, mixed, singles, mlp, trips
     var id: String { rawValue }
     var title: String {
         switch self {
         case .doubles: return "Doubles"
         case .mixed: return "Mixed"
         case .singles: return "Singles"
+        case .mlp: return "MLP teams"
+        case .trips: return "Trips"
+        }
+    }
+    /// Players per team.
+    var teamSize: Int {
+        switch self {
+        case .singles: return 1
+        case .doubles, .mixed: return 2
+        case .trips: return 3
+        case .mlp: return 4
         }
     }
 }

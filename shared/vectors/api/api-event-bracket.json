@@ -1,0 +1,809 @@
+{
+ "event": {
+  "id": "id00267",
+  "organizerId": "u-hale",
+  "clubId": null,
+  "kind": "tournament",
+  "style": "double_elim",
+  "name": "Fall Slam Doubles",
+  "description": "Double elimination: lose twice and you're out. Grand final with a reset match if needed.",
+  "format": "doubles",
+  "startDate": "2026-11-16",
+  "endDate": null,
+  "weeks": null,
+  "roundDays": 7,
+  "gamesPerMatch": 1,
+  "venue": "Sample Racquet Center",
+  "city": "Round Rock",
+  "state": "TX",
+  "lat": 30.516,
+  "lng": -97.665,
+  "minRating": 3.5,
+  "maxRating": 4.35,
+  "capacity": 8,
+  "feeCents": 3500,
+  "memberFeeCents": null,
+  "currency": "usd",
+  "requireDuprVerified": true,
+  "submitToDupr": true,
+  "status": "in_progress",
+  "ladder": [],
+  "createdAt": "2026-11-07T15:04:27.000Z"
+ },
+ "club": null,
+ "isManager": false,
+ "myEntry": null,
+ "myPriceCents": 3500,
+ "entries": [
+  {
+   "id": "id00268",
+   "eventId": "id00267",
+   "playerIds": [
+    "u-sam",
+    "u-dev"
+   ],
+   "teamName": "Sam / Dev",
+   "teamRating": 4.08,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00269",
+   "eventId": "id00267",
+   "playerIds": [
+    "u-marco",
+    "u-lena"
+   ],
+   "teamName": "Marco / Lena",
+   "teamRating": 3.97,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00270",
+   "eventId": "id00267",
+   "playerIds": [
+    "u-omar",
+    "u-grace"
+   ],
+   "teamName": "Omar / Grace",
+   "teamRating": 3.86,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00271",
+   "eventId": "id00267",
+   "playerIds": [
+    "u-tyler",
+    "u-maya"
+   ],
+   "teamName": "Tyler / Maya",
+   "teamRating": 3.77,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00272",
+   "eventId": "id00267",
+   "playerIds": [
+    "u-leo",
+    "u-ivy"
+   ],
+   "teamName": "Leo / Ivy",
+   "teamRating": 3.685,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00273",
+   "eventId": "id00267",
+   "playerIds": [
+    "u-nina",
+    "u-raj"
+   ],
+   "teamName": "Nina / Raj",
+   "teamRating": 3.79,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  }
+ ],
+ "waitlist": [],
+ "players": {
+  "u-hale": {
+   "id": "u-hale",
+   "name": "Hale Rivera",
+   "gender": "m",
+   "duprId": "DEMO-HA05",
+   "rating": 4.19,
+   "singlesRating": 3.94,
+   "reliability": 100
+  },
+  "u-sam": {
+   "id": "u-sam",
+   "name": "Sam Okafor",
+   "gender": "m",
+   "duprId": "DEMO-SA06",
+   "rating": 4.06,
+   "singlesRating": 3.81,
+   "reliability": 80
+  },
+  "u-dev": {
+   "id": "u-dev",
+   "name": "Dev Patel",
+   "gender": "m",
+   "duprId": "DEMO-DE07",
+   "rating": 4.1,
+   "singlesRating": 3.85,
+   "reliability": 100
+  },
+  "u-marco": {
+   "id": "u-marco",
+   "name": "Marco Diaz",
+   "gender": "m",
+   "duprId": "DEMO-MA09",
+   "rating": 3.95,
+   "singlesRating": 3.7,
+   "reliability": 100
+  },
+  "u-lena": {
+   "id": "u-lena",
+   "name": "Lena Schultz",
+   "gender": "f",
+   "duprId": "DEMO-LE10",
+   "rating": 3.99,
+   "singlesRating": 3.74,
+   "reliability": 100
+  },
+  "u-omar": {
+   "id": "u-omar",
+   "name": "Omar Haddad",
+   "gender": "m",
+   "duprId": "DEMO-OM11",
+   "rating": 3.88,
+   "singlesRating": 3.63,
+   "reliability": 90
+  },
+  "u-grace": {
+   "id": "u-grace",
+   "name": "Grace Lin",
+   "gender": "f",
+   "duprId": "DEMO-GR12",
+   "rating": 3.84,
+   "singlesRating": 3.59,
+   "reliability": 100
+  },
+  "u-tyler": {
+   "id": "u-tyler",
+   "name": "Tyler Brooks",
+   "gender": "m",
+   "duprId": "DEMO-TY13",
+   "rating": 3.79,
+   "singlesRating": 3.54,
+   "reliability": 60
+  },
+  "u-maya": {
+   "id": "u-maya",
+   "name": "Maya Singh",
+   "gender": "f",
+   "duprId": "DEMO-MA14",
+   "rating": 3.75,
+   "singlesRating": 3.5,
+   "reliability": 100
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-nina": {
+   "id": "u-nina",
+   "name": "Nina Park",
+   "gender": "f",
+   "duprId": "DEMO-NI08",
+   "rating": 3.98,
+   "singlesRating": 3.73,
+   "reliability": 70
+  },
+  "u-raj": {
+   "id": "u-raj",
+   "name": "Raj Mehta",
+   "gender": "m",
+   "duprId": "DEMO-RA17",
+   "rating": 3.6,
+   "singlesRating": 3.35,
+   "reliability": 100
+  }
+ },
+ "matches": [
+  {
+   "id": "id00267-W1-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": {
+    "side": "W",
+    "round": 1,
+    "slot": 1
+   },
+   "label": "Round 1",
+   "homeEntryId": "id00268",
+   "awayEntryId": null,
+   "homePlayers": [
+    "u-sam",
+    "u-dev"
+   ],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": true,
+   "winnerTo": {
+    "matchId": "id00267-W2-1",
+    "side": "home"
+   },
+   "loserTo": {
+    "matchId": "id00267-L1-1",
+    "side": "home"
+   },
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "confirmed",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-W1-2",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": {
+    "side": "W",
+    "round": 1,
+    "slot": 2
+   },
+   "label": "Round 1",
+   "homeEntryId": "id00273",
+   "awayEntryId": "id00271",
+   "homePlayers": [
+    "u-nina",
+    "u-raj"
+   ],
+   "awayPlayers": [
+    "u-tyler",
+    "u-maya"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-W2-1",
+    "side": "away"
+   },
+   "loserTo": {
+    "matchId": "id00267-L1-1",
+    "side": "away"
+   },
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-W1-3",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": {
+    "side": "W",
+    "round": 1,
+    "slot": 3
+   },
+   "label": "Round 1",
+   "homeEntryId": "id00269",
+   "awayEntryId": null,
+   "homePlayers": [
+    "u-marco",
+    "u-lena"
+   ],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": true,
+   "winnerTo": {
+    "matchId": "id00267-W2-2",
+    "side": "home"
+   },
+   "loserTo": {
+    "matchId": "id00267-L1-2",
+    "side": "home"
+   },
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "confirmed",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-W1-4",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": {
+    "side": "W",
+    "round": 1,
+    "slot": 4
+   },
+   "label": "Round 1",
+   "homeEntryId": "id00270",
+   "awayEntryId": "id00272",
+   "homePlayers": [
+    "u-omar",
+    "u-grace"
+   ],
+   "awayPlayers": [
+    "u-leo",
+    "u-ivy"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-W2-2",
+    "side": "away"
+   },
+   "loserTo": {
+    "matchId": "id00267-L1-2",
+    "side": "away"
+   },
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-W2-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 2,
+   "pool": null,
+   "bracket": {
+    "side": "W",
+    "round": 2,
+    "slot": 1
+   },
+   "label": "Semifinal",
+   "homeEntryId": "id00268",
+   "awayEntryId": null,
+   "homePlayers": [
+    "u-sam",
+    "u-dev"
+   ],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-W3-1",
+    "side": "home"
+   },
+   "loserTo": {
+    "matchId": "id00267-L2-2",
+    "side": "away"
+   },
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-W2-2",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 2,
+   "pool": null,
+   "bracket": {
+    "side": "W",
+    "round": 2,
+    "slot": 2
+   },
+   "label": "Semifinal",
+   "homeEntryId": "id00269",
+   "awayEntryId": null,
+   "homePlayers": [
+    "u-marco",
+    "u-lena"
+   ],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-W3-1",
+    "side": "away"
+   },
+   "loserTo": {
+    "matchId": "id00267-L2-1",
+    "side": "away"
+   },
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-W3-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 3,
+   "pool": null,
+   "bracket": {
+    "side": "W",
+    "round": 3,
+    "slot": 1
+   },
+   "label": "Final",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-GF1-1",
+    "side": "home"
+   },
+   "loserTo": {
+    "matchId": "id00267-L4-1",
+    "side": "away"
+   },
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-L1-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": {
+    "side": "L",
+    "round": 1,
+    "slot": 1
+   },
+   "label": "Losers round 1",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": true,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-L2-1",
+    "side": "home"
+   },
+   "loserTo": null,
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-L1-2",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": {
+    "side": "L",
+    "round": 1,
+    "slot": 2
+   },
+   "label": "Losers round 1",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": true,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-L2-2",
+    "side": "home"
+   },
+   "loserTo": null,
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-L2-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 2,
+   "pool": null,
+   "bracket": {
+    "side": "L",
+    "round": 2,
+    "slot": 1
+   },
+   "label": "Losers round 2",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-L3-1",
+    "side": "home"
+   },
+   "loserTo": null,
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-L2-2",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 2,
+   "pool": null,
+   "bracket": {
+    "side": "L",
+    "round": 2,
+    "slot": 2
+   },
+   "label": "Losers round 2",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-L3-1",
+    "side": "away"
+   },
+   "loserTo": null,
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-L3-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 3,
+   "pool": null,
+   "bracket": {
+    "side": "L",
+    "round": 3,
+    "slot": 1
+   },
+   "label": "Losers round 3",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-L4-1",
+    "side": "home"
+   },
+   "loserTo": null,
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-L4-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 4,
+   "pool": null,
+   "bracket": {
+    "side": "L",
+    "round": 4,
+    "slot": 1
+   },
+   "label": "Losers round 4",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": {
+    "matchId": "id00267-GF1-1",
+    "side": "away"
+   },
+   "loserTo": null,
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-GF1-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": {
+    "side": "GF",
+    "round": 1,
+    "slot": 1
+   },
+   "label": "Grand final",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00267-GF2-1",
+   "eventId": "id00267",
+   "roundId": null,
+   "groupId": null,
+   "round": 2,
+   "pool": null,
+   "bracket": {
+    "side": "GF",
+    "round": 2,
+    "slot": 1
+   },
+   "label": "Grand final reset",
+   "homeEntryId": null,
+   "awayEntryId": null,
+   "homePlayers": [],
+   "awayPlayers": [],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": null,
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  }
+ ],
+ "standings": [],
+ "rounds": [],
+ "currentRoundId": null,
+ "chatId": null,
+ "money": null,
+ "invites": []
+}

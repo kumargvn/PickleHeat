@@ -1,0 +1,306 @@
+{
+ "items": [
+  {
+   "eventId": "id00005",
+   "eventName": "Sunrise Heat Climb",
+   "roundNumber": 4,
+   "groupNumber": 4,
+   "chatId": "id00229",
+   "match": {
+    "id": "id00005-r4-g4-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r4",
+    "groupId": "id00005-r4-g4",
+    "round": 4,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-tyler",
+     "u-demo"
+    ],
+    "awayPlayers": [
+     "u-leo",
+     "u-ivy"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 8
+     },
+     {
+      "us": 9,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "reported",
+    "reportedBy": "u-leo",
+    "confirmedBy": null,
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null
+   },
+   "needsMyConfirmation": true
+  },
+  {
+   "eventId": "id00005",
+   "eventName": "Sunrise Heat Climb",
+   "roundNumber": 4,
+   "groupNumber": 4,
+   "chatId": "id00229",
+   "match": {
+    "id": "id00005-r4-g4-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r4",
+    "groupId": "id00005-r4-g4",
+    "round": 4,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-tyler",
+     "u-leo"
+    ],
+    "awayPlayers": [
+     "u-demo",
+     "u-ivy"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T12:00:00Z",
+    "court": null,
+    "games": [],
+    "lines": null,
+    "status": "scheduled",
+    "reportedBy": null,
+    "confirmedBy": null,
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null
+   },
+   "needsMyConfirmation": false
+  },
+  {
+   "eventId": "id00005",
+   "eventName": "Sunrise Heat Climb",
+   "roundNumber": 4,
+   "groupNumber": 4,
+   "chatId": "id00229",
+   "match": {
+    "id": "id00005-r4-g4-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r4",
+    "groupId": "id00005-r4-g4",
+    "round": 4,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-tyler",
+     "u-ivy"
+    ],
+    "awayPlayers": [
+     "u-demo",
+     "u-leo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T12:00:00Z",
+    "court": null,
+    "games": [],
+    "lines": null,
+    "status": "scheduled",
+    "reportedBy": null,
+    "confirmedBy": null,
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null
+   },
+   "needsMyConfirmation": false
+  },
+  {
+   "eventId": "id00280",
+   "eventName": "Tuesday Team League",
+   "roundNumber": null,
+   "groupNumber": null,
+   "chatId": null,
+   "match": {
+    "id": "id00288",
+    "eventId": "id00280",
+    "roundId": null,
+    "groupId": null,
+    "round": 2,
+    "pool": null,
+    "bracket": null,
+    "label": "Week 2",
+    "homeEntryId": "id00284",
+    "awayEntryId": "id00281",
+    "homePlayers": [
+     "u-noah",
+     "u-sofia"
+    ],
+    "awayPlayers": [
+     "u-demo",
+     "u-priya"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T09:00:00.000Z",
+    "court": null,
+    "games": [],
+    "lines": null,
+    "status": "scheduled",
+    "reportedBy": null,
+    "confirmedBy": null,
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null
+   },
+   "needsMyConfirmation": false
+  },
+  {
+   "eventId": "id00280",
+   "eventName": "Tuesday Team League",
+   "roundNumber": null,
+   "groupNumber": null,
+   "chatId": null,
+   "match": {
+    "id": "id00290",
+    "eventId": "id00280",
+    "roundId": null,
+    "groupId": null,
+    "round": 3,
+    "pool": null,
+    "bracket": null,
+    "label": "Week 3",
+    "homeEntryId": "id00281",
+    "awayEntryId": "id00282",
+    "homePlayers": [
+     "u-demo",
+     "u-priya"
+    ],
+    "awayPlayers": [
+     "u-ben",
+     "u-kara"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-13T09:00:00.000Z",
+    "court": null,
+    "games": [],
+    "lines": null,
+    "status": "scheduled",
+    "reportedBy": null,
+    "confirmedBy": null,
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null
+   },
+   "needsMyConfirmation": false
+  }
+ ],
+ "players": {
+  "u-tyler": {
+   "id": "u-tyler",
+   "name": "Tyler Brooks",
+   "gender": "m",
+   "duprId": "DEMO-TY13",
+   "rating": 3.79,
+   "singlesRating": 3.54,
+   "reliability": 60
+  },
+  "u-demo": {
+   "id": "u-demo",
+   "name": "Jordan Reyes",
+   "gender": "m",
+   "duprId": "MOCK-DEMO",
+   "rating": 4.12,
+   "singlesRating": 3.86,
+   "reliability": 100
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-noah": {
+   "id": "u-noah",
+   "name": "Noah Kim",
+   "gender": "m",
+   "duprId": "DEMO-NO23",
+   "rating": 3.22,
+   "singlesRating": 2.97,
+   "reliability": 100
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  },
+  "u-priya": {
+   "id": "u-priya",
+   "name": "Priya Kapoor",
+   "gender": "f",
+   "duprId": "DEMO-PR04",
+   "rating": 4.04,
+   "singlesRating": 3.79,
+   "reliability": 100
+  },
+  "u-ben": {
+   "id": "u-ben",
+   "name": "Ben Ortiz",
+   "gender": "m",
+   "duprId": "DEMO-BE19",
+   "rating": 3.49,
+   "singlesRating": 3.24,
+   "reliability": 70
+  },
+  "u-kara": {
+   "id": "u-kara",
+   "name": "Kara Jones",
+   "gender": "f",
+   "duprId": "DEMO-KA20",
+   "rating": 3.44,
+   "singlesRating": 3.19,
+   "reliability": 100
+  }
+ }
+}

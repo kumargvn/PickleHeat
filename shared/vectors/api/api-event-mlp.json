@@ -1,0 +1,500 @@
+{
+ "event": {
+  "id": "id00275",
+  "organizerId": "u-ana",
+  "clubId": "id00001",
+  "kind": "tournament",
+  "style": "round_robin",
+  "name": "Club MLP Showdown",
+  "description": "Teams of four (two men, two women). Women's, men's and two mixed doubles games; DreamBreaker at 2–2.",
+  "format": "mlp",
+  "startDate": "2026-11-23",
+  "endDate": null,
+  "weeks": null,
+  "roundDays": 7,
+  "gamesPerMatch": 1,
+  "venue": "Sample Racquet Center",
+  "city": "Round Rock",
+  "state": "TX",
+  "lat": 30.516,
+  "lng": -97.665,
+  "minRating": null,
+  "maxRating": null,
+  "capacity": 6,
+  "feeCents": 0,
+  "memberFeeCents": null,
+  "currency": "usd",
+  "requireDuprVerified": true,
+  "submitToDupr": true,
+  "status": "in_progress",
+  "ladder": [],
+  "createdAt": "2026-11-07T15:04:35.000Z"
+ },
+ "club": {
+  "id": "id00001",
+  "name": "Sample Pickleball Club"
+ },
+ "isManager": false,
+ "myEntry": null,
+ "myPriceCents": 0,
+ "entries": [
+  {
+   "id": "id00276",
+   "eventId": "id00275",
+   "playerIds": [
+    "u-chen",
+    "u-brooks",
+    "u-ana",
+    "u-nina"
+   ],
+   "teamName": "Dink Dynasty",
+   "teamRating": 4.234999999999999,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00277",
+   "eventId": "id00275",
+   "playerIds": [
+    "u-hale",
+    "u-omar",
+    "u-lena",
+    "u-grace"
+   ],
+   "teamName": "Kitchen Crew",
+   "teamRating": 3.975,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00278",
+   "eventId": "id00275",
+   "playerIds": [
+    "u-leo",
+    "u-raj",
+    "u-ivy",
+    "u-sofia"
+   ],
+   "teamName": "Third Shot Drop",
+   "teamRating": 3.63,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  }
+ ],
+ "waitlist": [],
+ "players": {
+  "u-ana": {
+   "id": "u-ana",
+   "name": "Ana Alvarez",
+   "gender": "f",
+   "duprId": "DEMO-AN02",
+   "rating": 4.31,
+   "singlesRating": 4.06,
+   "reliability": 100
+  },
+  "u-chen": {
+   "id": "u-chen",
+   "name": "Chen Wei",
+   "gender": "m",
+   "duprId": "DEMO-CH01",
+   "rating": 4.38,
+   "singlesRating": 4.13,
+   "reliability": 100
+  },
+  "u-brooks": {
+   "id": "u-brooks",
+   "name": "Brooks Taylor",
+   "gender": "m",
+   "duprId": "DEMO-BR03",
+   "rating": 4.27,
+   "singlesRating": 4.02,
+   "reliability": 90
+  },
+  "u-nina": {
+   "id": "u-nina",
+   "name": "Nina Park",
+   "gender": "f",
+   "duprId": "DEMO-NI08",
+   "rating": 3.98,
+   "singlesRating": 3.73,
+   "reliability": 70
+  },
+  "u-hale": {
+   "id": "u-hale",
+   "name": "Hale Rivera",
+   "gender": "m",
+   "duprId": "DEMO-HA05",
+   "rating": 4.19,
+   "singlesRating": 3.94,
+   "reliability": 100
+  },
+  "u-omar": {
+   "id": "u-omar",
+   "name": "Omar Haddad",
+   "gender": "m",
+   "duprId": "DEMO-OM11",
+   "rating": 3.88,
+   "singlesRating": 3.63,
+   "reliability": 90
+  },
+  "u-lena": {
+   "id": "u-lena",
+   "name": "Lena Schultz",
+   "gender": "f",
+   "duprId": "DEMO-LE10",
+   "rating": 3.99,
+   "singlesRating": 3.74,
+   "reliability": 100
+  },
+  "u-grace": {
+   "id": "u-grace",
+   "name": "Grace Lin",
+   "gender": "f",
+   "duprId": "DEMO-GR12",
+   "rating": 3.84,
+   "singlesRating": 3.59,
+   "reliability": 100
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-raj": {
+   "id": "u-raj",
+   "name": "Raj Mehta",
+   "gender": "m",
+   "duprId": "DEMO-RA17",
+   "rating": 3.6,
+   "singlesRating": 3.35,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  }
+ },
+ "matches": [
+  {
+   "id": "id00295",
+   "eventId": "id00275",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": null,
+   "label": "Round 1",
+   "homeEntryId": "id00277",
+   "awayEntryId": "id00278",
+   "homePlayers": [
+    "u-hale",
+    "u-omar",
+    "u-lena",
+    "u-grace"
+   ],
+   "awayPlayers": [
+    "u-leo",
+    "u-raj",
+    "u-ivy",
+    "u-sofia"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-11-23T09:00:00.000Z",
+   "court": null,
+   "games": [],
+   "lines": [
+    {
+     "label": "Women's doubles",
+     "homePlayers": [
+      "u-lena",
+      "u-grace"
+     ],
+     "awayPlayers": [
+      "u-ivy",
+      "u-sofia"
+     ],
+     "games": []
+    },
+    {
+     "label": "Men's doubles",
+     "homePlayers": [
+      "u-hale",
+      "u-omar"
+     ],
+     "awayPlayers": [
+      "u-leo",
+      "u-raj"
+     ],
+     "games": []
+    },
+    {
+     "label": "Mixed 1",
+     "homePlayers": [
+      "u-hale",
+      "u-lena"
+     ],
+     "awayPlayers": [
+      "u-leo",
+      "u-ivy"
+     ],
+     "games": []
+    },
+    {
+     "label": "Mixed 2",
+     "homePlayers": [
+      "u-omar",
+      "u-grace"
+     ],
+     "awayPlayers": [
+      "u-raj",
+      "u-sofia"
+     ],
+     "games": []
+    }
+   ],
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00296",
+   "eventId": "id00275",
+   "roundId": null,
+   "groupId": null,
+   "round": 2,
+   "pool": null,
+   "bracket": null,
+   "label": "Round 2",
+   "homeEntryId": "id00278",
+   "awayEntryId": "id00276",
+   "homePlayers": [
+    "u-leo",
+    "u-raj",
+    "u-ivy",
+    "u-sofia"
+   ],
+   "awayPlayers": [
+    "u-chen",
+    "u-brooks",
+    "u-ana",
+    "u-nina"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-11-23T09:45:00.000Z",
+   "court": null,
+   "games": [],
+   "lines": [
+    {
+     "label": "Women's doubles",
+     "homePlayers": [
+      "u-ivy",
+      "u-sofia"
+     ],
+     "awayPlayers": [
+      "u-ana",
+      "u-nina"
+     ],
+     "games": []
+    },
+    {
+     "label": "Men's doubles",
+     "homePlayers": [
+      "u-leo",
+      "u-raj"
+     ],
+     "awayPlayers": [
+      "u-chen",
+      "u-brooks"
+     ],
+     "games": []
+    },
+    {
+     "label": "Mixed 1",
+     "homePlayers": [
+      "u-leo",
+      "u-ivy"
+     ],
+     "awayPlayers": [
+      "u-chen",
+      "u-ana"
+     ],
+     "games": []
+    },
+    {
+     "label": "Mixed 2",
+     "homePlayers": [
+      "u-raj",
+      "u-sofia"
+     ],
+     "awayPlayers": [
+      "u-brooks",
+      "u-nina"
+     ],
+     "games": []
+    }
+   ],
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00297",
+   "eventId": "id00275",
+   "roundId": null,
+   "groupId": null,
+   "round": 3,
+   "pool": null,
+   "bracket": null,
+   "label": "Round 3",
+   "homeEntryId": "id00276",
+   "awayEntryId": "id00277",
+   "homePlayers": [
+    "u-chen",
+    "u-brooks",
+    "u-ana",
+    "u-nina"
+   ],
+   "awayPlayers": [
+    "u-hale",
+    "u-omar",
+    "u-lena",
+    "u-grace"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-11-23T10:30:00.000Z",
+   "court": null,
+   "games": [],
+   "lines": [
+    {
+     "label": "Women's doubles",
+     "homePlayers": [
+      "u-ana",
+      "u-nina"
+     ],
+     "awayPlayers": [
+      "u-lena",
+      "u-grace"
+     ],
+     "games": []
+    },
+    {
+     "label": "Men's doubles",
+     "homePlayers": [
+      "u-chen",
+      "u-brooks"
+     ],
+     "awayPlayers": [
+      "u-hale",
+      "u-omar"
+     ],
+     "games": []
+    },
+    {
+     "label": "Mixed 1",
+     "homePlayers": [
+      "u-chen",
+      "u-ana"
+     ],
+     "awayPlayers": [
+      "u-hale",
+      "u-lena"
+     ],
+     "games": []
+    },
+    {
+     "label": "Mixed 2",
+     "homePlayers": [
+      "u-brooks",
+      "u-nina"
+     ],
+     "awayPlayers": [
+      "u-omar",
+      "u-grace"
+     ],
+     "games": []
+    }
+   ],
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  }
+ ],
+ "standings": [
+  {
+   "pool": null,
+   "table": [
+    {
+     "entrant": "id00276",
+     "played": 0,
+     "wins": 0,
+     "losses": 0,
+     "pointsFor": 0,
+     "pointsAgainst": 0,
+     "diff": 0
+    },
+    {
+     "entrant": "id00277",
+     "played": 0,
+     "wins": 0,
+     "losses": 0,
+     "pointsFor": 0,
+     "pointsAgainst": 0,
+     "diff": 0
+    },
+    {
+     "entrant": "id00278",
+     "played": 0,
+     "wins": 0,
+     "losses": 0,
+     "pointsFor": 0,
+     "pointsAgainst": 0,
+     "diff": 0
+    }
+   ]
+  }
+ ],
+ "rounds": [],
+ "currentRoundId": null,
+ "chatId": null,
+ "money": null,
+ "invites": []
+}

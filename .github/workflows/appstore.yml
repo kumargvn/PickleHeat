@@ -62,7 +62,7 @@ jobs:
             xcrun simctl status_bar "$udid" override --time "9:41" --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3 || true
             xcrun simctl install "$udid" "$APP"
             n=1
-            for screen in home insights events league create signin; do
+            for screen in home league chat insights events create signin; do
               xcrun simctl launch "$udid" "$BUNDLE_ID" -screenshot "$screen"
               sleep 10
               xcrun simctl io "$udid" screenshot "$OUT/${prefix}_${n}_${screen}.png"

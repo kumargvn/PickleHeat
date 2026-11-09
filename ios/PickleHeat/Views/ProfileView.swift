@@ -21,6 +21,17 @@ struct ProfileView: View {
             }
 
             Section {
+                Picker("Gender", selection: Binding(
+                    get: { model.me?.user.gender ?? "" },
+                    set: { g in Task { await model.updateProfile(["gender": g.isEmpty ? NSNull() : g]) } }
+                )) {
+                    Text("Not set").tag("")
+                    Text("Woman").tag("f")
+                    Text("Man").tag("m")
+                }
+            } header: { Text("Player") } footer: { Text("Used to build mixed and MLP lines.") }
+
+            Section {
                 row("DUPR ID", model.me?.dupr.duprId ?? "—")
                 row("Doubles", ratingText(model.me?.dupr.doublesRating))
                 row("Singles", ratingText(model.me?.dupr.singlesRating))
@@ -43,7 +54,7 @@ struct ProfileView: View {
                 VStack(alignment: .leading) {
                     Text("Search within \(Int(distance)) miles")
                     Slider(value: $distance, in: 10...300, step: 5, onEditingChanged: { editing in
-                        if !editing { Task { await model.updateProfile(maxDistanceMiles: distance) } }
+                        if !editing { Task { await model.updateProfile(["maxDistanceMiles": distance]) } }
                     })
                 }
                 ForEach(EventFormat.allCases) { f in
@@ -52,7 +63,7 @@ struct ProfileView: View {
                         set: { on in
                             var list = model.me?.user.formats ?? []
                             if on { if !list.contains(f) { list.append(f) } } else { list.removeAll { $0 == f } }
-                            if !list.isEmpty { Task { await model.updateProfile(formats: list) } }
+                            if !list.isEmpty { Task { await model.updateProfile(["formats": list.map(\.rawValue)]) } }
                         }
                     ))
                 }
@@ -60,12 +71,15 @@ struct ProfileView: View {
                 Text(model.me?.user.lat != nil ? "Home area set." : "Set your area to get tournament picks.")
             }
 
-            Section("Getting paid") {
+            Section {
                 if model.me?.payouts.ready == true {
                     Label("Payout account linked", systemImage: "checkmark.seal.fill").foregroundStyle(Theme.lime)
+                    if !model.isDemo { Button("Manage payouts on the website") { Task { await model.openOnWeb("payouts") } } }
                 } else {
-                    Button("Link payout account") { Task { await model.linkPayouts() } }
+                    Button("Set up payouts on the website") { Task { await model.setUpPayouts() } }
                 }
+            } header: { Text("Getting paid (organizers)") } footer: {
+                Text("Entry fees for your events are paid on the PickleHeat website and go straight to your payout account.")
             }
 
             Section {

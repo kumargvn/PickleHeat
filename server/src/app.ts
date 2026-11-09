@@ -4,129 +4,26 @@ import { formScore, insights } from "./domain/form";
 import { recommend } from "./domain/recommend";
 import type { TournamentListing } from "./domain/types";
 import { signJwt, verifyJwt } from "./adapters/crypto";
-import { CORS_HEADERS, HttpError, Router, escapeHtml, html, isoDate, json, numIn, oneOf, optNumIn, optStr, readJson, redirect, str } from "./http";
-import type { Deps, PickleHeatEvent, User } from "./ports";
-import { applyRatingWebhook, linkDupr, pullHistory } from "./services/duprSync";
 import { MockPaymentProvider } from "./adapters/payments";
-import { confirmScore, eventDetail, generateSchedule, markFailed, markPaid, publishEvent, refundEntry, register, reportScore, requireEvent, requireOrganizer } from "./services/events";
-
-const SESSION_TTL = 60 * 60 * 24 * 60; // 60 days
-const FORMATS = ["doubles", "mixed", "singles"] as const;
+import { db } from "./db";
+import { CORS_HEADERS, HttpError, Router, html, json, numIn, oneOf, optNumIn, optStr, readJson, redirect, str } from "./http";
+import type { Deps, User } from "./ports";
+import { deleteAccount, handoffLink, redeemHandoff, session, signInWithApple, signInWithPassword, signUpWithPassword, userFromRequest } from "./services/auth";
+import { applyRatingWebhook, linkDupr, pullHistory } from "./services/duprSync";
+import { canSeeEvent, createEvent, eventFromBody, FORMATS, generateSchedule, markFailed, markPaid, publishEvent, refundEntry, register, requireEvent, startCheckout, withdraw } from "./services/events";
+import { addInvites, parseInviteCsv } from "./services/invites";
+import { acceptSub, cancelSub, closeRound, eventStats, rankings, requestSub, requireRound, roundView, setAttendance, startRound } from "./services/leagues";
+import { confirmScore, reportScore } from "./services/matches";
+import { createClub, joinClub, leaveClub, playerInfo, requireManager, setRole } from "./services/people";
+import { createChat, listNotifications, markRead, messages, myChats, postMessage, react } from "./services/social";
+import { cards, clubDetail, discover, eventDetail, liveMatches, meView, myEvents } from "./services/views";
+import { duprConnectPage, page } from "./web/pages";
 
 interface Ctx {
   deps: Deps;
 }
 
-async function authUser(req: Request, deps: Deps): Promise<User> {
-  const h = req.headers.get("authorization") ?? "";
-  const token = h.startsWith("Bearer ") ? h.slice(7) : "";
-  const claims = token ? await verifyJwt(token, deps.config.jwtSecret, "session", deps.now().getTime()) : null;
-  if (!claims) throw new HttpError(401, "Sign in again", "unauthorized");
-  const user = await deps.store.getUser(claims.sub);
-  if (!user) throw new HttpError(401, "Account not found", "unauthorized");
-  return user;
-}
-
-async function meView(deps: Deps, user: User) {
-  const link = await deps.store.getDuprLink(user.id);
-  const payout = await deps.store.getPayoutAccount(user.id);
-  const matches = link ? await deps.store.getDuprMatches(user.id) : [];
-  const form = formScore(matches);
-  return {
-    user,
-    dupr: link
-      ? { connected: true, duprId: link.duprId, doublesRating: link.doublesRating, singlesRating: link.singlesRating, ratingUpdatedAt: link.ratingUpdatedAt, matchesSyncedAt: link.matchesSyncedAt }
-      : { connected: false },
-    form: form ? { score: form.score, label: form.label, previousScore: form.previousScore } : null,
-    payouts: payout ? { linked: true, chargesEnabled: payout.chargesEnabled, payoutsEnabled: payout.payoutsEnabled } : { linked: false },
-  };
-}
-
-function eventFromBody(b: any, organizerId: string, id: string, now: string): PickleHeatEvent {
-  const kind = oneOf(b.kind, "kind", ["league", "tournament"] as const);
-  const minRating = optNumIn(b.minRating, "minRating", 1, 8);
-  const maxRating = optNumIn(b.maxRating, "maxRating", 1, 8);
-  if (minRating != null && maxRating != null && minRating > maxRating) throw new HttpError(422, "minRating is above maxRating", "invalid");
-  return {
-    id,
-    organizerId,
-    kind,
-    name: str(b.name, "name", 80),
-    format: oneOf(b.format, "format", FORMATS),
-    startDate: isoDate(b.startDate, "startDate"),
-    endDate: b.endDate ? isoDate(b.endDate, "endDate") : null,
-    weeks: kind === "league" ? numIn(b.weeks ?? 8, "weeks", 1, 52) : null,
-    venue: optStr(b.venue, "venue", 120) ?? "",
-    city: optStr(b.city, "city", 80) ?? "",
-    state: optStr(b.state, "state", 40) ?? "",
-    lat: optNumIn(b.lat, "lat", -90, 90),
-    lng: optNumIn(b.lng, "lng", -180, 180),
-    minRating,
-    maxRating,
-    capacity: numIn(b.capacity ?? 16, "capacity", 2, 512),
-    feeCents: Math.round(numIn(b.feeCents ?? 0, "feeCents", 0, 100_000)),
-    currency: "usd",
-    requireDuprVerified: b.requireDuprVerified !== false,
-    submitToDupr: b.submitToDupr !== false,
-    status: "draft",
-    createdAt: now,
-  };
-}
-
-/** Stripe only accepts https return links, so they point at /v1/bounce, which forwards to the app or web app. */
-function bounceUrl(deps: Deps, client: string | null, to: string, query: Record<string, string>): string {
-  const q = new URLSearchParams({ client: client === "web" ? "web" : "app", to, ...query });
-  return `${deps.config.publicBaseUrl}/v1/bounce?${q}`;
-}
-
-function returnUrls(deps: Deps, client: string | null, eventId: string) {
-  return { success: bounceUrl(deps, client, `events/${eventId}`, { paid: "1" }), cancel: bounceUrl(deps, client, `events/${eventId}`, { paid: "0" }) };
-}
-
-const BOUNCE_TARGET = /^(events\/[A-Za-z0-9_-]{1,64}|payouts|dupr)$/;
-
-// ---------- HTML pages hosted by the API ----------
-
-function page(title: string, body: string, script = ""): string {
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${escapeHtml(title)}</title><style>
-body{margin:0;background:#0A0F24;color:#F4F6FF;font:16px/1.45 -apple-system,system-ui,Inter,sans-serif;min-height:100vh;display:flex;flex-direction:column}
-header{padding:16px 20px;font-weight:700;font-size:20px;letter-spacing:-.3px}header b{color:#D4FF3A}
-main{flex:1;display:flex;flex-direction:column;padding:0 16px 24px;gap:12px}
-iframe{flex:1;width:100%;min-height:640px;border:0;border-radius:18px;background:#fff}
-.card{background:#141B38;border:1px solid #2A3466;border-radius:18px;padding:18px}
-button,a.btn{display:block;width:100%;height:52px;border:0;border-radius:16px;background:#D4FF3A;color:#0A0F24;font-weight:700;font-size:17px;text-align:center;line-height:52px;text-decoration:none}
-.muted{color:#A9B1D6}.err{color:#FF8A6E}
-</style></head><body><header>Pickle<b>Heat</b></header><main>${body}</main>${script}</body></html>`;
-}
-
-function duprConnectPage(ssoUrl: string, connectToken: string, doneUrl: string, apiBase: string): string {
-  const origin = new URL(ssoUrl).origin;
-  return page(
-    "Connect DUPR",
-    `<p class="muted" id="msg">Log in to DUPR to connect it to PickleHeat. You only do this once.</p>
-<iframe id="dupr" src="${escapeHtml(ssoUrl)}" allow="payment" title="DUPR login"></iframe>`,
-    `<script>
-(function(){
-  var msg=document.getElementById('msg');
-  window.addEventListener('message', function(ev){
-    if (ev.origin !== ${JSON.stringify(origin)}) return;
-    var d = ev.data || {};
-    if (typeof d === 'string') { try { d = JSON.parse(d); } catch (e) { return; } }
-    var token = d.userToken || d.accessToken; var refresh = d.refreshToken;
-    if (!token || !refresh) return;
-    msg.textContent='Connecting your DUPR account…';
-    fetch(${JSON.stringify(apiBase + "/v1/dupr/link")}, {method:'POST', headers:{'content-type':'application/json','authorization':'Bearer '+${JSON.stringify(connectToken)}}, body: JSON.stringify({userToken: token, refreshToken: refresh})})
-      .then(function(r){ return r.json().then(function(b){ if(!r.ok) throw new Error(b.error||'Could not connect'); return b; }); })
-      .then(function(){ location.replace(${JSON.stringify(doneUrl)} + '?status=connected'); })
-      .catch(function(e){ msg.className='err'; msg.textContent=e.message+' Try again.'; });
-  }, false);
-})();
-</script>`,
-  );
-}
-
-// ---------- routes ----------
+const auth = (req: Request, deps: Deps) => userFromRequest(deps, req);
 
 export function buildRouter(): Router<Ctx> {
   const r = new Router<Ctx>();
@@ -135,58 +32,65 @@ export function buildRouter(): Router<Ctx> {
     json({ ok: true, dupr: deps.dupr.name, payments: deps.payments.name, tournamentSources: deps.tournamentSources.map((s) => ({ name: s.name, enabled: s.enabled })) }),
   );
 
-  // ----- sign in -----
+  // ----- accounts -----
   r.on("POST", "/v1/auth/apple", async (req, { deps }) => {
     const b = await readJson<{ identityToken?: string; name?: string }>(req);
-    const id = await deps.identity.verify(str(b.identityToken, "identityToken", 4000)).catch((e) => {
-      throw new HttpError(401, `Sign in failed: ${(e as Error).message}`, "unauthorized");
-    });
-    let user = await deps.store.getUserByAppleSub(id.subject);
-    if (!user) {
-      user = {
-        id: deps.newId(),
-        appleSub: id.subject,
-        email: id.email,
-        name: (b.name && b.name.trim().slice(0, 80)) || "Player",
-        lat: null,
-        lng: null,
-        maxDistanceMiles: 75,
-        formats: ["doubles", "mixed"],
-        createdAt: deps.now().toISOString(),
-      };
-      await deps.store.saveUser(user);
-    }
-    const token = await signJwt({ sub: user.id, purpose: "session" }, deps.config.jwtSecret, SESSION_TTL, deps.now().getTime());
-    return json({ token, ...(await meView(deps, user)) });
+    const user = await signInWithApple(deps, str(b.identityToken, "identityToken", 4000), b.name ?? null);
+    return json({ token: await session(deps, user.id), ...(await meView(deps, user)) });
   });
 
-  // ----- me -----
-  r.on("GET", "/v1/me", async (req, { deps }) => json(await meView(deps, await authUser(req, deps))));
+  r.on("POST", "/v1/auth/signup", async (req, { deps }) => {
+    const b = await readJson<{ email?: string; password?: string; name?: string }>(req);
+    const user = await signUpWithPassword(deps, str(b.email, "email", 200), String(b.password ?? ""), str(b.name, "name", 80));
+    return json({ token: await session(deps, user.id), ...(await meView(deps, user)) }, 201);
+  });
+
+  r.on("POST", "/v1/auth/login", async (req, { deps }) => {
+    const b = await readJson<{ email?: string; password?: string }>(req);
+    const user = await signInWithPassword(deps, str(b.email, "email", 200), String(b.password ?? ""));
+    return json({ token: await session(deps, user.id), ...(await meView(deps, user)) });
+  });
+
+  // App → web, already signed in (payments and payouts live on the web).
+  r.on("POST", "/v1/auth/handoff", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ to?: string }>(req);
+    return json({ url: await handoffLink(deps, user.id, str(b.to, "to", 120)) });
+  });
+
+  r.on("POST", "/v1/auth/handoff/redeem", async (req, { deps }) => {
+    const b = await readJson<{ token?: string }>(req);
+    const { user, to } = await redeemHandoff(deps, str(b.token, "token", 4000));
+    return json({ token: await session(deps, user.id), to, ...(await meView(deps, user)) });
+  });
+
+  r.on("GET", "/v1/me", async (req, { deps }) => json(await meView(deps, await auth(req, deps))));
 
   r.on("PATCH", "/v1/me", async (req, { deps }) => {
-    const user = await authUser(req, deps);
+    const user = await auth(req, deps);
     const b = await readJson<any>(req);
     const updated: User = {
       ...user,
       name: b.name != null ? str(b.name, "name", 80) : user.name,
+      gender: b.gender === undefined ? user.gender : b.gender === null ? null : oneOf(b.gender, "gender", ["m", "f"] as const),
       lat: b.lat !== undefined ? optNumIn(b.lat, "lat", -90, 90) : user.lat,
       lng: b.lng !== undefined ? optNumIn(b.lng, "lng", -180, 180) : user.lng,
       maxDistanceMiles: b.maxDistanceMiles != null ? numIn(b.maxDistanceMiles, "maxDistanceMiles", 5, 1000) : user.maxDistanceMiles,
       formats: Array.isArray(b.formats) ? b.formats.map((f: unknown) => oneOf(f, "formats", FORMATS)) : user.formats,
     };
-    await deps.store.saveUser(updated);
+    await db(deps).users.put(updated);
     return json(await meView(deps, updated));
   });
 
   r.on("DELETE", "/v1/me", async (req, { deps }) => {
-    const user = await authUser(req, deps);
-    await deps.store.deleteUser(user.id);
+    const user = await auth(req, deps);
+    await deleteAccount(deps, user.id);
     return json({ deleted: true });
   });
 
   // ----- DUPR -----
   r.on("POST", "/v1/dupr/connect-session", async (req, { deps }) => {
-    const user = await authUser(req, deps);
+    const user = await auth(req, deps);
     const b = await readJson<{ client?: string }>(req).catch(() => ({ client: "app" }));
     const t = await signJwt({ sub: user.id, purpose: "dupr_connect" }, deps.config.jwtSecret, 15 * 60, deps.now().getTime());
     const client = b.client === "web" ? "web" : "app";
@@ -201,7 +105,6 @@ export function buildRouter(): Router<Ctx> {
     return html(duprConnectPage(deps.dupr.ssoUrl(), t, done, deps.config.publicBaseUrl));
   });
 
-  // Stand-in DUPR login used by MockDuprProvider (sends the same kind of message DUPR's page does).
   r.on("GET", "/v1/dupr/mock-login", async () =>
     html(
       page(
@@ -217,21 +120,22 @@ export function buildRouter(): Router<Ctx> {
   r.on("POST", "/v1/dupr/link", async (req, { deps }) => {
     const h = req.headers.get("authorization") ?? "";
     const claims = await verifyJwt(h.replace(/^Bearer /, ""), deps.config.jwtSecret, "dupr_connect", deps.now().getTime());
-    const userId = claims?.sub ?? (await authUser(req, deps)).id;
+    const userId = claims?.sub ?? (await auth(req, deps)).id;
     const b = await readJson<{ userToken?: string; refreshToken?: string }>(req);
     const link = await linkDupr(deps, userId, str(b.userToken, "userToken", 4000), str(b.refreshToken, "refreshToken", 4000));
     return json({ connected: true, duprId: link.duprId, doublesRating: link.doublesRating, singlesRating: link.singlesRating });
   });
 
   r.on("DELETE", "/v1/dupr/link", async (req, { deps }) => {
-    const user = await authUser(req, deps);
-    await deps.store.deleteDuprLink(user.id);
-    return json({ connected: false });
+    const user = await auth(req, deps);
+    await db(deps).dupr.delete(user.id);
+    await db(deps).history.delete(user.id);
+    return json(await meView(deps, user));
   });
 
   r.on("POST", "/v1/dupr/sync", async (req, { deps }) => {
-    const user = await authUser(req, deps);
-    const link = await deps.store.getDuprLink(user.id);
+    const user = await auth(req, deps);
+    const link = await db(deps).dupr.get(user.id);
     if (!link) throw new HttpError(409, "Connect DUPR first", "dupr_required");
     try {
       await pullHistory(deps, link);
@@ -241,170 +145,327 @@ export function buildRouter(): Router<Ctx> {
     return json(await meView(deps, user));
   });
 
-  r.on("POST", "/v1/webhooks/dupr", async (req, { deps }) => {
-    const body = await readJson<unknown>(req);
-    const updated = await applyRatingWebhook(deps, body);
-    return json({ received: true, updated });
-  });
+  r.on("POST", "/v1/webhooks/dupr", async (req, { deps }) => json({ received: true, updated: await applyRatingWebhook(deps, await readJson<unknown>(req)) }));
 
-  // ----- form & insights -----
+  // ----- form, insights, live matches, discover -----
   r.on("GET", "/v1/me/form", async (req, { deps }) => {
-    const user = await authUser(req, deps);
-    const matches = await deps.store.getDuprMatches(user.id);
-    return json({ form: formScore(matches), insights: insights(matches), matches });
+    const user = await auth(req, deps);
+    const matches = (await db(deps).history.get(user.id))?.matches ?? [];
+    return json({ form: formScore(matches), insights: insights(matches), matches: [...matches].sort((a, b) => b.playedAt.localeCompare(a.playedAt)) });
   });
 
-  // ----- tournament recommendations -----
+  r.on("GET", "/v1/me/live", async (req, { deps }) => json(await liveMatches(deps, await auth(req, deps))));
+
+  r.on("GET", "/v1/discover", async (req, { deps }) => json(await discover(deps, await auth(req, deps))));
+
   r.on("GET", "/v1/tournaments/recommended", async (req, { deps }, _p, url) => {
-    const user = await authUser(req, deps);
+    const user = await auth(req, deps);
     const lat = optNumIn(url.searchParams.get("lat"), "lat", -90, 90) ?? user.lat;
     const lng = optNumIn(url.searchParams.get("lng"), "lng", -180, 180) ?? user.lng;
     if (lat == null || lng == null) throw new HttpError(422, "Set your location first", "location_required");
     const radius = optNumIn(url.searchParams.get("radius"), "radius", 5, 1000) ?? user.maxDistanceMiles;
     const today = deps.now().toISOString().slice(0, 10);
     const listings: TournamentListing[] = [];
-    const sources: { name: string; ok: boolean; count: number; error?: string }[] = [];
+    const sources: { name: string; ok: boolean; count: number; error: string | null }[] = [];
     await Promise.all(
-      deps.tournamentSources
-        .filter((s) => s.enabled)
-        .map(async (s) => {
-          try {
-            const rows = await s.search({ lat, lng, radiusMiles: radius, today });
-            listings.push(...rows);
-            sources.push({ name: s.name, ok: true, count: rows.length });
-          } catch (e) {
-            sources.push({ name: s.name, ok: false, count: 0, error: (e as Error).message });
-          }
-        }),
+      deps.tournamentSources.filter((s) => s.enabled).map(async (s) => {
+        try {
+          const rows = await s.search({ lat, lng, radiusMiles: radius, today });
+          listings.push(...rows);
+          sources.push({ name: s.name, ok: true, count: rows.length, error: null });
+        } catch (e) {
+          sources.push({ name: s.name, ok: false, count: 0, error: (e as Error).message });
+        }
+      }),
     );
-    const link = await deps.store.getDuprLink(user.id);
-    const form = formScore(await deps.store.getDuprMatches(user.id));
-    const recs = recommend(
-      { doublesRating: link?.doublesRating ?? null, singlesRating: link?.singlesRating ?? null, form: form?.score ?? null, lat, lng, maxDistanceMiles: radius, formats: user.formats },
-      listings,
-      today,
-      20,
-    );
-    return json({ recommendations: recs, sources });
+    const link = await db(deps).dupr.get(user.id);
+    const form = formScore((await db(deps).history.get(user.id))?.matches ?? []);
+    const recs = recommend({ doublesRating: link?.doublesRating ?? null, singlesRating: link?.singlesRating ?? null, form: form?.score ?? null, lat, lng, maxDistanceMiles: radius, formats: user.formats.filter((f) => f === "doubles" || f === "mixed" || f === "singles") }, listings, today, 20);
+    return json({ recommendations: recs, sources: sources.sort((a, b) => a.name.localeCompare(b.name)) });
   });
 
-  // ----- events (leagues & tournaments) -----
+  // ----- clubs -----
+  r.on("POST", "/v1/clubs", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const b = await readJson<any>(req);
+    const club = await createClub(deps, user.id, { name: str(b.name, "name", 80), description: optStr(b.description, "description", 2000) ?? "", city: optStr(b.city, "city", 80) ?? "", state: optStr(b.state, "state", 40) ?? "", lat: optNumIn(b.lat, "lat", -90, 90), lng: optNumIn(b.lng, "lng", -180, 180) });
+    return json(await clubDetail(deps, club, user), 201);
+  });
+
+  r.on("GET", "/v1/clubs", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const d = await discover(deps, user);
+    return json({ mine: d.clubs.filter((c) => c.myRole), nearby: d.clubs.filter((c) => !c.myRole) });
+  });
+
+  r.on("GET", "/v1/clubs/:id", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const club = await db(deps).clubs.get(p.id);
+    if (!club) throw new HttpError(404, "Club not found", "not_found");
+    return json(await clubDetail(deps, club, user));
+  });
+
+  r.on("PATCH", "/v1/clubs/:id", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const club = await db(deps).clubs.get(p.id);
+    if (!club) throw new HttpError(404, "Club not found", "not_found");
+    const role = (await db(deps).members.get(`${club.id}:${user.id}`))?.role;
+    if (role !== "owner" && role !== "admin") throw new HttpError(403, "Only club owners and admins can edit the club", "forbidden");
+    const b = await readJson<any>(req);
+    const updated = { ...club, name: b.name != null ? str(b.name, "name", 80) : club.name, description: b.description != null ? optStr(b.description, "description", 2000) ?? "" : club.description, city: b.city != null ? optStr(b.city, "city", 80) ?? "" : club.city, state: b.state != null ? optStr(b.state, "state", 40) ?? "" : club.state, lat: b.lat !== undefined ? optNumIn(b.lat, "lat", -90, 90) : club.lat, lng: b.lng !== undefined ? optNumIn(b.lng, "lng", -180, 180) : club.lng };
+    await db(deps).clubs.put(updated);
+    return json(await clubDetail(deps, updated, user));
+  });
+
+  r.on("POST", "/v1/clubs/:id/join", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    await joinClub(deps, p.id, user.id);
+    return json(await clubDetail(deps, (await db(deps).clubs.get(p.id))!, user));
+  });
+
+  r.on("POST", "/v1/clubs/:id/leave", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    await leaveClub(deps, p.id, user.id);
+    return json(await clubDetail(deps, (await db(deps).clubs.get(p.id))!, user));
+  });
+
+  r.on("PATCH", "/v1/clubs/:id/members/:userId", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ role?: string }>(req);
+    await setRole(deps, p.id, user.id, p.userId, oneOf(b.role, "role", ["owner", "admin", "member"] as const));
+    return json(await clubDetail(deps, (await db(deps).clubs.get(p.id))!, user));
+  });
+
+  // ----- events -----
   r.on("POST", "/v1/events", async (req, { deps }) => {
-    const user = await authUser(req, deps);
-    const ev = eventFromBody(await readJson<any>(req), user.id, deps.newId(), deps.now().toISOString());
-    await deps.store.saveEvent(ev);
-    return json({ event: ev }, 201);
+    const user = await auth(req, deps);
+    return json({ event: await createEvent(deps, user, await readJson<any>(req)) }, 201);
   });
 
-  r.on("GET", "/v1/events", async (req, { deps }, _p, url) => {
-    const user = await authUser(req, deps);
-    const scope = url.searchParams.get("scope") ?? "mine";
-    if (scope === "organizing") return json({ events: await deps.store.listEventsByOrganizer(user.id) });
-    if (scope === "open") return json({ events: await deps.store.listOpenEvents() });
-    const playing = await deps.store.listEventsForPlayer(user.id);
-    const organizing = await deps.store.listEventsByOrganizer(user.id);
-    const all = new Map([...organizing, ...playing].map((e) => [e.id, e]));
-    return json({ events: [...all.values()].sort((a, b) => a.startDate.localeCompare(b.startDate)) });
+  r.on("GET", "/v1/events", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    return json({ events: await cards(deps, await myEvents(deps, user), user) });
   });
 
   r.on("GET", "/v1/events/:id", async (req, { deps }, p) => {
-    const user = await authUser(req, deps);
+    const user = await auth(req, deps);
     const ev = await requireEvent(deps, p.id);
-    if (ev.status === "draft" && ev.organizerId !== user.id) throw new HttpError(404, "Event not found", "not_found");
-    const detail = await eventDetail(deps, ev);
-    const isOrganizer = ev.organizerId === user.id;
-    const payments = isOrganizer ? await deps.store.listPaymentsForEvent(ev.id) : [];
-    const collected = payments.filter((x) => x.status === "paid").reduce((s, x) => s + x.amountCents - x.applicationFeeCents, 0);
-    // Player names for display.
-    const names: Record<string, string> = {};
-    for (const e of detail.entries) for (const pid of e.playerIds) names[pid] ??= (await deps.store.getUser(pid))?.name ?? "Player";
-    return json({ ...detail, isOrganizer, names, money: isOrganizer ? { collectedCents: collected, paidEntries: payments.filter((x) => x.status === "paid").length } : null });
+    if (!(await canSeeEvent(deps, ev, user.id))) throw new HttpError(404, "Event not found", "not_found");
+    return json(await eventDetail(deps, ev, user));
   });
 
   r.on("PATCH", "/v1/events/:id", async (req, { deps }, p) => {
-    const user = await authUser(req, deps);
-    const ev = await requireOrganizer(deps, p.id, user.id);
-    if (ev.status !== "draft") throw new HttpError(409, "Published events can't be edited here", "locked");
-    const merged = eventFromBody({ ...ev, ...(await readJson<any>(req)) }, ev.organizerId, ev.id, ev.createdAt);
-    await deps.store.saveEvent(merged);
+    const user = await auth(req, deps);
+    const ev = await requireEvent(deps, p.id);
+    await requireManager(deps, ev, user.id);
+    if (ev.status !== "draft") throw new HttpError(409, "Published events can't be edited", "locked");
+    const merged = await eventFromBody(deps, { ...ev, ...(await readJson<any>(req)) }, ev.organizerId, ev.id, ev.createdAt, ev);
+    await db(deps).events.put(merged);
     return json({ event: merged });
   });
 
   r.on("POST", "/v1/events/:id/publish", async (req, { deps }, p) => {
-    const user = await authUser(req, deps);
-    return json({ event: await publishEvent(deps, await requireOrganizer(deps, p.id, user.id)) });
+    const user = await auth(req, deps);
+    const ev = await requireEvent(deps, p.id);
+    await requireManager(deps, ev, user.id);
+    return json({ event: await publishEvent(deps, ev) });
   });
 
   r.on("POST", "/v1/events/:id/close", async (req, { deps }, p) => {
-    const user = await authUser(req, deps);
-    const ev = await requireOrganizer(deps, p.id, user.id);
+    const user = await auth(req, deps);
+    const ev = await requireEvent(deps, p.id);
+    await requireManager(deps, ev, user.id);
     const updated = { ...ev, status: "closed" as const };
-    await deps.store.saveEvent(updated);
+    await db(deps).events.put(updated);
     return json({ event: updated });
   });
 
   r.on("POST", "/v1/events/:id/schedule", async (req, { deps }, p) => {
-    const user = await authUser(req, deps);
-    const ev = await requireOrganizer(deps, p.id, user.id);
+    const user = await auth(req, deps);
+    const ev = await requireEvent(deps, p.id);
+    await requireManager(deps, ev, user.id);
     return json({ matches: await generateSchedule(deps, ev) });
   });
 
   r.on("POST", "/v1/events/:id/register", async (req, { deps }, p, url) => {
-    const user = await authUser(req, deps);
+    const user = await auth(req, deps);
     const ev = await requireEvent(deps, p.id);
-    const b = await readJson<{ partnerUserId?: string; partnerDuprId?: string; teamName?: string }>(req);
-    let partner = b.partnerUserId ?? null;
-    if (!partner && b.partnerDuprId) partner = (await deps.store.getDuprLinkByDuprId(b.partnerDuprId.trim().toUpperCase()))?.userId ?? null;
-    if (!partner && b.partnerDuprId) throw new HttpError(404, "No PickleHeat player has connected that DUPR ID yet", "partner_not_found");
-    const urls = returnUrls(deps, url.searchParams.get("client"), ev.id);
-    const result = await register(deps, ev, user, partner, b.teamName ? str(b.teamName, "teamName", 60) : null, urls.success, urls.cancel);
-    return json(result, 201);
+    const b = await readJson<{ partnerDuprIds?: string[]; partnerUserIds?: string[]; partnerDuprId?: string; teamName?: string }>(req);
+    const duprIds = [...(Array.isArray(b.partnerDuprIds) ? b.partnerDuprIds : []), ...(b.partnerDuprId ? [b.partnerDuprId] : [])].map(String).filter((s) => s.trim());
+    const userIds = (Array.isArray(b.partnerUserIds) ? b.partnerUserIds : []).map(String);
+    const client = url.searchParams.get("client") === "web" ? "web" : "app";
+    return json(await register(deps, ev, user, { userIds, duprIds }, b.teamName ?? null, client), 201);
+  });
+
+  r.on("POST", "/v1/events/:id/withdraw", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    return json({ entry: await withdraw(deps, await requireEvent(deps, p.id), user.id) });
   });
 
   r.on("POST", "/v1/events/:id/entries/:entryId/refund", async (req, { deps }, p) => {
-    const user = await authUser(req, deps);
-    const ev = await requireOrganizer(deps, p.id, user.id);
+    const user = await auth(req, deps);
+    const ev = await requireEvent(deps, p.id);
+    await requireManager(deps, ev, user.id);
     return json({ entry: await refundEntry(deps, ev, p.entryId) });
   });
 
+  r.on("POST", "/v1/events/:id/invites", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const ev = await requireEvent(deps, p.id);
+    await requireManager(deps, ev, user.id);
+    const b = await readJson<{ csv?: string; rows?: { name?: string; email?: string; duprId?: string }[] }>(req);
+    const rows = b.csv ? parseInviteCsv(b.csv) : (b.rows ?? []).map((x) => ({ name: String(x.name ?? "").slice(0, 80), email: x.email ? String(x.email).toLowerCase() : null, duprId: x.duprId ? String(x.duprId).toUpperCase() : null })).filter((x) => x.name);
+    return json(await addInvites(deps, ev.id, rows));
+  });
+
+  r.on("GET", "/v1/events/:id/rankings", async (req, { deps }, p, url) => {
+    await auth(req, deps);
+    const n = url.searchParams.get("round");
+    return json(await rankings(deps, await requireEvent(deps, p.id), n ? Number(n) : undefined));
+  });
+
+  r.on("GET", "/v1/events/:id/stats", async (req, { deps }, p) => {
+    await auth(req, deps);
+    return json(await eventStats(deps, await requireEvent(deps, p.id)));
+  });
+
+  // ----- rounds (Heat Climb & Wildfire Mixer) -----
+  r.on("POST", "/v1/events/:id/rounds/start", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const round = await startRound(deps, await requireEvent(deps, p.id), user.id);
+    return json(await roundView(deps, round, user.id));
+  });
+
+  r.on("GET", "/v1/rounds/:id", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    return json(await roundView(deps, await requireRound(deps, p.id), user.id));
+  });
+
+  r.on("POST", "/v1/rounds/:id/close", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const round = await closeRound(deps, await requireRound(deps, p.id), user.id);
+    return json(await roundView(deps, round, user.id));
+  });
+
+  r.on("POST", "/v1/rounds/:id/attendance", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ status?: string }>(req);
+    const round = await requireRound(deps, p.id);
+    await setAttendance(deps, round, user.id, oneOf(b.status, "status", ["confirmed", "declined"] as const));
+    return json(await roundView(deps, round, user.id));
+  });
+
+  r.on("POST", "/v1/rounds/:id/subs", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const round = await requireRound(deps, p.id);
+    await requestSub(deps, round, user.id);
+    return json(await roundView(deps, round, user.id));
+  });
+
+  r.on("POST", "/v1/subs/:id/accept", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const s = await acceptSub(deps, p.id, user.id);
+    return json(await roundView(deps, await requireRound(deps, s.roundId), user.id));
+  });
+
+  r.on("POST", "/v1/subs/:id/cancel", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const s = await cancelSub(deps, p.id, user.id);
+    return json(await roundView(deps, await requireRound(deps, s.roundId), user.id));
+  });
+
+  // ----- matches -----
   r.on("POST", "/v1/matches/:id/score", async (req, { deps }, p) => {
-    const user = await authUser(req, deps);
-    const b = await readJson<{ games?: unknown }>(req);
-    return json({ match: await reportScore(deps, p.id, user.id, b.games) });
+    const user = await auth(req, deps);
+    return json({ match: await reportScore(deps, p.id, user.id, await readJson<{ games?: unknown; lines?: unknown }>(req)) });
   });
 
   r.on("POST", "/v1/matches/:id/confirm", async (req, { deps }, p) => {
-    const user = await authUser(req, deps);
+    const user = await auth(req, deps);
     return json({ match: await confirmScore(deps, p.id, user.id) });
   });
 
-  // ----- payouts (organizer's linked account) -----
-  r.on("POST", "/v1/payouts/onboard", async (req, { deps }, _p, url) => {
-    const user = await authUser(req, deps);
-    let acct = await deps.store.getPayoutAccount(user.id);
+  // ----- chat -----
+  r.on("GET", "/v1/chats", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const list = await myChats(deps, user.id);
+    return json({ chats: list, players: await playerInfo(deps, list.flatMap((c) => [...c.chat.memberIds.slice(0, 6), ...(c.lastMessage?.userId ? [c.lastMessage.userId] : [])])) });
+  });
+
+  r.on("POST", "/v1/chats", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ userIds?: string[]; title?: string }>(req);
+    const ids = (b.userIds ?? []).map(String).filter((x) => x !== user.id).slice(0, 30);
+    if (!ids.length) throw new HttpError(422, "Pick at least one player", "invalid");
+    for (const id of ids) if (!(await db(deps).users.get(id))) throw new HttpError(404, "Player not found", "not_found");
+    const chat = await createChat(deps, { kind: "direct", title: optStr(b.title, "title", 80) ?? "", memberIds: [user.id, ...ids] });
+    return json({ chat }, 201);
+  });
+
+  r.on("GET", "/v1/chats/:id/messages", async (req, { deps }, p, url) => {
+    const user = await auth(req, deps);
+    const list = await messages(deps, p.id, user.id, url.searchParams.get("after"));
+    const chat = (await db(deps).chats.get(p.id))!;
+    return json({ chat, messages: list, players: await playerInfo(deps, [...chat.memberIds, ...list.map((m) => m.userId).filter((x): x is string => !!x)]) });
+  });
+
+  r.on("POST", "/v1/chats/:id/messages", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ text?: string }>(req);
+    return json({ message: await postMessage(deps, p.id, user.id, String(b.text ?? "")) }, 201);
+  });
+
+  r.on("POST", "/v1/chats/:id/messages/:mid/react", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ emoji?: string }>(req);
+    return json({ message: await react(deps, p.id, p.mid, user.id, String(b.emoji ?? "")) });
+  });
+
+  // ----- notifications -----
+  r.on("GET", "/v1/notifications", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    return json({ notifications: await listNotifications(deps, user.id) });
+  });
+
+  r.on("POST", "/v1/notifications/read", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ ids?: string[] }>(req).catch(() => ({ ids: undefined }));
+    return json({ updated: await markRead(deps, user.id, Array.isArray(b.ids) ? b.ids.map(String) : null) });
+  });
+
+  // ----- payments & payouts (web) -----
+  r.on("POST", "/v1/entries/:id/checkout", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const entry = await db(deps).entries.get(p.id);
+    if (!entry || !entry.playerIds.includes(user.id)) throw new HttpError(404, "Entry not found", "not_found");
+    const ev = await requireEvent(deps, entry.eventId);
+    return json({ url: await startCheckout(deps, ev, entry, user) });
+  });
+
+  r.on("POST", "/v1/payouts/onboard", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    let acct = await db(deps).payouts.get(user.id);
     if (!acct) {
       const id = await deps.payments.createAccount(user);
-      acct = { userId: user.id, provider: deps.payments.name, providerAccountId: id, chargesEnabled: false, payoutsEnabled: false, detailsSubmitted: false };
-      await deps.store.savePayoutAccount(acct);
+      acct = { id: user.id, userId: user.id, provider: deps.payments.name, providerAccountId: id, chargesEnabled: false, payoutsEnabled: false, detailsSubmitted: false };
+      await db(deps).payouts.put(acct);
     }
-    const client = url.searchParams.get("client");
-    const link = await deps.payments.onboardingLink(acct.providerAccountId, bounceUrl(deps, client, "payouts", { status: "done" }), bounceUrl(deps, client, "payouts", { status: "retry" }));
-    return json({ url: link, callbackScheme: deps.config.appScheme });
+    const back = `${deps.config.webAppUrl}#/payouts`;
+    return json({ url: await deps.payments.onboardingLink(acct.providerAccountId, `${back}?status=done`, `${back}?status=retry`) });
   });
 
   r.on("GET", "/v1/payouts/status", async (req, { deps }) => {
-    const user = await authUser(req, deps);
-    const acct = await deps.store.getPayoutAccount(user.id);
-    if (!acct) return json({ linked: false });
+    const user = await auth(req, deps);
+    const acct = await db(deps).payouts.get(user.id);
+    if (!acct) return json({ linked: false, ready: false });
     const status = await deps.payments.accountStatus(acct.providerAccountId);
-    const updated = { ...acct, ...status };
-    await deps.store.savePayoutAccount(updated);
-    return json({ linked: true, ...status });
+    await db(deps).payouts.put({ ...acct, ...status });
+    return json({ linked: true, ready: status.chargesEnabled });
   });
 
   r.on("POST", "/v1/payouts/dashboard", async (req, { deps }) => {
-    const user = await authUser(req, deps);
-    const acct = await deps.store.getPayoutAccount(user.id);
+    const user = await auth(req, deps);
+    const acct = await db(deps).payouts.get(user.id);
     if (!acct) throw new HttpError(409, "No payout account yet", "payouts_required");
     return json({ url: await deps.payments.dashboardLink(acct.providerAccountId) });
   });
@@ -417,32 +478,32 @@ export function buildRouter(): Router<Ctx> {
     if (ev?.type === "checkout_paid") await markPaid(deps, ev.providerRef);
     else if (ev?.type === "checkout_failed") await markFailed(deps, ev.providerRef);
     else if (ev?.type === "account_updated") {
-      const acct = await deps.store.getPayoutAccountByProviderId(ev.providerAccountId);
-      if (acct) await deps.store.savePayoutAccount({ ...acct, chargesEnabled: ev.chargesEnabled, payoutsEnabled: ev.payoutsEnabled, detailsSubmitted: ev.detailsSubmitted });
+      const acct = (await db(deps).payouts.find({ providerAccountId: ev.providerAccountId }))[0];
+      if (acct) await db(deps).payouts.put({ ...acct, chargesEnabled: ev.chargesEnabled, payoutsEnabled: ev.payoutsEnabled, detailsSubmitted: ev.detailsSubmitted });
     }
     return json({ received: true });
   });
 
-  // Forwards Stripe's https return to the app (pickleheat://…) or the web app. Only known targets, so it's not an open redirect.
-  r.on("GET", "/v1/bounce", async (_req, { deps }, _p, url) => {
-    const to = url.searchParams.get("to") ?? "";
-    if (!BOUNCE_TARGET.test(to)) throw new HttpError(400, "Unknown destination", "invalid");
-    const rest = new URLSearchParams(url.searchParams);
-    rest.delete("to");
-    const client = rest.get("client");
-    rest.delete("client");
-    const qs = rest.toString() ? `?${rest}` : "";
-    return redirect(client === "web" ? `${deps.config.webAppUrl}#/${to}${qs}` : `${deps.config.appScheme}://${to}${qs}`);
+  // Demo / test only (mock payments): pays an entry the way the website would, without leaving the app.
+  r.on("POST", "/v1/demo/pay/:entryId", async (req, { deps }, p) => {
+    if (!(deps.payments instanceof MockPaymentProvider)) throw new HttpError(404, "Not found", "not_found");
+    const user = await auth(req, deps);
+    const entry = await db(deps).entries.get(p.entryId);
+    if (!entry || !entry.playerIds.includes(user.id)) throw new HttpError(404, "Entry not found", "not_found");
+    const ev = await requireEvent(deps, entry.eventId);
+    const url = new URL(await startCheckout(deps, ev, entry, user));
+    await markPaid(deps, url.searchParams.get("session") ?? "");
+    return json({ entry: await db(deps).entries.get(entry.id) });
   });
 
-  // Stand-in checkout used by MockPaymentProvider: marks the payment paid and follows the success link.
+  // Stand-in checkout for MockPaymentProvider: marks the payment paid and follows the success link.
   r.on("GET", "/v1/payments/mock-pay", async (_req, { deps }, _p, url) => {
     if (!(deps.payments instanceof MockPaymentProvider)) throw new HttpError(404, "Not found", "not_found");
-    const session = url.searchParams.get("session") ?? "";
-    const payment = await deps.store.getPaymentByProviderRef(session);
+    const sessionId = url.searchParams.get("session") ?? "";
+    const payment = (await db(deps).payments.find({ providerRef: sessionId }))[0];
     if (!payment) throw new HttpError(404, "Unknown checkout", "not_found");
-    await markPaid(deps, session);
-    return redirect(deps.payments.sessions.get(session)?.successUrl ?? `${deps.config.appScheme}://events/${payment.eventId}?paid=1`);
+    await markPaid(deps, sessionId);
+    return redirect(deps.payments.sessions.get(sessionId)?.successUrl ?? `${deps.config.webAppUrl}#/events/${payment.eventId}`);
   });
 
   return r;

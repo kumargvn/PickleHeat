@@ -134,17 +134,51 @@ final class EngineTests: XCTestCase {
         XCTAssertFalse(SampleData.shared.tournaments(today: "2026-11-07").isEmpty)
     }
 
-    func testDemoServiceRunsATournament() async throws {
-        let service = await DemoService()
-        _ = try await service.signIn(identityToken: "demo", name: "Tester")
-        _ = try await service.completeDuprConnect()
-        let created = try await service.createEvent(EventDraft.sample(kind: .tournament))
-        _ = try await service.onboardPayouts()
-        let published = try await service.publish(eventID: created.id)
-        XCTAssertEqual(published.status, .open)
-        let reg = try await service.register(eventID: created.id, partnerDuprID: "DEMO-PK01", teamName: nil)
-        XCTAssertEqual(reg.entry.status, .confirmed) // demo checkout completes instantly
-        let detail = try await service.event(id: created.id)
-        XCTAssertGreaterThanOrEqual(detail.entries.count, 2)
+    // MARK: API responses (recorded from the TypeScript API by server/scripts/make-vectors.ts)
+
+    @MainActor private func decodeAPI<T: Decodable>(_ name: String, as: T.Type) throws -> T {
+        try APIClient.decoder.decode(T.self, from: vector("api-\(name)"))
+    }
+
+    @MainActor func testAPIResponsesDecode() throws {
+        let me = try decodeAPI("me", as: Me.self)
+        XCTAssertTrue(me.dupr.connected)
+        _ = try decodeAPI("auth", as: Me.self)
+        _ = try decodeAPI("form", as: FormPayload.self)
+        _ = try decodeAPI("live", as: LivePayload.self)
+        _ = try decodeAPI("discover", as: DiscoverPayload.self)
+        _ = try decodeAPI("recommended", as: RecommendedPayload.self)
+        _ = try decodeAPI("chats", as: ChatsPayload.self)
+        _ = try decodeAPI("messages", as: MessagesPayload.self)
+        _ = try decodeAPI("notifications", as: NotificationsPayload.self)
+        _ = try decodeAPI("clubs", as: ClubsPayload.self)
+        _ = try decodeAPI("club", as: ClubDetail.self)
+        _ = try decodeAPI("handoff", as: URLPayload.self)
+        let reg = try decodeAPI("register", as: RegisterResult.self)
+        XCTAssertNil(reg.checkoutUrl, "the app never gets a checkout link")
+        struct Events: Decodable { var events: [EventCard] }
+        _ = try decodeAPI("events", as: Events.self)
+    }
+
+    @MainActor func testHeatClimbDecodes() throws {
+        let ladder = try decodeAPI("event-ladder", as: EventDetail.self)
+        XCTAssertEqual(ladder.event.style, .flexLadder)
+        XCTAssertEqual(ladder.event.style.title, "Heat Climb")
+        XCTAssertFalse(ladder.rounds.isEmpty)
+        let round = try decodeAPI("round", as: RoundView.self)
+        XCTAssertFalse(round.groups.isEmpty)
+        XCTAssertTrue(round.groups.allSatisfy { (4...5).contains($0.group.playerIds.count) })
+        _ = try decodeAPI("rankings", as: RankingsPayload.self)
+        _ = try decodeAPI("stats", as: StatsPayload.self)
+        _ = try decodeAPI("event-scramble", as: EventDetail.self)
+    }
+
+    @MainActor func testTeamEventsDecode() throws {
+        let bracket = try decodeAPI("event-bracket", as: EventDetail.self)
+        XCTAssertTrue(bracket.matches.contains { $0.bracket?.side == "GF" })
+        let mlp = try decodeAPI("event-mlp", as: EventDetail.self)
+        XCTAssertEqual(mlp.event.format, .mlp)
+        XCTAssertTrue(mlp.matches.allSatisfy { ($0.lines?.count ?? 0) >= 4 })
+        _ = try decodeAPI("event-team", as: EventDetail.self)
     }
 }

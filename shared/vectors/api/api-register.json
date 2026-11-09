@@ -1,0 +1,17 @@
+{
+ "entry": {
+  "id": "id00293",
+  "eventId": "id00253",
+  "playerIds": [
+   "u-demo"
+  ],
+  "teamName": "Jordan Reyes",
+  "teamRating": 4.12,
+  "status": "pending_payment",
+  "comped": false,
+  "createdAt": "2026-11-07T15:04:53.000Z"
+ },
+ "amountCents": 3000,
+ "payOnWeb": true,
+ "checkoutUrl": null
+}

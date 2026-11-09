@@ -1,0 +1,595 @@
+{
+ "rows": [
+  {
+   "userId": "u-brooks",
+   "wins": 14,
+   "losses": 6,
+   "winPct": 70,
+   "pf": 190,
+   "pa": 150,
+   "pd": 40,
+   "pdPct": 11.8,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-nina",
+   "wins": 14,
+   "losses": 6,
+   "winPct": 70,
+   "pf": 192,
+   "pa": 152,
+   "pd": 40,
+   "pdPct": 11.6,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-demo",
+   "wins": 13,
+   "losses": 5,
+   "winPct": 72.2,
+   "pf": 178,
+   "pa": 137,
+   "pd": 41,
+   "pdPct": 13,
+   "ratingChange": 0.22
+  },
+  {
+   "userId": "u-dev",
+   "wins": 12,
+   "losses": 8,
+   "winPct": 60,
+   "pf": 181,
+   "pa": 160,
+   "pd": 21,
+   "pdPct": 6.2,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-luis",
+   "wins": 12,
+   "losses": 10,
+   "winPct": 54.5,
+   "pf": 195,
+   "pa": 205,
+   "pd": -10,
+   "pdPct": -2.5,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-raj",
+   "wins": 12,
+   "losses": 10,
+   "winPct": 54.5,
+   "pf": 186,
+   "pa": 199,
+   "pd": -13,
+   "pdPct": -3.4,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-maya",
+   "wins": 11,
+   "losses": 7,
+   "winPct": 61.1,
+   "pf": 168,
+   "pa": 154,
+   "pd": 14,
+   "pdPct": 4.3,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-lena",
+   "wins": 11,
+   "losses": 9,
+   "winPct": 55,
+   "pf": 171,
+   "pa": 159,
+   "pd": 12,
+   "pdPct": 3.6,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-ivy",
+   "wins": 11,
+   "losses": 7,
+   "winPct": 61.1,
+   "pf": 161,
+   "pa": 155,
+   "pd": 6,
+   "pdPct": 1.9,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-ana",
+   "wins": 11,
+   "losses": 9,
+   "winPct": 55,
+   "pf": 177,
+   "pa": 172,
+   "pd": 5,
+   "pdPct": 1.4,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-chen",
+   "wins": 10,
+   "losses": 10,
+   "winPct": 50,
+   "pf": 167,
+   "pa": 172,
+   "pd": -5,
+   "pdPct": -1.5,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-omar",
+   "wins": 10,
+   "losses": 12,
+   "winPct": 45.5,
+   "pf": 190,
+   "pa": 202,
+   "pd": -12,
+   "pdPct": -3.1,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-emma",
+   "wins": 9,
+   "losses": 13,
+   "winPct": 40.9,
+   "pf": 191,
+   "pa": 190,
+   "pd": 1,
+   "pdPct": 0.3,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-priya",
+   "wins": 9,
+   "losses": 11,
+   "winPct": 45,
+   "pf": 170,
+   "pa": 179,
+   "pd": -9,
+   "pdPct": -2.6,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-tyler",
+   "wins": 9,
+   "losses": 9,
+   "winPct": 50,
+   "pf": 151,
+   "pa": 160,
+   "pd": -9,
+   "pdPct": -2.9,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-sofia",
+   "wins": 9,
+   "losses": 11,
+   "winPct": 45,
+   "pf": 156,
+   "pa": 177,
+   "pd": -21,
+   "pdPct": -6.3,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-leo",
+   "wins": 8,
+   "losses": 10,
+   "winPct": 44.4,
+   "pf": 161,
+   "pa": 159,
+   "pd": 2,
+   "pdPct": 0.6,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-grace",
+   "wins": 8,
+   "losses": 10,
+   "winPct": 44.4,
+   "pf": 151,
+   "pa": 159,
+   "pd": -8,
+   "pdPct": -2.6,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-hale",
+   "wins": 8,
+   "losses": 12,
+   "winPct": 40,
+   "pf": 173,
+   "pa": 186,
+   "pd": -13,
+   "pdPct": -3.6,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-ben",
+   "wins": 8,
+   "losses": 12,
+   "winPct": 40,
+   "pf": 160,
+   "pa": 187,
+   "pd": -27,
+   "pdPct": -7.8,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-kara",
+   "wins": 7,
+   "losses": 13,
+   "winPct": 35,
+   "pf": 181,
+   "pa": 179,
+   "pd": 2,
+   "pdPct": 0.6,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-sam",
+   "wins": 7,
+   "losses": 11,
+   "winPct": 38.9,
+   "pf": 149,
+   "pa": 166,
+   "pd": -17,
+   "pdPct": -5.4,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-noah",
+   "wins": 7,
+   "losses": 13,
+   "winPct": 35,
+   "pf": 162,
+   "pa": 186,
+   "pd": -24,
+   "pdPct": -6.9,
+   "ratingChange": 0
+  },
+  {
+   "userId": "u-marco",
+   "wins": 6,
+   "losses": 12,
+   "winPct": 33.3,
+   "pf": 147,
+   "pa": 163,
+   "pd": -16,
+   "pdPct": -5.2,
+   "ratingChange": 0
+  }
+ ],
+ "tags": {
+  "id00005-r1-g1-m1": [
+   "smackdown"
+  ],
+  "id00005-r1-g1-m2": [
+   "nailbiter"
+  ],
+  "id00005-r1-g1-m3": [],
+  "id00005-r1-g2-m1": [
+   "smackdown"
+  ],
+  "id00005-r1-g2-m2": [],
+  "id00005-r1-g2-m3": [
+   "smackdown"
+  ],
+  "id00005-r1-g3-m1": [],
+  "id00005-r1-g3-m2": [],
+  "id00005-r1-g3-m3": [
+   "smackdown"
+  ],
+  "id00005-r1-g4-m1": [],
+  "id00005-r1-g4-m2": [],
+  "id00005-r1-g4-m3": [
+   "smackdown"
+  ],
+  "id00005-r1-g5-m1": [],
+  "id00005-r1-g5-m2": [
+   "smackdown"
+  ],
+  "id00005-r1-g5-m3": [],
+  "id00005-r1-g6-m1": [
+   "smackdown"
+  ],
+  "id00005-r1-g6-m2": [],
+  "id00005-r1-g6-m3": [],
+  "id00005-r2-g1-m1": [
+   "upset"
+  ],
+  "id00005-r2-g1-m2": [],
+  "id00005-r2-g1-m3": [
+   "smackdown"
+  ],
+  "id00005-r2-g2-m1": [],
+  "id00005-r2-g2-m2": [],
+  "id00005-r2-g2-m3": [
+   "smackdown"
+  ],
+  "id00005-r2-g3-m1": [],
+  "id00005-r2-g3-m2": [],
+  "id00005-r2-g3-m3": [],
+  "id00005-r2-g4-m1": [],
+  "id00005-r2-g4-m2": [],
+  "id00005-r2-g4-m3": [],
+  "id00005-r2-g5-m1": [
+   "smackdown"
+  ],
+  "id00005-r2-g5-m2": [
+   "upset"
+  ],
+  "id00005-r2-g5-m3": [
+   "smackdown"
+  ],
+  "id00005-r2-g6-m1": [],
+  "id00005-r2-g6-m2": [
+   "nailbiter"
+  ],
+  "id00005-r2-g6-m3": [],
+  "id00005-r3-g1-m1": [
+   "upset"
+  ],
+  "id00005-r3-g1-m2": [
+   "smackdown"
+  ],
+  "id00005-r3-g1-m3": [
+   "smackdown"
+  ],
+  "id00005-r3-g2-m1": [],
+  "id00005-r3-g2-m2": [],
+  "id00005-r3-g2-m3": [],
+  "id00005-r3-g3-m1": [],
+  "id00005-r3-g3-m2": [
+   "smackdown"
+  ],
+  "id00005-r3-g3-m3": [],
+  "id00005-r3-g4-m1": [],
+  "id00005-r3-g4-m2": [
+   "upset"
+  ],
+  "id00005-r3-g4-m3": [],
+  "id00005-r3-g5-m1": [],
+  "id00005-r3-g5-m2": [],
+  "id00005-r3-g5-m3": [
+   "nailbiter"
+  ],
+  "id00005-r3-g6-m1": [
+   "smackdown"
+  ],
+  "id00005-r3-g6-m2": [
+   "upset"
+  ],
+  "id00005-r3-g6-m3": [],
+  "id00005-r4-g1-m1": [],
+  "id00005-r4-g2-m1": [],
+  "id00005-r4-g5-m2": [
+   "smackdown"
+  ],
+  "id00005-r4-g5-m3": [],
+  "id00005-r4-g6-m3": []
+ },
+ "players": {
+  "u-brooks": {
+   "id": "u-brooks",
+   "name": "Brooks Taylor",
+   "gender": "m",
+   "duprId": "DEMO-BR03",
+   "rating": 4.27,
+   "singlesRating": 4.02,
+   "reliability": 90
+  },
+  "u-nina": {
+   "id": "u-nina",
+   "name": "Nina Park",
+   "gender": "f",
+   "duprId": "DEMO-NI08",
+   "rating": 3.98,
+   "singlesRating": 3.73,
+   "reliability": 70
+  },
+  "u-demo": {
+   "id": "u-demo",
+   "name": "Jordan Reyes",
+   "gender": "m",
+   "duprId": "MOCK-DEMO",
+   "rating": 4.12,
+   "singlesRating": 3.86,
+   "reliability": 100
+  },
+  "u-dev": {
+   "id": "u-dev",
+   "name": "Dev Patel",
+   "gender": "m",
+   "duprId": "DEMO-DE07",
+   "rating": 4.1,
+   "singlesRating": 3.85,
+   "reliability": 100
+  },
+  "u-luis": {
+   "id": "u-luis",
+   "name": "Luis Romero",
+   "gender": "m",
+   "duprId": "DEMO-LU21",
+   "rating": 3.38,
+   "singlesRating": 3.13,
+   "reliability": 100
+  },
+  "u-raj": {
+   "id": "u-raj",
+   "name": "Raj Mehta",
+   "gender": "m",
+   "duprId": "DEMO-RA17",
+   "rating": 3.6,
+   "singlesRating": 3.35,
+   "reliability": 100
+  },
+  "u-maya": {
+   "id": "u-maya",
+   "name": "Maya Singh",
+   "gender": "f",
+   "duprId": "DEMO-MA14",
+   "rating": 3.75,
+   "singlesRating": 3.5,
+   "reliability": 100
+  },
+  "u-lena": {
+   "id": "u-lena",
+   "name": "Lena Schultz",
+   "gender": "f",
+   "duprId": "DEMO-LE10",
+   "rating": 3.99,
+   "singlesRating": 3.74,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-ana": {
+   "id": "u-ana",
+   "name": "Ana Alvarez",
+   "gender": "f",
+   "duprId": "DEMO-AN02",
+   "rating": 4.31,
+   "singlesRating": 4.06,
+   "reliability": 100
+  },
+  "u-chen": {
+   "id": "u-chen",
+   "name": "Chen Wei",
+   "gender": "m",
+   "duprId": "DEMO-CH01",
+   "rating": 4.38,
+   "singlesRating": 4.13,
+   "reliability": 100
+  },
+  "u-omar": {
+   "id": "u-omar",
+   "name": "Omar Haddad",
+   "gender": "m",
+   "duprId": "DEMO-OM11",
+   "rating": 3.88,
+   "singlesRating": 3.63,
+   "reliability": 90
+  },
+  "u-emma": {
+   "id": "u-emma",
+   "name": "Emma Clark",
+   "gender": "f",
+   "duprId": "DEMO-EM22",
+   "rating": 3.31,
+   "singlesRating": 3.06,
+   "reliability": 90
+  },
+  "u-priya": {
+   "id": "u-priya",
+   "name": "Priya Kapoor",
+   "gender": "f",
+   "duprId": "DEMO-PR04",
+   "rating": 4.04,
+   "singlesRating": 3.79,
+   "reliability": 100
+  },
+  "u-tyler": {
+   "id": "u-tyler",
+   "name": "Tyler Brooks",
+   "gender": "m",
+   "duprId": "DEMO-TY13",
+   "rating": 3.79,
+   "singlesRating": 3.54,
+   "reliability": 60
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-grace": {
+   "id": "u-grace",
+   "name": "Grace Lin",
+   "gender": "f",
+   "duprId": "DEMO-GR12",
+   "rating": 3.84,
+   "singlesRating": 3.59,
+   "reliability": 100
+  },
+  "u-hale": {
+   "id": "u-hale",
+   "name": "Hale Rivera",
+   "gender": "m",
+   "duprId": "DEMO-HA05",
+   "rating": 4.19,
+   "singlesRating": 3.94,
+   "reliability": 100
+  },
+  "u-ben": {
+   "id": "u-ben",
+   "name": "Ben Ortiz",
+   "gender": "m",
+   "duprId": "DEMO-BE19",
+   "rating": 3.49,
+   "singlesRating": 3.24,
+   "reliability": 70
+  },
+  "u-kara": {
+   "id": "u-kara",
+   "name": "Kara Jones",
+   "gender": "f",
+   "duprId": "DEMO-KA20",
+   "rating": 3.44,
+   "singlesRating": 3.19,
+   "reliability": 100
+  },
+  "u-sam": {
+   "id": "u-sam",
+   "name": "Sam Okafor",
+   "gender": "m",
+   "duprId": "DEMO-SA06",
+   "rating": 4.06,
+   "singlesRating": 3.81,
+   "reliability": 80
+  },
+  "u-noah": {
+   "id": "u-noah",
+   "name": "Noah Kim",
+   "gender": "m",
+   "duprId": "DEMO-NO23",
+   "rating": 3.22,
+   "singlesRating": 2.97,
+   "reliability": 100
+  },
+  "u-marco": {
+   "id": "u-marco",
+   "name": "Marco Diaz",
+   "gender": "m",
+   "duprId": "DEMO-MA09",
+   "rating": 3.95,
+   "singlesRating": 3.7,
+   "reliability": 100
+  }
+ }
+}

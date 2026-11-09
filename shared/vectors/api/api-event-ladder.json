@@ -1,0 +1,673 @@
+{
+ "event": {
+  "id": "id00005",
+  "organizerId": "u-chen",
+  "clubId": "id00001",
+  "kind": "league",
+  "style": "flex_ladder",
+  "name": "Sunrise Heat Climb",
+  "description": "Every week you're placed in a heat with three players near your level. Set a time in your heat's chat and play 3 matches with rotating partners. Win your heat to climb; last place drops a heat.",
+  "format": "doubles",
+  "startDate": "2026-10-16",
+  "endDate": null,
+  "weeks": 8,
+  "roundDays": 7,
+  "gamesPerMatch": 2,
+  "venue": "Sample Racquet Center",
+  "city": "Round Rock",
+  "state": "TX",
+  "lat": 30.516,
+  "lng": -97.665,
+  "minRating": 3,
+  "maxRating": 4.5,
+  "capacity": 32,
+  "feeCents": 0,
+  "memberFeeCents": null,
+  "currency": "usd",
+  "requireDuprVerified": true,
+  "submitToDupr": true,
+  "status": "in_progress",
+  "ladder": [
+   "u-brooks",
+   "u-dev",
+   "u-lena",
+   "u-ana",
+   "u-chen",
+   "u-hale",
+   "u-priya",
+   "u-nina",
+   "u-sam",
+   "u-marco",
+   "u-grace",
+   "u-maya",
+   "u-tyler",
+   "u-demo",
+   "u-leo",
+   "u-ivy",
+   "u-omar",
+   "u-luis",
+   "u-raj",
+   "u-emma",
+   "u-kara",
+   "u-sofia",
+   "u-noah",
+   "u-ben"
+  ],
+  "createdAt": "2026-11-07T15:00:05.000Z"
+ },
+ "club": {
+  "id": "id00001",
+  "name": "Sample Pickleball Club"
+ },
+ "isManager": false,
+ "myEntry": {
+  "id": "id00029",
+  "eventId": "id00005",
+  "playerIds": [
+   "u-demo"
+  ],
+  "teamName": "Jordan",
+  "teamRating": 3.9,
+  "status": "confirmed",
+  "comped": false,
+  "createdAt": "2026-11-07T15:00:00.000Z"
+ },
+ "myPriceCents": 0,
+ "entries": [
+  {
+   "id": "id00006",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-chen"
+   ],
+   "teamName": "Chen",
+   "teamRating": 4.38,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00007",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-ana"
+   ],
+   "teamName": "Ana",
+   "teamRating": 4.31,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00008",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-brooks"
+   ],
+   "teamName": "Brooks",
+   "teamRating": 4.27,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00009",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-priya"
+   ],
+   "teamName": "Priya",
+   "teamRating": 4.04,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00010",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-hale"
+   ],
+   "teamName": "Hale",
+   "teamRating": 4.19,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00011",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-sam"
+   ],
+   "teamName": "Sam",
+   "teamRating": 4.06,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00012",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-dev"
+   ],
+   "teamName": "Dev",
+   "teamRating": 4.1,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00013",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-nina"
+   ],
+   "teamName": "Nina",
+   "teamRating": 3.98,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00014",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-marco"
+   ],
+   "teamName": "Marco",
+   "teamRating": 3.95,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00015",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-lena"
+   ],
+   "teamName": "Lena",
+   "teamRating": 3.99,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00016",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-omar"
+   ],
+   "teamName": "Omar",
+   "teamRating": 3.88,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00017",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-grace"
+   ],
+   "teamName": "Grace",
+   "teamRating": 3.84,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00018",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-tyler"
+   ],
+   "teamName": "Tyler",
+   "teamRating": 3.79,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00019",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-maya"
+   ],
+   "teamName": "Maya",
+   "teamRating": 3.75,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00020",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-leo"
+   ],
+   "teamName": "Leo",
+   "teamRating": 3.71,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00021",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-ivy"
+   ],
+   "teamName": "Ivy",
+   "teamRating": 3.66,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00022",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-raj"
+   ],
+   "teamName": "Raj",
+   "teamRating": 3.6,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00023",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-sofia"
+   ],
+   "teamName": "Sofia",
+   "teamRating": 3.55,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00024",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-ben"
+   ],
+   "teamName": "Ben",
+   "teamRating": 3.49,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00025",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-kara"
+   ],
+   "teamName": "Kara",
+   "teamRating": 3.44,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00026",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-luis"
+   ],
+   "teamName": "Luis",
+   "teamRating": 3.38,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00027",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-emma"
+   ],
+   "teamName": "Emma",
+   "teamRating": 3.31,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00028",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-noah"
+   ],
+   "teamName": "Noah",
+   "teamRating": 3.22,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00029",
+   "eventId": "id00005",
+   "playerIds": [
+    "u-demo"
+   ],
+   "teamName": "Jordan",
+   "teamRating": 3.9,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  }
+ ],
+ "waitlist": [],
+ "players": {
+  "u-chen": {
+   "id": "u-chen",
+   "name": "Chen Wei",
+   "gender": "m",
+   "duprId": "DEMO-CH01",
+   "rating": 4.38,
+   "singlesRating": 4.13,
+   "reliability": 100
+  },
+  "u-ana": {
+   "id": "u-ana",
+   "name": "Ana Alvarez",
+   "gender": "f",
+   "duprId": "DEMO-AN02",
+   "rating": 4.31,
+   "singlesRating": 4.06,
+   "reliability": 100
+  },
+  "u-brooks": {
+   "id": "u-brooks",
+   "name": "Brooks Taylor",
+   "gender": "m",
+   "duprId": "DEMO-BR03",
+   "rating": 4.27,
+   "singlesRating": 4.02,
+   "reliability": 90
+  },
+  "u-priya": {
+   "id": "u-priya",
+   "name": "Priya Kapoor",
+   "gender": "f",
+   "duprId": "DEMO-PR04",
+   "rating": 4.04,
+   "singlesRating": 3.79,
+   "reliability": 100
+  },
+  "u-hale": {
+   "id": "u-hale",
+   "name": "Hale Rivera",
+   "gender": "m",
+   "duprId": "DEMO-HA05",
+   "rating": 4.19,
+   "singlesRating": 3.94,
+   "reliability": 100
+  },
+  "u-sam": {
+   "id": "u-sam",
+   "name": "Sam Okafor",
+   "gender": "m",
+   "duprId": "DEMO-SA06",
+   "rating": 4.06,
+   "singlesRating": 3.81,
+   "reliability": 80
+  },
+  "u-dev": {
+   "id": "u-dev",
+   "name": "Dev Patel",
+   "gender": "m",
+   "duprId": "DEMO-DE07",
+   "rating": 4.1,
+   "singlesRating": 3.85,
+   "reliability": 100
+  },
+  "u-nina": {
+   "id": "u-nina",
+   "name": "Nina Park",
+   "gender": "f",
+   "duprId": "DEMO-NI08",
+   "rating": 3.98,
+   "singlesRating": 3.73,
+   "reliability": 70
+  },
+  "u-marco": {
+   "id": "u-marco",
+   "name": "Marco Diaz",
+   "gender": "m",
+   "duprId": "DEMO-MA09",
+   "rating": 3.95,
+   "singlesRating": 3.7,
+   "reliability": 100
+  },
+  "u-lena": {
+   "id": "u-lena",
+   "name": "Lena Schultz",
+   "gender": "f",
+   "duprId": "DEMO-LE10",
+   "rating": 3.99,
+   "singlesRating": 3.74,
+   "reliability": 100
+  },
+  "u-omar": {
+   "id": "u-omar",
+   "name": "Omar Haddad",
+   "gender": "m",
+   "duprId": "DEMO-OM11",
+   "rating": 3.88,
+   "singlesRating": 3.63,
+   "reliability": 90
+  },
+  "u-grace": {
+   "id": "u-grace",
+   "name": "Grace Lin",
+   "gender": "f",
+   "duprId": "DEMO-GR12",
+   "rating": 3.84,
+   "singlesRating": 3.59,
+   "reliability": 100
+  },
+  "u-tyler": {
+   "id": "u-tyler",
+   "name": "Tyler Brooks",
+   "gender": "m",
+   "duprId": "DEMO-TY13",
+   "rating": 3.79,
+   "singlesRating": 3.54,
+   "reliability": 60
+  },
+  "u-maya": {
+   "id": "u-maya",
+   "name": "Maya Singh",
+   "gender": "f",
+   "duprId": "DEMO-MA14",
+   "rating": 3.75,
+   "singlesRating": 3.5,
+   "reliability": 100
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-raj": {
+   "id": "u-raj",
+   "name": "Raj Mehta",
+   "gender": "m",
+   "duprId": "DEMO-RA17",
+   "rating": 3.6,
+   "singlesRating": 3.35,
+   "reliability": 100
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  },
+  "u-ben": {
+   "id": "u-ben",
+   "name": "Ben Ortiz",
+   "gender": "m",
+   "duprId": "DEMO-BE19",
+   "rating": 3.49,
+   "singlesRating": 3.24,
+   "reliability": 70
+  },
+  "u-kara": {
+   "id": "u-kara",
+   "name": "Kara Jones",
+   "gender": "f",
+   "duprId": "DEMO-KA20",
+   "rating": 3.44,
+   "singlesRating": 3.19,
+   "reliability": 100
+  },
+  "u-luis": {
+   "id": "u-luis",
+   "name": "Luis Romero",
+   "gender": "m",
+   "duprId": "DEMO-LU21",
+   "rating": 3.38,
+   "singlesRating": 3.13,
+   "reliability": 100
+  },
+  "u-emma": {
+   "id": "u-emma",
+   "name": "Emma Clark",
+   "gender": "f",
+   "duprId": "DEMO-EM22",
+   "rating": 3.31,
+   "singlesRating": 3.06,
+   "reliability": 90
+  },
+  "u-noah": {
+   "id": "u-noah",
+   "name": "Noah Kim",
+   "gender": "m",
+   "duprId": "DEMO-NO23",
+   "rating": 3.22,
+   "singlesRating": 2.97,
+   "reliability": 100
+  },
+  "u-demo": {
+   "id": "u-demo",
+   "name": "Jordan Reyes",
+   "gender": "m",
+   "duprId": "MOCK-DEMO",
+   "rating": 4.12,
+   "singlesRating": 3.86,
+   "reliability": 100
+  }
+ },
+ "matches": [],
+ "standings": [],
+ "rounds": [
+  {
+   "id": "id00005-r1",
+   "eventId": "id00005",
+   "number": 1,
+   "startDate": "2026-10-16",
+   "endDate": "2026-10-23",
+   "status": "completed",
+   "byes": [],
+   "ranking": null
+  },
+  {
+   "id": "id00005-r2",
+   "eventId": "id00005",
+   "number": 2,
+   "startDate": "2026-10-23",
+   "endDate": "2026-10-30",
+   "status": "completed",
+   "byes": [],
+   "ranking": null
+  },
+  {
+   "id": "id00005-r3",
+   "eventId": "id00005",
+   "number": 3,
+   "startDate": "2026-10-30",
+   "endDate": "2026-11-06",
+   "status": "completed",
+   "byes": [],
+   "ranking": null
+  },
+  {
+   "id": "id00005-r4",
+   "eventId": "id00005",
+   "number": 4,
+   "startDate": "2026-11-06",
+   "endDate": "2026-11-13",
+   "status": "in_progress",
+   "byes": [],
+   "ranking": null
+  },
+  {
+   "id": "id00005-r5",
+   "eventId": "id00005",
+   "number": 5,
+   "startDate": "2026-11-13",
+   "endDate": "2026-11-20",
+   "status": "upcoming",
+   "byes": [],
+   "ranking": null
+  },
+  {
+   "id": "id00005-r6",
+   "eventId": "id00005",
+   "number": 6,
+   "startDate": "2026-11-20",
+   "endDate": "2026-11-27",
+   "status": "upcoming",
+   "byes": [],
+   "ranking": null
+  },
+  {
+   "id": "id00005-r7",
+   "eventId": "id00005",
+   "number": 7,
+   "startDate": "2026-11-27",
+   "endDate": "2026-12-04",
+   "status": "upcoming",
+   "byes": [],
+   "ranking": null
+  },
+  {
+   "id": "id00005-r8",
+   "eventId": "id00005",
+   "number": 8,
+   "startDate": "2026-12-04",
+   "endDate": "2026-12-11",
+   "status": "upcoming",
+   "byes": [],
+   "ranking": null
+  }
+ ],
+ "currentRoundId": "id00005-r4",
+ "chatId": "id00030",
+ "money": null,
+ "invites": []
+}

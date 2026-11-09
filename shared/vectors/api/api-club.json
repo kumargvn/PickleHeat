@@ -1,0 +1,544 @@
+{
+ "summary": {
+  "club": {
+   "id": "id00001",
+   "name": "Sample Pickleball Club",
+   "description": "Early-morning doubles, weekly ladders and monthly tournaments. All levels welcome.",
+   "city": "Round Rock",
+   "state": "TX",
+   "lat": 30.516,
+   "lng": -97.665,
+   "createdBy": "u-chen",
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  "memberCount": 24,
+  "leagueCount": 3,
+  "tournamentCount": 1,
+  "myRole": "member",
+  "distanceMiles": 1
+ },
+ "members": [
+  {
+   "userId": "u-chen",
+   "role": "owner",
+   "joinedAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "userId": "u-ana",
+   "role": "admin",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-ben",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-brooks",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-dev",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-emma",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-grace",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-hale",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-ivy",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-demo",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-kara",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-lena",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-leo",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-luis",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-marco",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-maya",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-nina",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-noah",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-omar",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-priya",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-raj",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-sam",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-sofia",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  },
+  {
+   "userId": "u-tyler",
+   "role": "member",
+   "joinedAt": "2026-11-07T15:00:02.000Z"
+  }
+ ],
+ "players": {
+  "u-chen": {
+   "id": "u-chen",
+   "name": "Chen Wei",
+   "gender": "m",
+   "duprId": "DEMO-CH01",
+   "rating": 4.38,
+   "singlesRating": 4.13,
+   "reliability": 100
+  },
+  "u-ana": {
+   "id": "u-ana",
+   "name": "Ana Alvarez",
+   "gender": "f",
+   "duprId": "DEMO-AN02",
+   "rating": 4.31,
+   "singlesRating": 4.06,
+   "reliability": 100
+  },
+  "u-brooks": {
+   "id": "u-brooks",
+   "name": "Brooks Taylor",
+   "gender": "m",
+   "duprId": "DEMO-BR03",
+   "rating": 4.27,
+   "singlesRating": 4.02,
+   "reliability": 90
+  },
+  "u-priya": {
+   "id": "u-priya",
+   "name": "Priya Kapoor",
+   "gender": "f",
+   "duprId": "DEMO-PR04",
+   "rating": 4.04,
+   "singlesRating": 3.79,
+   "reliability": 100
+  },
+  "u-hale": {
+   "id": "u-hale",
+   "name": "Hale Rivera",
+   "gender": "m",
+   "duprId": "DEMO-HA05",
+   "rating": 4.19,
+   "singlesRating": 3.94,
+   "reliability": 100
+  },
+  "u-sam": {
+   "id": "u-sam",
+   "name": "Sam Okafor",
+   "gender": "m",
+   "duprId": "DEMO-SA06",
+   "rating": 4.06,
+   "singlesRating": 3.81,
+   "reliability": 80
+  },
+  "u-dev": {
+   "id": "u-dev",
+   "name": "Dev Patel",
+   "gender": "m",
+   "duprId": "DEMO-DE07",
+   "rating": 4.1,
+   "singlesRating": 3.85,
+   "reliability": 100
+  },
+  "u-nina": {
+   "id": "u-nina",
+   "name": "Nina Park",
+   "gender": "f",
+   "duprId": "DEMO-NI08",
+   "rating": 3.98,
+   "singlesRating": 3.73,
+   "reliability": 70
+  },
+  "u-marco": {
+   "id": "u-marco",
+   "name": "Marco Diaz",
+   "gender": "m",
+   "duprId": "DEMO-MA09",
+   "rating": 3.95,
+   "singlesRating": 3.7,
+   "reliability": 100
+  },
+  "u-lena": {
+   "id": "u-lena",
+   "name": "Lena Schultz",
+   "gender": "f",
+   "duprId": "DEMO-LE10",
+   "rating": 3.99,
+   "singlesRating": 3.74,
+   "reliability": 100
+  },
+  "u-omar": {
+   "id": "u-omar",
+   "name": "Omar Haddad",
+   "gender": "m",
+   "duprId": "DEMO-OM11",
+   "rating": 3.88,
+   "singlesRating": 3.63,
+   "reliability": 90
+  },
+  "u-grace": {
+   "id": "u-grace",
+   "name": "Grace Lin",
+   "gender": "f",
+   "duprId": "DEMO-GR12",
+   "rating": 3.84,
+   "singlesRating": 3.59,
+   "reliability": 100
+  },
+  "u-tyler": {
+   "id": "u-tyler",
+   "name": "Tyler Brooks",
+   "gender": "m",
+   "duprId": "DEMO-TY13",
+   "rating": 3.79,
+   "singlesRating": 3.54,
+   "reliability": 60
+  },
+  "u-maya": {
+   "id": "u-maya",
+   "name": "Maya Singh",
+   "gender": "f",
+   "duprId": "DEMO-MA14",
+   "rating": 3.75,
+   "singlesRating": 3.5,
+   "reliability": 100
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-raj": {
+   "id": "u-raj",
+   "name": "Raj Mehta",
+   "gender": "m",
+   "duprId": "DEMO-RA17",
+   "rating": 3.6,
+   "singlesRating": 3.35,
+   "reliability": 100
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  },
+  "u-ben": {
+   "id": "u-ben",
+   "name": "Ben Ortiz",
+   "gender": "m",
+   "duprId": "DEMO-BE19",
+   "rating": 3.49,
+   "singlesRating": 3.24,
+   "reliability": 70
+  },
+  "u-kara": {
+   "id": "u-kara",
+   "name": "Kara Jones",
+   "gender": "f",
+   "duprId": "DEMO-KA20",
+   "rating": 3.44,
+   "singlesRating": 3.19,
+   "reliability": 100
+  },
+  "u-luis": {
+   "id": "u-luis",
+   "name": "Luis Romero",
+   "gender": "m",
+   "duprId": "DEMO-LU21",
+   "rating": 3.38,
+   "singlesRating": 3.13,
+   "reliability": 100
+  },
+  "u-emma": {
+   "id": "u-emma",
+   "name": "Emma Clark",
+   "gender": "f",
+   "duprId": "DEMO-EM22",
+   "rating": 3.31,
+   "singlesRating": 3.06,
+   "reliability": 90
+  },
+  "u-noah": {
+   "id": "u-noah",
+   "name": "Noah Kim",
+   "gender": "m",
+   "duprId": "DEMO-NO23",
+   "rating": 3.22,
+   "singlesRating": 2.97,
+   "reliability": 100
+  },
+  "u-demo": {
+   "id": "u-demo",
+   "name": "Jordan Reyes",
+   "gender": "m",
+   "duprId": "MOCK-DEMO",
+   "rating": 4.12,
+   "singlesRating": 3.86,
+   "reliability": 100
+  }
+ },
+ "events": [
+  {
+   "event": {
+    "id": "id00005",
+    "organizerId": "u-chen",
+    "clubId": "id00001",
+    "kind": "league",
+    "style": "flex_ladder",
+    "name": "Sunrise Heat Climb",
+    "description": "Every week you're placed in a heat with three players near your level. Set a time in your heat's chat and play 3 matches with rotating partners. Win your heat to climb; last place drops a heat.",
+    "format": "doubles",
+    "startDate": "2026-10-16",
+    "endDate": null,
+    "weeks": 8,
+    "roundDays": 7,
+    "gamesPerMatch": 2,
+    "venue": "Sample Racquet Center",
+    "city": "Round Rock",
+    "state": "TX",
+    "lat": 30.516,
+    "lng": -97.665,
+    "minRating": 3,
+    "maxRating": 4.5,
+    "capacity": 32,
+    "feeCents": 0,
+    "memberFeeCents": null,
+    "currency": "usd",
+    "requireDuprVerified": true,
+    "submitToDupr": true,
+    "status": "in_progress",
+    "ladder": [
+     "u-brooks",
+     "u-dev",
+     "u-lena",
+     "u-ana",
+     "u-chen",
+     "u-hale",
+     "u-priya",
+     "u-nina",
+     "u-sam",
+     "u-marco",
+     "u-grace",
+     "u-maya",
+     "u-tyler",
+     "u-demo",
+     "u-leo",
+     "u-ivy",
+     "u-omar",
+     "u-luis",
+     "u-raj",
+     "u-emma",
+     "u-kara",
+     "u-sofia",
+     "u-noah",
+     "u-ben"
+    ],
+    "createdAt": "2026-11-07T15:00:05.000Z"
+   },
+   "clubName": "Sample Pickleball Club",
+   "entryCount": 24,
+   "waitlistCount": 0,
+   "myStatus": "confirmed",
+   "myPriceCents": 0,
+   "distanceMiles": 1
+  },
+  {
+   "event": {
+    "id": "id00280",
+    "organizerId": "u-ana",
+    "clubId": "id00001",
+    "kind": "league",
+    "style": "round_robin",
+    "name": "Tuesday Team League",
+    "description": "Fixed doubles teams, one match a week.",
+    "format": "doubles",
+    "startDate": "2026-10-30",
+    "endDate": null,
+    "weeks": 3,
+    "roundDays": 7,
+    "gamesPerMatch": 1,
+    "venue": "Sample Community Courts",
+    "city": "Round Rock",
+    "state": "TX",
+    "lat": 30.51,
+    "lng": -97.67,
+    "minRating": null,
+    "maxRating": null,
+    "capacity": 8,
+    "feeCents": 0,
+    "memberFeeCents": null,
+    "currency": "usd",
+    "requireDuprVerified": true,
+    "submitToDupr": true,
+    "status": "in_progress",
+    "ladder": [],
+    "createdAt": "2026-11-07T15:04:40.000Z"
+   },
+   "clubName": "Sample Pickleball Club",
+   "entryCount": 4,
+   "waitlistCount": 0,
+   "myStatus": "confirmed",
+   "myPriceCents": 0,
+   "distanceMiles": 1
+  },
+  {
+   "event": {
+    "id": "id00253",
+    "organizerId": "u-chen",
+    "clubId": "id00001",
+    "kind": "league",
+    "style": "scramble",
+    "name": "Friday Wildfire Mixer",
+    "description": "New heat, new partners every week. Heats are reshuffled each round; standings by total games won.",
+    "format": "doubles",
+    "startDate": "2026-11-19",
+    "endDate": null,
+    "weeks": 6,
+    "roundDays": 7,
+    "gamesPerMatch": 2,
+    "venue": "Sample Racquet Center",
+    "city": "Round Rock",
+    "state": "TX",
+    "lat": 30.516,
+    "lng": -97.665,
+    "minRating": 3,
+    "maxRating": 4.75,
+    "capacity": 24,
+    "feeCents": 4000,
+    "memberFeeCents": 3000,
+    "currency": "usd",
+    "requireDuprVerified": true,
+    "submitToDupr": true,
+    "status": "open",
+    "ladder": [],
+    "createdAt": "2026-11-07T15:04:13.000Z"
+   },
+   "clubName": "Sample Pickleball Club",
+   "entryCount": 13,
+   "waitlistCount": 0,
+   "myStatus": "pending_payment",
+   "myPriceCents": 3000,
+   "distanceMiles": 1
+  },
+  {
+   "event": {
+    "id": "id00275",
+    "organizerId": "u-ana",
+    "clubId": "id00001",
+    "kind": "tournament",
+    "style": "round_robin",
+    "name": "Club MLP Showdown",
+    "description": "Teams of four (two men, two women). Women's, men's and two mixed doubles games; DreamBreaker at 2–2.",
+    "format": "mlp",
+    "startDate": "2026-11-23",
+    "endDate": null,
+    "weeks": null,
+    "roundDays": 7,
+    "gamesPerMatch": 1,
+    "venue": "Sample Racquet Center",
+    "city": "Round Rock",
+    "state": "TX",
+    "lat": 30.516,
+    "lng": -97.665,
+    "minRating": null,
+    "maxRating": null,
+    "capacity": 6,
+    "feeCents": 0,
+    "memberFeeCents": null,
+    "currency": "usd",
+    "requireDuprVerified": true,
+    "submitToDupr": true,
+    "status": "in_progress",
+    "ladder": [],
+    "createdAt": "2026-11-07T15:04:35.000Z"
+   },
+   "clubName": "Sample Pickleball Club",
+   "entryCount": 3,
+   "waitlistCount": 0,
+   "myStatus": null,
+   "myPriceCents": 0,
+   "distanceMiles": 1
+  }
+ ],
+ "chatId": "id00002"
+}

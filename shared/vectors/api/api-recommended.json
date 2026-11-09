@@ -1,0 +1,171 @@
+{
+ "recommendations": [
+  {
+   "tournament": {
+    "id": "s-hillcountry",
+    "source": "sample",
+    "name": "Hill Country Classic",
+    "url": null,
+    "startDate": "2026-11-27",
+    "endDate": "2026-11-28",
+    "venue": "Sample Sports Park",
+    "city": "Georgetown",
+    "state": "TX",
+    "lat": 30.6327,
+    "lng": -97.6772,
+    "registrationOpen": true,
+    "events": [
+     {
+      "id": "e1",
+      "name": "Doubles 4.0",
+      "format": "doubles",
+      "minRating": 3.75,
+      "maxRating": 4.24,
+      "feeCents": 4500
+     },
+     {
+      "id": "e2",
+      "name": "Doubles 4.5",
+      "format": "doubles",
+      "minRating": 4.25,
+      "maxRating": 4.74,
+      "feeCents": 4500
+     },
+     {
+      "id": "e3",
+      "name": "Singles 3.5–4.0",
+      "format": "singles",
+      "minRating": 3.5,
+      "maxRating": 4,
+      "feeCents": 3000
+     }
+    ]
+   },
+   "event": {
+    "id": "e1",
+    "name": "Doubles 4.0",
+    "format": "doubles",
+    "minRating": 3.75,
+    "maxRating": 4.24,
+    "feeCents": 4500
+   },
+   "score": 0.882,
+   "distanceMiles": 8.6,
+   "reasons": [
+    "Your 4.12 fits the 3.75–4.24 bracket",
+    "9 mi away"
+   ]
+  },
+  {
+   "tournament": {
+    "id": "s-fallslam",
+    "source": "sample",
+    "name": "Fall Slam Doubles",
+    "url": null,
+    "startDate": "2026-11-15",
+    "endDate": "2026-11-15",
+    "venue": "Sample Racquet Center",
+    "city": "Round Rock",
+    "state": "TX",
+    "lat": 30.516,
+    "lng": -97.665,
+    "registrationOpen": true,
+    "events": [
+     {
+      "id": "e1",
+      "name": "Men's Doubles 3.5–4.25",
+      "format": "doubles",
+      "minRating": 3.5,
+      "maxRating": 4.25,
+      "feeCents": 3500
+     },
+     {
+      "id": "e2",
+      "name": "Mixed Doubles 4.0+",
+      "format": "mixed",
+      "minRating": 4,
+      "maxRating": null,
+      "feeCents": 3500
+     }
+    ]
+   },
+   "event": {
+    "id": "e1",
+    "name": "Men's Doubles 3.5–4.25",
+    "format": "doubles",
+    "minRating": 3.5,
+    "maxRating": 4.25,
+    "feeCents": 3500
+   },
+   "score": 0.874,
+   "distanceMiles": 1,
+   "reasons": [
+    "Your 4.12 fits the 3.50–4.25 bracket",
+    "1 mi away",
+    "Starts in 8 days"
+   ]
+  },
+  {
+   "tournament": {
+    "id": "s-capitol",
+    "source": "sample",
+    "name": "Capitol City Open",
+    "url": null,
+    "startDate": "2026-12-11",
+    "endDate": "2026-12-13",
+    "venue": "Sample Tennis & Pickleball Club",
+    "city": "Austin",
+    "state": "TX",
+    "lat": 30.2672,
+    "lng": -97.7431,
+    "registrationOpen": true,
+    "events": [
+     {
+      "id": "e1",
+      "name": "Open Doubles",
+      "format": "doubles",
+      "minRating": null,
+      "maxRating": null,
+      "feeCents": 6000
+     },
+     {
+      "id": "e2",
+      "name": "Mixed 4.0–4.49",
+      "format": "mixed",
+      "minRating": 4,
+      "maxRating": 4.49,
+      "feeCents": 5500
+     }
+    ]
+   },
+   "event": {
+    "id": "e2",
+    "name": "Mixed 4.0–4.49",
+    "format": "mixed",
+    "minRating": 4,
+    "maxRating": 4.49,
+    "feeCents": 5500
+   },
+   "score": 0.74,
+   "distanceMiles": 17.1,
+   "reasons": [
+    "Your 4.12 fits the 4.00–4.49 bracket",
+    "17 mi away"
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "name": "pickleheat",
+   "ok": true,
+   "count": 0,
+   "error": null
+  },
+  {
+   "name": "sample",
+   "ok": true,
+   "count": 5,
+   "error": null
+  }
+ ]
+}

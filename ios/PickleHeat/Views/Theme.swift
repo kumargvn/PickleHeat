@@ -157,3 +157,77 @@ func money(_ cents: Int) -> String {
 }
 
 func ratingText(_ r: Double?) -> String { r.map { String(format: "%.2f", $0) } ?? "—" }
+
+/// Small avatar with initials.
+struct Avatar: View {
+    var player: PlayerInfo?
+    var size: CGFloat = 36
+    var color: Color = Theme.surface2
+
+    var body: some View {
+        Text(player?.initials ?? "?")
+            .font(.system(size: size * 0.38, weight: .bold))
+            .foregroundStyle(Theme.text)
+            .frame(width: size, height: size)
+            .background(color, in: Circle())
+            .accessibilityHidden(true)
+    }
+}
+
+/// Segmented tabs that scroll when there are many.
+struct ChipTabs<T: Hashable>: View {
+    var items: [(T, String)]
+    @Binding var selection: T
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(items, id: \.0) { item in
+                    Button { selection = item.0 } label: {
+                        Text(item.1)
+                            .font(.system(size: 14, weight: .semibold))
+                            .padding(.horizontal, 14)
+                            .frame(minHeight: 36)
+                            .foregroundStyle(selection == item.0 ? Theme.ink : Theme.muted)
+                            .background(selection == item.0 ? Theme.lime : Theme.surface, in: Capsule())
+                            .overlay(Capsule().stroke(Theme.line, lineWidth: selection == item.0 ? 0 : 1))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(selection == item.0 ? .isSelected : [])
+                }
+            }
+        }
+    }
+}
+
+/// Unread badge.
+struct Badge: View {
+    var count: Int
+    var body: some View {
+        if count > 0 {
+            Text(count > 99 ? "99+" : "\(count)")
+                .font(.system(size: 11, weight: .bold))
+                .foregroundStyle(Theme.ink)
+                .padding(.horizontal, 6)
+                .frame(minWidth: 18, minHeight: 18)
+                .background(Theme.coral, in: Capsule())
+        }
+    }
+}
+
+struct EmptyState: View {
+    var title: String
+    var message: String
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title).font(Theme.display(18))
+            Text(message).font(.system(size: 15)).foregroundStyle(Theme.muted)
+        }
+        .card()
+    }
+}
+
+func relativeTime(_ iso: String?) -> String {
+    guard let d = ISO.date(iso) else { return "" }
+    return d.formatted(.relative(presentation: .named))
+}

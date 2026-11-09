@@ -74,3 +74,35 @@ td { padding: 10px 6px; border-top: 1px solid var(--line); }
 .spinner { width: 28px; height: 28px; border: 3px solid var(--line); border-top-color: var(--lime); border-radius: 50%; animation: spin 1s linear infinite; margin: 60px auto; }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 520px) { .big { font-size: 46px; } main { padding: 16px 16px 56px; } }
+
+/* v2: chips, avatars, chat, bracket */
+nav a { position: relative; }
+.badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--coral); color: var(--ink); font-size: 11px; font-weight: 800; margin-left: 6px; }
+.chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; scrollbar-width: none; }
+.chips button { flex-shrink: 0; border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; min-height: 40px; background: var(--surface); color: var(--muted); font-weight: 600; font-size: 14px; }
+.chips button.on { background: var(--lime); border-color: var(--lime); color: var(--ink); }
+.avatar { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--surface2); border: 2px solid var(--surface); color: var(--text); font-weight: 700; flex-shrink: 0; }
+.tag { font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 999px; color: var(--ink); background: var(--lime); }
+.tag.upset { background: var(--coral); } .tag.nailbiter { background: var(--sky); }
+.score { font-family: var(--display); font-size: 18px; min-width: 22px; text-align: center; }
+.num { font-family: var(--display); font-size: 22px; }
+.ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; display: block; }
+textarea { border-radius: 14px; border: 1px solid var(--line); background: var(--surface2); color: var(--text); padding: 12px 14px; font: inherit; font-size: 16px; resize: vertical; }
+details summary { cursor: pointer; color: var(--lime); }
+.bracket { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 6px; }
+.bracket .col { display: flex; flex-direction: column; gap: 12px; justify-content: space-around; min-width: 260px; }
+.chat { display: flex; flex-direction: column; gap: 10px; max-width: 760px; margin: 0 auto; height: calc(100vh - 140px); }
+.msgs { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 8px 2px; }
+.msg { display: flex; gap: 8px; align-items: flex-end; max-width: 80%; }
+.msg.mine { align-self: flex-end; flex-direction: row-reverse; text-align: right; }
+.msg.mine .row { justify-content: flex-end; }
+.bubble { display: inline-block; padding: 9px 13px; border-radius: 16px; background: var(--surface2); white-space: pre-wrap; word-break: break-word; text-align: left; }
+.msg.mine .bubble { background: var(--lime); color: var(--ink); }
+.bot { align-self: center; text-align: center; max-width: 90%; font-size: 13px; color: var(--muted); background: rgba(20,27,56,.6); padding: 8px 12px; border-radius: 12px; }
+.react { border: 1px solid var(--line); background: var(--surface); color: var(--text); border-radius: 999px; padding: 2px 8px; font-size: 12px; min-height: 26px; }
+.react.on { background: var(--line); }
+.react.add { color: var(--muted); }
+button.link { background: none; border: 0; color: var(--lime); padding: 0; font-weight: 600; }
+.match .btn { min-height: 44px; flex: 1; }
+@media (max-width: 520px) { nav a { padding: 8px 10px; } .msg { max-width: 92%; } }
+@media (max-width: 520px) { nav { flex-wrap: nowrap; overflow-x: auto; width: 100%; scrollbar-width: none; } }

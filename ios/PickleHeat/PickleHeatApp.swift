@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct PickleHeatApp: App {
-    @StateObject private var model = AppModel(service: AppConfig.makeService())
+    @StateObject private var model = AppModel(api: APIClient.make())
 
     var body: some Scene {
         WindowGroup {
@@ -38,6 +38,11 @@ struct RootView: View {
         } message: {
             Text(model.errorMessage ?? "")
         }
+        .alert("Done", isPresented: Binding(get: { model.notice != nil }, set: { if !$0 { model.notice = nil } })) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(model.notice ?? "")
+        }
     }
 }
 
@@ -50,8 +55,12 @@ struct MainTabs: View {
                 .tabItem { Label("Home", systemImage: "house.fill") }
                 .tag(AppModel.Tab.home)
             NavigationStack { EventsView() }
-                .tabItem { Label("Events", systemImage: "calendar") }
+                .tabItem { Label("Events", systemImage: "trophy.fill") }
                 .tag(AppModel.Tab.events)
+            NavigationStack { ChatsView() }
+                .tabItem { Label("Chats", systemImage: "bubble.left.and.bubble.right.fill") }
+                .badge(model.me?.unread.chats ?? 0)
+                .tag(AppModel.Tab.chats)
             NavigationStack { InsightsView() }
                 .tabItem { Label("Insights", systemImage: "chart.bar.fill") }
                 .tag(AppModel.Tab.insights)

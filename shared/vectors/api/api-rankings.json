@@ -1,0 +1,487 @@
+{
+ "round": 3,
+ "rows": [
+  {
+   "userId": "u-brooks",
+   "rank": 1,
+   "prevRank": 1,
+   "fromGroup": 1,
+   "nextGroup": 1,
+   "wins": 5,
+   "losses": 1,
+   "pd": 23,
+   "played": true
+  },
+  {
+   "userId": "u-dev",
+   "rank": 2,
+   "prevRank": 4,
+   "fromGroup": 1,
+   "nextGroup": 1,
+   "wins": 3,
+   "losses": 3,
+   "pd": 5,
+   "played": true
+  },
+  {
+   "userId": "u-lena",
+   "rank": 3,
+   "prevRank": 3,
+   "fromGroup": 1,
+   "nextGroup": 1,
+   "wins": 3,
+   "losses": 3,
+   "pd": -3,
+   "played": true
+  },
+  {
+   "userId": "u-ana",
+   "rank": 4,
+   "prevRank": 5,
+   "fromGroup": 2,
+   "nextGroup": 1,
+   "wins": 4,
+   "losses": 2,
+   "pd": 10,
+   "played": true
+  },
+  {
+   "userId": "u-chen",
+   "rank": 5,
+   "prevRank": 2,
+   "fromGroup": 1,
+   "nextGroup": 2,
+   "wins": 1,
+   "losses": 5,
+   "pd": -25,
+   "played": true
+  },
+  {
+   "userId": "u-hale",
+   "rank": 6,
+   "prevRank": 7,
+   "fromGroup": 2,
+   "nextGroup": 2,
+   "wins": 4,
+   "losses": 2,
+   "pd": 8,
+   "played": true
+  },
+  {
+   "userId": "u-priya",
+   "rank": 7,
+   "prevRank": 6,
+   "fromGroup": 2,
+   "nextGroup": 2,
+   "wins": 2,
+   "losses": 4,
+   "pd": -2,
+   "played": true
+  },
+  {
+   "userId": "u-nina",
+   "rank": 8,
+   "prevRank": 9,
+   "fromGroup": 3,
+   "nextGroup": 2,
+   "wins": 6,
+   "losses": 0,
+   "pd": 31,
+   "played": true
+  },
+  {
+   "userId": "u-sam",
+   "rank": 9,
+   "prevRank": 8,
+   "fromGroup": 2,
+   "nextGroup": 3,
+   "wins": 2,
+   "losses": 4,
+   "pd": -16,
+   "played": true
+  },
+  {
+   "userId": "u-marco",
+   "rank": 10,
+   "prevRank": 11,
+   "fromGroup": 3,
+   "nextGroup": 3,
+   "wins": 2,
+   "losses": 4,
+   "pd": 1,
+   "played": true
+  },
+  {
+   "userId": "u-grace",
+   "rank": 11,
+   "prevRank": 10,
+   "fromGroup": 3,
+   "nextGroup": 3,
+   "wins": 2,
+   "losses": 4,
+   "pd": -13,
+   "played": true
+  },
+  {
+   "userId": "u-maya",
+   "rank": 12,
+   "prevRank": 15,
+   "fromGroup": 4,
+   "nextGroup": 3,
+   "wins": 4,
+   "losses": 2,
+   "pd": 6,
+   "played": true
+  },
+  {
+   "userId": "u-tyler",
+   "rank": 13,
+   "prevRank": 12,
+   "fromGroup": 3,
+   "nextGroup": 4,
+   "wins": 2,
+   "losses": 4,
+   "pd": -19,
+   "played": true
+  },
+  {
+   "userId": "u-demo",
+   "rank": 14,
+   "prevRank": 16,
+   "fromGroup": 4,
+   "nextGroup": 4,
+   "wins": 4,
+   "losses": 2,
+   "pd": 6,
+   "played": true
+  },
+  {
+   "userId": "u-leo",
+   "rank": 15,
+   "prevRank": 13,
+   "fromGroup": 4,
+   "nextGroup": 4,
+   "wins": 2,
+   "losses": 4,
+   "pd": 2,
+   "played": true
+  },
+  {
+   "userId": "u-ivy",
+   "rank": 16,
+   "prevRank": 18,
+   "fromGroup": 5,
+   "nextGroup": 4,
+   "wins": 5,
+   "losses": 1,
+   "pd": 16,
+   "played": true
+  },
+  {
+   "userId": "u-omar",
+   "rank": 17,
+   "prevRank": 14,
+   "fromGroup": 4,
+   "nextGroup": 5,
+   "wins": 2,
+   "losses": 4,
+   "pd": -14,
+   "played": true
+  },
+  {
+   "userId": "u-luis",
+   "rank": 18,
+   "prevRank": 20,
+   "fromGroup": 5,
+   "nextGroup": 5,
+   "wins": 3,
+   "losses": 3,
+   "pd": 2,
+   "played": true
+  },
+  {
+   "userId": "u-raj",
+   "rank": 19,
+   "prevRank": 19,
+   "fromGroup": 5,
+   "nextGroup": 5,
+   "wins": 3,
+   "losses": 3,
+   "pd": -10,
+   "played": true
+  },
+  {
+   "userId": "u-emma",
+   "rank": 20,
+   "prevRank": 22,
+   "fromGroup": 6,
+   "nextGroup": 5,
+   "wins": 4,
+   "losses": 2,
+   "pd": 15,
+   "played": true
+  },
+  {
+   "userId": "u-kara",
+   "rank": 21,
+   "prevRank": 17,
+   "fromGroup": 5,
+   "nextGroup": 6,
+   "wins": 1,
+   "losses": 5,
+   "pd": -8,
+   "played": true
+  },
+  {
+   "userId": "u-sofia",
+   "rank": 22,
+   "prevRank": 21,
+   "fromGroup": 6,
+   "nextGroup": 6,
+   "wins": 4,
+   "losses": 2,
+   "pd": 11,
+   "played": true
+  },
+  {
+   "userId": "u-noah",
+   "rank": 23,
+   "prevRank": 24,
+   "fromGroup": 6,
+   "nextGroup": 6,
+   "wins": 2,
+   "losses": 4,
+   "pd": -9,
+   "played": true
+  },
+  {
+   "userId": "u-ben",
+   "rank": 24,
+   "prevRank": 23,
+   "fromGroup": 6,
+   "nextGroup": 6,
+   "wins": 2,
+   "losses": 4,
+   "pd": -17,
+   "played": true
+  }
+ ],
+ "players": {
+  "u-brooks": {
+   "id": "u-brooks",
+   "name": "Brooks Taylor",
+   "gender": "m",
+   "duprId": "DEMO-BR03",
+   "rating": 4.27,
+   "singlesRating": 4.02,
+   "reliability": 90
+  },
+  "u-dev": {
+   "id": "u-dev",
+   "name": "Dev Patel",
+   "gender": "m",
+   "duprId": "DEMO-DE07",
+   "rating": 4.1,
+   "singlesRating": 3.85,
+   "reliability": 100
+  },
+  "u-lena": {
+   "id": "u-lena",
+   "name": "Lena Schultz",
+   "gender": "f",
+   "duprId": "DEMO-LE10",
+   "rating": 3.99,
+   "singlesRating": 3.74,
+   "reliability": 100
+  },
+  "u-ana": {
+   "id": "u-ana",
+   "name": "Ana Alvarez",
+   "gender": "f",
+   "duprId": "DEMO-AN02",
+   "rating": 4.31,
+   "singlesRating": 4.06,
+   "reliability": 100
+  },
+  "u-chen": {
+   "id": "u-chen",
+   "name": "Chen Wei",
+   "gender": "m",
+   "duprId": "DEMO-CH01",
+   "rating": 4.38,
+   "singlesRating": 4.13,
+   "reliability": 100
+  },
+  "u-hale": {
+   "id": "u-hale",
+   "name": "Hale Rivera",
+   "gender": "m",
+   "duprId": "DEMO-HA05",
+   "rating": 4.19,
+   "singlesRating": 3.94,
+   "reliability": 100
+  },
+  "u-priya": {
+   "id": "u-priya",
+   "name": "Priya Kapoor",
+   "gender": "f",
+   "duprId": "DEMO-PR04",
+   "rating": 4.04,
+   "singlesRating": 3.79,
+   "reliability": 100
+  },
+  "u-nina": {
+   "id": "u-nina",
+   "name": "Nina Park",
+   "gender": "f",
+   "duprId": "DEMO-NI08",
+   "rating": 3.98,
+   "singlesRating": 3.73,
+   "reliability": 70
+  },
+  "u-sam": {
+   "id": "u-sam",
+   "name": "Sam Okafor",
+   "gender": "m",
+   "duprId": "DEMO-SA06",
+   "rating": 4.06,
+   "singlesRating": 3.81,
+   "reliability": 80
+  },
+  "u-marco": {
+   "id": "u-marco",
+   "name": "Marco Diaz",
+   "gender": "m",
+   "duprId": "DEMO-MA09",
+   "rating": 3.95,
+   "singlesRating": 3.7,
+   "reliability": 100
+  },
+  "u-grace": {
+   "id": "u-grace",
+   "name": "Grace Lin",
+   "gender": "f",
+   "duprId": "DEMO-GR12",
+   "rating": 3.84,
+   "singlesRating": 3.59,
+   "reliability": 100
+  },
+  "u-maya": {
+   "id": "u-maya",
+   "name": "Maya Singh",
+   "gender": "f",
+   "duprId": "DEMO-MA14",
+   "rating": 3.75,
+   "singlesRating": 3.5,
+   "reliability": 100
+  },
+  "u-tyler": {
+   "id": "u-tyler",
+   "name": "Tyler Brooks",
+   "gender": "m",
+   "duprId": "DEMO-TY13",
+   "rating": 3.79,
+   "singlesRating": 3.54,
+   "reliability": 60
+  },
+  "u-demo": {
+   "id": "u-demo",
+   "name": "Jordan Reyes",
+   "gender": "m",
+   "duprId": "MOCK-DEMO",
+   "rating": 4.12,
+   "singlesRating": 3.86,
+   "reliability": 100
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-omar": {
+   "id": "u-omar",
+   "name": "Omar Haddad",
+   "gender": "m",
+   "duprId": "DEMO-OM11",
+   "rating": 3.88,
+   "singlesRating": 3.63,
+   "reliability": 90
+  },
+  "u-luis": {
+   "id": "u-luis",
+   "name": "Luis Romero",
+   "gender": "m",
+   "duprId": "DEMO-LU21",
+   "rating": 3.38,
+   "singlesRating": 3.13,
+   "reliability": 100
+  },
+  "u-raj": {
+   "id": "u-raj",
+   "name": "Raj Mehta",
+   "gender": "m",
+   "duprId": "DEMO-RA17",
+   "rating": 3.6,
+   "singlesRating": 3.35,
+   "reliability": 100
+  },
+  "u-emma": {
+   "id": "u-emma",
+   "name": "Emma Clark",
+   "gender": "f",
+   "duprId": "DEMO-EM22",
+   "rating": 3.31,
+   "singlesRating": 3.06,
+   "reliability": 90
+  },
+  "u-kara": {
+   "id": "u-kara",
+   "name": "Kara Jones",
+   "gender": "f",
+   "duprId": "DEMO-KA20",
+   "rating": 3.44,
+   "singlesRating": 3.19,
+   "reliability": 100
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  },
+  "u-noah": {
+   "id": "u-noah",
+   "name": "Noah Kim",
+   "gender": "m",
+   "duprId": "DEMO-NO23",
+   "rating": 3.22,
+   "singlesRating": 2.97,
+   "reliability": 100
+  },
+  "u-ben": {
+   "id": "u-ben",
+   "name": "Ben Ortiz",
+   "gender": "m",
+   "duprId": "DEMO-BE19",
+   "rating": 3.49,
+   "singlesRating": 3.24,
+   "reliability": 70
+  }
+ }
+}

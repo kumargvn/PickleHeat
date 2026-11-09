@@ -40,7 +40,9 @@ export function safeEqual(a: string, b: string): boolean {
 
 export interface SessionClaims {
   sub: string; // user id
-  purpose: "session" | "dupr_connect";
+  purpose: "session" | "dupr_connect" | "handoff";
+  jti?: string;
+  to?: string;
   iat: number;
   exp: number;
 }
@@ -66,4 +68,17 @@ export async function verifyJwt(token: string, secret: string, purpose: SessionC
   } catch {
     return null;
   }
+}
+
+/** PBKDF2-SHA256 password hash (WebCrypto; runs on Workers, Bun, Node, browsers). */
+export async function hashPassword(password: string, saltB64?: string): Promise<{ salt: string; hash: string }> {
+  const salt = saltB64 ? b64urlDecode(saltB64) : crypto.getRandomValues(new Uint8Array(16));
+  const key = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveBits"]);
+  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt: salt as BufferSource, iterations: 100_000 }, key, 256);
+  return { salt: b64url(salt), hash: b64url(bits) };
+}
+
+export async function checkPassword(password: string, salt: string, hash: string): Promise<boolean> {
+  const h = await hashPassword(password, salt);
+  return safeEqual(h.hash, hash);
 }

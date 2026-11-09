@@ -1,0 +1,275 @@
+{
+ "form": {
+  "score": 74,
+  "label": "Rising",
+  "matchesUsed": 8,
+  "residuals": [
+   0.07417501103000257,
+   0.04637383920398741,
+   0.06919238067019323,
+   0.13267163936341309,
+   -0.03549617574099789,
+   0.09747279416940563,
+   0.11562228367856486,
+   -0.08219508170905138
+  ],
+  "weightedResidual": 0.06103085109940695,
+  "previousScore": 70
+ },
+ "insights": {
+  "record": {
+   "wins": 6,
+   "losses": 2
+  },
+  "pointShare": 0.5483870967741935,
+  "closeGames": {
+   "wins": 5,
+   "losses": 3
+  },
+  "vsHigherRated": {
+   "wins": 2,
+   "losses": 0
+  },
+  "traits": {
+   "clutch": 63,
+   "consistency": 30,
+   "giantKiller": 100,
+   "momentum": 60
+  },
+  "tip": "Your results swing a lot match to match. A steady warm-up routine helps."
+ },
+ "matches": [
+  {
+   "id": "m1",
+   "playedAt": "2026-11-08T18:00:00Z",
+   "teamRating": 4.08,
+   "opponentRating": 4.15,
+   "games": [
+    {
+     "us": 11,
+     "them": 8
+    },
+    {
+     "us": 11,
+     "them": 9
+    }
+   ],
+   "partnerName": "Priya K.",
+   "opponentNames": [
+    "Chen W.",
+    "Ana A."
+   ],
+   "eventName": "Tuesday Night 4.0 Ladder"
+  },
+  {
+   "id": "m2",
+   "playedAt": "2026-11-05T18:00:00Z",
+   "teamRating": 4.1,
+   "opponentRating": 3.98,
+   "games": [
+    {
+     "us": 11,
+     "them": 6
+    },
+    {
+     "us": 9,
+     "them": 11
+    },
+    {
+     "us": 11,
+     "them": 7
+    }
+   ],
+   "partnerName": "Sam O.",
+   "opponentNames": [
+    "Marco D.",
+    "Lena S."
+   ],
+   "eventName": "Sunday Mixed League"
+  },
+  {
+   "id": "m3",
+   "playedAt": "2026-11-03T18:00:00Z",
+   "teamRating": 4.05,
+   "opponentRating": 4.2,
+   "games": [
+    {
+     "us": 11,
+     "them": 9
+    },
+    {
+     "us": 12,
+     "them": 10
+    }
+   ],
+   "partnerName": "Priya K.",
+   "opponentNames": [
+    "Brooks T.",
+    "Hale R."
+   ],
+   "eventName": "Tuesday Night 4.0 Ladder"
+  },
+  {
+   "id": "m4",
+   "playedAt": "2026-10-31T18:00:00Z",
+   "teamRating": 4.12,
+   "opponentRating": 4.02,
+   "games": [
+    {
+     "us": 11,
+     "them": 5
+    },
+    {
+     "us": 11,
+     "them": 7
+    }
+   ],
+   "partnerName": "Dev P.",
+   "opponentNames": [
+    "Okafor N.",
+    "Patel R."
+   ],
+   "eventName": "Open play"
+  },
+  {
+   "id": "m5",
+   "playedAt": "2026-10-28T18:00:00Z",
+   "teamRating": 4.07,
+   "opponentRating": 4,
+   "games": [
+    {
+     "us": 8,
+     "them": 11
+    },
+    {
+     "us": 11,
+     "them": 9
+    },
+    {
+     "us": 9,
+     "them": 11
+    }
+   ],
+   "partnerName": "Sam O.",
+   "opponentNames": [
+    "Nguyen L.",
+    "Ortiz J."
+   ],
+   "eventName": "Sunday Mixed League"
+  },
+  {
+   "id": "m6",
+   "playedAt": "2026-10-25T18:00:00Z",
+   "teamRating": 4.09,
+   "opponentRating": 4.11,
+   "games": [
+    {
+     "us": 11,
+     "them": 7
+    },
+    {
+     "us": 11,
+     "them": 8
+    }
+   ],
+   "partnerName": "Priya K.",
+   "opponentNames": [
+    "Kim H.",
+    "Lopez M."
+   ],
+   "eventName": "Tuesday Night 4.0 Ladder"
+  },
+  {
+   "id": "m7",
+   "playedAt": "2026-10-21T18:00:00Z",
+   "teamRating": 4.04,
+   "opponentRating": 3.95,
+   "games": [
+    {
+     "us": 11,
+     "them": 9
+    },
+    {
+     "us": 11,
+     "them": 4
+    }
+   ],
+   "partnerName": "Dev P.",
+   "opponentNames": [
+    "Grant B.",
+    "Shah A."
+   ],
+   "eventName": "Open play"
+  },
+  {
+   "id": "m8",
+   "playedAt": "2026-10-17T18:00:00Z",
+   "teamRating": 4.06,
+   "opponentRating": 4.01,
+   "games": [
+    {
+     "us": 7,
+     "them": 11
+    },
+    {
+     "us": 10,
+     "them": 12
+    }
+   ],
+   "partnerName": "Sam O.",
+   "opponentNames": [
+    "Ruiz C.",
+    "Ford E."
+   ],
+   "eventName": "Sunday Mixed League"
+  },
+  {
+   "id": "m9",
+   "playedAt": "2026-10-13T18:00:00Z",
+   "teamRating": 4.03,
+   "opponentRating": 4.08,
+   "games": [
+    {
+     "us": 9,
+     "them": 11
+    },
+    {
+     "us": 11,
+     "them": 13
+    }
+   ],
+   "partnerName": "Priya K.",
+   "opponentNames": [
+    "Chen W.",
+    "Ana A."
+   ],
+   "eventName": "Tuesday Night 4.0 Ladder"
+  },
+  {
+   "id": "m10",
+   "playedAt": "2026-10-09T18:00:00Z",
+   "teamRating": 4.02,
+   "opponentRating": 3.94,
+   "games": [
+    {
+     "us": 11,
+     "them": 8
+    },
+    {
+     "us": 8,
+     "them": 11
+    },
+    {
+     "us": 9,
+     "them": 11
+    }
+   ],
+   "partnerName": "Dev P.",
+   "opponentNames": [
+    "Marco D.",
+    "Lena S."
+   ],
+   "eventName": "Open play"
+  }
+ ]
+}

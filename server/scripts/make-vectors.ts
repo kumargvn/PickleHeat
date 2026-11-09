@@ -9,6 +9,11 @@ import { recommend } from "../src/domain/recommend";
 import { eliminationFirstRound, roundRobin, snakePools, standings } from "../src/domain/schedule";
 import { sampleMatches, sampleTournaments } from "../src/adapters/sample";
 import type { PlayedMatch } from "../src/domain/types";
+import { mkdirSync } from "node:fs";
+import { handle } from "../src/app";
+import { buildDeps } from "../src/deps";
+import { MemoryStore } from "../src/adapters/memoryStore";
+import { seedDemo } from "../src/demo/seed";
 
 const out = join(import.meta.dir, "../../shared/vectors");
 const TODAY = "2026-11-07";
@@ -74,4 +79,61 @@ writeFileSync(
     2,
   ) + "\n",
 );
+
+// ---------- API responses: the Swift tests decode each one into the app's models ----------
+// Fixed clock and ids so the files only change when the API shape or the demo world changes.
+const apiOut = join(out, "api");
+mkdirSync(apiOut, { recursive: true });
+let n = 0;
+const deps = buildDeps({ PUBLIC_BASE_URL: "https://demo.pickleheat.app", WEB_APP_URL: "https://demo.pickleheat.app/app/", JWT_SECRET: "v".repeat(40), ALLOW_DEV_AUTH: "true", PLATFORM_FEE_BPS: "0" }, new MemoryStore());
+const clock = Date.parse("2026-11-07T15:00:00Z");
+deps.now = () => new Date(clock + n * 1000);
+deps.newId = () => `id${String(++n).padStart(5, "0")}`;
+await seedDemo(deps);
+async function api(method: string, path: string, token?: string, body?: unknown) {
+  const res = await handle(new Request("https://demo.pickleheat.app" + path, { method, headers: { "content-type": "application/json", ...(token ? { authorization: `Bearer ${token}` } : {}) }, body: body === undefined ? undefined : JSON.stringify(body) }), deps);
+  const json = await res.json();
+  if (res.status >= 400) throw new Error(`${method} ${path}: ${res.status} ${JSON.stringify(json)}`);
+  return json as any;
+}
+const save = (name: string, body: unknown) => writeFileSync(join(apiOut, `api-${name}.json`), JSON.stringify(body, null, 1) + "\n");
+const signIn = await api("POST", "/v1/auth/apple", undefined, { identityToken: "dev:demo" });
+save("auth", signIn);
+const t = signIn.token as string;
+const cs = await api("POST", "/v1/dupr/connect-session", t, { client: "app" });
+await api("POST", "/v1/dupr/link", new URL(cs.url).searchParams.get("t")!, { userToken: "mock-demo", refreshToken: "refresh-demo" });
+save("me", await api("GET", "/v1/me", t));
+save("form", await api("GET", "/v1/me/form", t));
+save("live", await api("GET", "/v1/me/live", t));
+save("discover", await api("GET", "/v1/discover", t));
+const events = await api("GET", "/v1/events", t);
+save("events", events);
+const byName = (name: string) => [...events.events, ...(await_discover.events as any[])].find((c: any) => c.event.name === name).event;
+const await_discover = await api("GET", "/v1/discover", t);
+const ladder = byName("Sunrise Heat Climb");
+const ladderDetail = await api("GET", `/v1/events/${ladder.id}`, t);
+save("event-ladder", ladderDetail);
+save("round", await api("GET", `/v1/rounds/${ladderDetail.currentRoundId}`, t));
+save("rankings", await api("GET", `/v1/events/${ladder.id}/rankings`, t));
+save("stats", await api("GET", `/v1/events/${ladder.id}/stats`, t));
+save("event-scramble", await api("GET", `/v1/events/${byName("Friday Wildfire Mixer").id}`, t));
+save("register", await api("POST", `/v1/events/${byName("Friday Wildfire Mixer").id}/register?client=app`, t, {}));
+save("handoff", await api("POST", "/v1/auth/handoff", t, { to: "payouts" }));
+save("event-team", await api("GET", `/v1/events/${byName("Tuesday Team League").id}`, t));
+const hale = (await api("POST", "/v1/auth/apple", undefined, { identityToken: "dev:hale" })).token;
+const slam = byName("Fall Slam Doubles");
+await api("POST", `/v1/events/${slam.id}/schedule`, hale);
+save("event-bracket", await api("GET", `/v1/events/${slam.id}`, t));
+const ana = (await api("POST", "/v1/auth/apple", undefined, { identityToken: "dev:ana" })).token;
+const mlp = byName("Club MLP Showdown");
+await api("POST", `/v1/events/${mlp.id}/schedule`, ana);
+save("event-mlp", await api("GET", `/v1/events/${mlp.id}`, t));
+const chats = await api("GET", "/v1/chats", t);
+save("chats", chats);
+save("messages", await api("GET", `/v1/chats/${chats.chats[0].chat.id}/messages`, t));
+save("notifications", await api("GET", "/v1/notifications", t));
+const clubs = await api("GET", "/v1/clubs", t);
+save("clubs", clubs);
+save("club", await api("GET", `/v1/clubs/${clubs.mine[0].club.id}`, t));
+save("recommended", await api("GET", "/v1/tournaments/recommended", t));
 console.log("vectors written to", out);

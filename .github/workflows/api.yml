@@ -32,11 +32,11 @@ jobs:
         run: |
           bun run scripts/make-vectors.ts
           git diff --exit-code ../shared/vectors || (echo "::error::Run 'bun run vectors' in server/ and commit shared/vectors" && exit 1)
-      - name: Web engine bundle is up to date
+      - name: Demo API bundle is up to date
         working-directory: .
         run: |
           bun run web/build.ts
-          git diff --exit-code docs/app/engine.js || (echo "::error::Run 'bun run web/build.ts' and commit docs/app/engine.js" && exit 1)
+          git diff --exit-code docs/app/demo-api.js ios/PickleHeat/Resources/demo-api.js || (echo "::error::Run bun run web/build.ts and commit the demo bundles" && exit 1)
 
   deploy:
     name: Deploy to Cloudflare Workers

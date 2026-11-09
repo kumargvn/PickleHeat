@@ -89,6 +89,8 @@ export class DuprHttpProvider implements RatingProvider {
       name: String(r.fullName ?? r.name ?? [r.firstName, r.lastName].filter(Boolean).join(" ") ?? ""),
       doublesRating: num(ratings.doubles ?? ratings.doublesRating),
       singlesRating: num(ratings.singles ?? ratings.singlesRating),
+      doublesReliability: num(ratings.doublesReliabilityScore ?? ratings.doublesVerified ?? r.doublesReliability),
+      singlesReliability: num(ratings.singlesReliabilityScore ?? ratings.singlesVerified ?? r.singlesReliability),
     };
   }
 
@@ -185,6 +187,8 @@ export class DuprHttpProvider implements RatingProvider {
         duprId: String(x.duprId ?? x.dupr_id),
         doublesRating: num(x.rating?.doubles ?? x.doubles ?? x.doublesRating),
         singlesRating: num(x.rating?.singles ?? x.singles ?? x.singlesRating),
+        doublesReliability: num(x.rating?.doublesReliabilityScore ?? x.doublesReliability),
+        singlesReliability: num(x.rating?.singlesReliabilityScore ?? x.singlesReliability),
       }));
   }
 }
@@ -209,6 +213,8 @@ export class MockDuprProvider implements RatingProvider {
       name: samplePlayer.name,
       doublesRating: samplePlayer.doublesRating,
       singlesRating: samplePlayer.singlesRating,
+      doublesReliability: 100,
+      singlesReliability: 80,
     };
   }
 

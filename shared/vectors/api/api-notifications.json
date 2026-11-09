@@ -1,0 +1,94 @@
+{
+ "notifications": [
+  {
+   "id": "id00292",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:04:51.000Z",
+   "kind": "welcome",
+   "title": "Welcome to PickleHeat",
+   "body": "Connect DUPR, check your Round 4 heat chat, and confirm the score your opponent reported.",
+   "link": "events/id00005"
+  },
+  {
+   "id": "id00248",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:04:06.000Z",
+   "kind": "confirm_score",
+   "title": "Confirm a score",
+   "body": "Leo Carter reported 11-8, 9-11 in Sunrise Heat Climb.",
+   "link": "events/id00005"
+  },
+  {
+   "id": "id00232",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:03:50.000Z",
+   "kind": "grouped",
+   "title": "Round 4: you're in Heat 4",
+   "body": "Tyler, Jordan, Leo, Ivy",
+   "link": "chats/id00229"
+  },
+  {
+   "id": "id00202",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:03:06.000Z",
+   "kind": "round_closed",
+   "title": "Round 3 results are in",
+   "body": "See where you landed in Sunrise Heat Climb.",
+   "link": "events/id00005"
+  },
+  {
+   "id": "id00174",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:02:50.000Z",
+   "kind": "grouped",
+   "title": "Round 3: you're in Heat 4",
+   "body": "Leo, Omar, Maya, Jordan",
+   "link": "chats/id00169"
+  },
+  {
+   "id": "id00146",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:02:06.000Z",
+   "kind": "round_closed",
+   "title": "Round 2 results are in",
+   "body": "See where you landed in Sunrise Heat Climb.",
+   "link": "events/id00005"
+  },
+  {
+   "id": "id00120",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:01:56.000Z",
+   "kind": "grouped",
+   "title": "Round 2: you're in Heat 5",
+   "body": "Ivy, Sofia, Raj, Jordan",
+   "link": "chats/id00115"
+  },
+  {
+   "id": "id00090",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:01:06.000Z",
+   "kind": "round_closed",
+   "title": "Round 1 results are in",
+   "body": "See where you landed in Sunrise Heat Climb.",
+   "link": "events/id00005"
+  },
+  {
+   "id": "id00066",
+   "userId": "u-demo",
+   "read": false,
+   "createdAt": "2026-11-07T15:01:02.000Z",
+   "kind": "grouped",
+   "title": "Round 1: you're in Heat 6",
+   "body": "Luis, Emma, Noah, Jordan",
+   "link": "chats/id00061"
+  }
+ ]
+}

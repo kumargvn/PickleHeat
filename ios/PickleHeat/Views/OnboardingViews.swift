@@ -5,18 +5,18 @@ struct SignInView: View {
     @EnvironmentObject var model: AppModel
 
     var body: some View {
-        VStack(spacing: 28) {
+        VStack(spacing: 26) {
             Spacer()
             Image("Logo").resizable().frame(width: 128, height: 128).clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             VStack(spacing: 10) {
                 Text("PickleHeat").font(Theme.display(44)).tracking(-1)
-                Text("Leagues, tournaments and your\nDUPR form, all in one place.")
+                Text("Ladders, leagues, tournaments and\nyour DUPR form, all in one place.")
                     .font(.system(size: 17)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
             }
             VStack(alignment: .leading, spacing: 14) {
-                feature("chart.line.uptrend.xyaxis", Theme.lime, "Form score from your last 8 DUPR matches")
-                feature("trophy.fill", Theme.coral, "Create leagues and tournaments, collect fees")
-                feature("mappin.and.ellipse", Theme.sky, "Tournaments near you that fit your rating")
+                feature("flame.fill", Theme.coral, "Form score from your last 8 DUPR matches")
+                feature("person.3.fill", Theme.lime, "Flex ladders: groups of 4, rotating partners")
+                feature("bubble.left.and.bubble.right.fill", Theme.sky, "Group chats to set a time and place")
             }
             .padding(.horizontal, 8)
             Spacer()
@@ -29,7 +29,8 @@ struct SignInView: View {
                           let data = cred.identityToken, let token = String(data: data, encoding: .utf8)
                     else { model.errorMessage = "Apple didn't return a sign-in token. Please try again."; return }
                     let name = [cred.fullName?.givenName, cred.fullName?.familyName].compactMap { $0 }.joined(separator: " ")
-                    Task { await model.signIn(identityToken: token, name: name.isEmpty ? nil : name) }
+                    // Demo mode has no server to check Apple's token, so it opens the demo account.
+                    Task { await model.signIn(identityToken: model.isDemo ? "dev:demo" : token, name: name.isEmpty ? nil : name) }
                 case let .failure(error):
                     if (error as? ASAuthorizationError)?.code != .canceled { model.errorMessage = error.localizedDescription }
                 }
@@ -39,7 +40,7 @@ struct SignInView: View {
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
             if model.isDemo {
-                Button("Try the demo") { Task { await model.signIn(identityToken: "demo", name: nil) } }
+                Button("Try the demo") { Task { await model.signIn(identityToken: "dev:demo", name: nil) } }
                     .buttonStyle(SecondaryButtonStyle())
                     .accessibilityIdentifier("tryDemo")
             }
@@ -77,8 +78,8 @@ struct DuprConnectView: View {
                     .font(.system(size: 16)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
             }
             VStack(alignment: .leading, spacing: 12) {
-                row("arrow.down.circle.fill", Theme.lime, "Your DUPR ratings and recent matches come in")
-                row("arrow.up.circle.fill", Theme.coral, "Confirmed PickleHeat match scores go to DUPR")
+                row("arrow.down.circle.fill", Theme.lime, "Your DUPR ratings, reliability and recent matches come in")
+                row("arrow.up.circle.fill", Theme.coral, "Confirmed PickleHeat scores go to DUPR")
                 row("lock.fill", Theme.sky, "You log in on DUPR's own page. PickleHeat never sees your password")
             }
             .card()

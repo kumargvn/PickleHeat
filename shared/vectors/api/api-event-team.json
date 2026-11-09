@@ -1,0 +1,454 @@
+{
+ "event": {
+  "id": "id00280",
+  "organizerId": "u-ana",
+  "clubId": "id00001",
+  "kind": "league",
+  "style": "round_robin",
+  "name": "Tuesday Team League",
+  "description": "Fixed doubles teams, one match a week.",
+  "format": "doubles",
+  "startDate": "2026-10-30",
+  "endDate": null,
+  "weeks": 3,
+  "roundDays": 7,
+  "gamesPerMatch": 1,
+  "venue": "Sample Community Courts",
+  "city": "Round Rock",
+  "state": "TX",
+  "lat": 30.51,
+  "lng": -97.67,
+  "minRating": null,
+  "maxRating": null,
+  "capacity": 8,
+  "feeCents": 0,
+  "memberFeeCents": null,
+  "currency": "usd",
+  "requireDuprVerified": true,
+  "submitToDupr": true,
+  "status": "in_progress",
+  "ladder": [],
+  "createdAt": "2026-11-07T15:04:40.000Z"
+ },
+ "club": {
+  "id": "id00001",
+  "name": "Sample Pickleball Club"
+ },
+ "isManager": false,
+ "myEntry": {
+  "id": "id00281",
+  "eventId": "id00280",
+  "playerIds": [
+   "u-demo",
+   "u-priya"
+  ],
+  "teamName": "Jordan / Priya",
+  "teamRating": 3.9699999999999998,
+  "status": "confirmed",
+  "comped": false,
+  "createdAt": "2026-11-07T15:00:00.000Z"
+ },
+ "myPriceCents": 0,
+ "entries": [
+  {
+   "id": "id00281",
+   "eventId": "id00280",
+   "playerIds": [
+    "u-demo",
+    "u-priya"
+   ],
+   "teamName": "Jordan / Priya",
+   "teamRating": 3.9699999999999998,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00282",
+   "eventId": "id00280",
+   "playerIds": [
+    "u-ben",
+    "u-kara"
+   ],
+   "teamName": "Ben / Kara",
+   "teamRating": 3.465,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00283",
+   "eventId": "id00280",
+   "playerIds": [
+    "u-luis",
+    "u-emma"
+   ],
+   "teamName": "Luis / Emma",
+   "teamRating": 3.3449999999999998,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  },
+  {
+   "id": "id00284",
+   "eventId": "id00280",
+   "playerIds": [
+    "u-noah",
+    "u-sofia"
+   ],
+   "teamName": "Noah / Sofia",
+   "teamRating": 3.385,
+   "status": "confirmed",
+   "comped": false,
+   "createdAt": "2026-11-07T15:00:00.000Z"
+  }
+ ],
+ "waitlist": [],
+ "players": {
+  "u-ana": {
+   "id": "u-ana",
+   "name": "Ana Alvarez",
+   "gender": "f",
+   "duprId": "DEMO-AN02",
+   "rating": 4.31,
+   "singlesRating": 4.06,
+   "reliability": 100
+  },
+  "u-demo": {
+   "id": "u-demo",
+   "name": "Jordan Reyes",
+   "gender": "m",
+   "duprId": "MOCK-DEMO",
+   "rating": 4.12,
+   "singlesRating": 3.86,
+   "reliability": 100
+  },
+  "u-priya": {
+   "id": "u-priya",
+   "name": "Priya Kapoor",
+   "gender": "f",
+   "duprId": "DEMO-PR04",
+   "rating": 4.04,
+   "singlesRating": 3.79,
+   "reliability": 100
+  },
+  "u-ben": {
+   "id": "u-ben",
+   "name": "Ben Ortiz",
+   "gender": "m",
+   "duprId": "DEMO-BE19",
+   "rating": 3.49,
+   "singlesRating": 3.24,
+   "reliability": 70
+  },
+  "u-kara": {
+   "id": "u-kara",
+   "name": "Kara Jones",
+   "gender": "f",
+   "duprId": "DEMO-KA20",
+   "rating": 3.44,
+   "singlesRating": 3.19,
+   "reliability": 100
+  },
+  "u-luis": {
+   "id": "u-luis",
+   "name": "Luis Romero",
+   "gender": "m",
+   "duprId": "DEMO-LU21",
+   "rating": 3.38,
+   "singlesRating": 3.13,
+   "reliability": 100
+  },
+  "u-emma": {
+   "id": "u-emma",
+   "name": "Emma Clark",
+   "gender": "f",
+   "duprId": "DEMO-EM22",
+   "rating": 3.31,
+   "singlesRating": 3.06,
+   "reliability": 90
+  },
+  "u-noah": {
+   "id": "u-noah",
+   "name": "Noah Kim",
+   "gender": "m",
+   "duprId": "DEMO-NO23",
+   "rating": 3.22,
+   "singlesRating": 2.97,
+   "reliability": 100
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  }
+ },
+ "matches": [
+  {
+   "id": "id00286",
+   "eventId": "id00280",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": null,
+   "label": "Week 1",
+   "homeEntryId": "id00281",
+   "awayEntryId": "id00283",
+   "homePlayers": [
+    "u-demo",
+    "u-priya"
+   ],
+   "awayPlayers": [
+    "u-luis",
+    "u-emma"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-10-30T09:00:00.000Z",
+   "court": null,
+   "games": [
+    {
+     "us": 11,
+     "them": 7
+    }
+   ],
+   "lines": null,
+   "status": "confirmed",
+   "reportedBy": "u-ana",
+   "confirmedBy": "u-ana",
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": "Every player needs a connected DUPR account before this match can be submitted"
+  },
+  {
+   "id": "id00287",
+   "eventId": "id00280",
+   "roundId": null,
+   "groupId": null,
+   "round": 1,
+   "pool": null,
+   "bracket": null,
+   "label": "Week 1",
+   "homeEntryId": "id00282",
+   "awayEntryId": "id00284",
+   "homePlayers": [
+    "u-ben",
+    "u-kara"
+   ],
+   "awayPlayers": [
+    "u-noah",
+    "u-sofia"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-10-30T09:00:00.000Z",
+   "court": null,
+   "games": [
+    {
+     "us": 11,
+     "them": 10
+    }
+   ],
+   "lines": null,
+   "status": "confirmed",
+   "reportedBy": "u-ana",
+   "confirmedBy": "u-ana",
+   "duprMatchId": "mock-match-id00287",
+   "duprSyncedAt": "2026-11-07T15:04:51.000Z",
+   "duprError": null
+  },
+  {
+   "id": "id00288",
+   "eventId": "id00280",
+   "roundId": null,
+   "groupId": null,
+   "round": 2,
+   "pool": null,
+   "bracket": null,
+   "label": "Week 2",
+   "homeEntryId": "id00284",
+   "awayEntryId": "id00281",
+   "homePlayers": [
+    "u-noah",
+    "u-sofia"
+   ],
+   "awayPlayers": [
+    "u-demo",
+    "u-priya"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-11-06T09:00:00.000Z",
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00289",
+   "eventId": "id00280",
+   "roundId": null,
+   "groupId": null,
+   "round": 2,
+   "pool": null,
+   "bracket": null,
+   "label": "Week 2",
+   "homeEntryId": "id00282",
+   "awayEntryId": "id00283",
+   "homePlayers": [
+    "u-ben",
+    "u-kara"
+   ],
+   "awayPlayers": [
+    "u-luis",
+    "u-emma"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-11-06T09:00:00.000Z",
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00290",
+   "eventId": "id00280",
+   "roundId": null,
+   "groupId": null,
+   "round": 3,
+   "pool": null,
+   "bracket": null,
+   "label": "Week 3",
+   "homeEntryId": "id00281",
+   "awayEntryId": "id00282",
+   "homePlayers": [
+    "u-demo",
+    "u-priya"
+   ],
+   "awayPlayers": [
+    "u-ben",
+    "u-kara"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-11-13T09:00:00.000Z",
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  },
+  {
+   "id": "id00291",
+   "eventId": "id00280",
+   "roundId": null,
+   "groupId": null,
+   "round": 3,
+   "pool": null,
+   "bracket": null,
+   "label": "Week 3",
+   "homeEntryId": "id00284",
+   "awayEntryId": "id00283",
+   "homePlayers": [
+    "u-noah",
+    "u-sofia"
+   ],
+   "awayPlayers": [
+    "u-luis",
+    "u-emma"
+   ],
+   "homeDead": false,
+   "awayDead": false,
+   "winnerTo": null,
+   "loserTo": null,
+   "scheduledAt": "2026-11-13T09:00:00.000Z",
+   "court": null,
+   "games": [],
+   "lines": null,
+   "status": "scheduled",
+   "reportedBy": null,
+   "confirmedBy": null,
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null
+  }
+ ],
+ "standings": [
+  {
+   "pool": null,
+   "table": [
+    {
+     "entrant": "id00281",
+     "played": 1,
+     "wins": 1,
+     "losses": 0,
+     "pointsFor": 11,
+     "pointsAgainst": 7,
+     "diff": 4
+    },
+    {
+     "entrant": "id00282",
+     "played": 1,
+     "wins": 1,
+     "losses": 0,
+     "pointsFor": 11,
+     "pointsAgainst": 10,
+     "diff": 1
+    },
+    {
+     "entrant": "id00284",
+     "played": 1,
+     "wins": 0,
+     "losses": 1,
+     "pointsFor": 10,
+     "pointsAgainst": 11,
+     "diff": -1
+    },
+    {
+     "entrant": "id00283",
+     "played": 1,
+     "wins": 0,
+     "losses": 1,
+     "pointsFor": 7,
+     "pointsAgainst": 11,
+     "diff": -4
+    }
+   ]
+  }
+ ],
+ "rounds": [],
+ "currentRoundId": null,
+ "chatId": "id00285",
+ "money": null,
+ "invites": []
+}

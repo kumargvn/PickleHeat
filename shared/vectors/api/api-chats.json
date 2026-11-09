@@ -1,0 +1,390 @@
+{
+ "chats": [
+  {
+   "chat": {
+    "id": "id00285",
+    "kind": "event",
+    "title": "Tuesday Team League",
+    "eventId": "id00280",
+    "groupId": null,
+    "clubId": null,
+    "memberIds": [
+     "u-ana",
+     "u-demo",
+     "u-priya",
+     "u-ben",
+     "u-kara",
+     "u-luis",
+     "u-emma",
+     "u-noah",
+     "u-sofia"
+    ],
+    "lastMessageAt": null,
+    "createdAt": "2026-11-07T15:04:45.000Z"
+   },
+   "lastMessage": null,
+   "unread": 0
+  },
+  {
+   "chat": {
+    "id": "id00229",
+    "kind": "group",
+    "title": "Round 4 · Heat 4",
+    "eventId": "id00005",
+    "groupId": "id00005-r4-g4",
+    "clubId": null,
+    "memberIds": [
+     "u-tyler",
+     "u-demo",
+     "u-leo",
+     "u-ivy"
+    ],
+    "lastMessageAt": "2026-11-07T15:04:09.000Z",
+    "createdAt": "2026-11-07T15:03:49.000Z"
+   },
+   "lastMessage": {
+    "id": "00mw6jalgo-id00250",
+    "chatId": "id00229",
+    "userId": "u-tyler",
+    "text": "Thursday works! I'll bring balls 🎾",
+    "createdAt": "2026-11-07T15:04:09.000Z",
+    "reactions": {}
+   },
+   "unread": 3
+  },
+  {
+   "chat": {
+    "id": "id00169",
+    "kind": "group",
+    "title": "Round 3 · Heat 4",
+    "eventId": "id00005",
+    "groupId": "id00005-r3-g4",
+    "clubId": null,
+    "memberIds": [
+     "u-leo",
+     "u-omar",
+     "u-maya",
+     "u-demo"
+    ],
+    "lastMessageAt": "2026-11-07T15:02:49.000Z",
+    "createdAt": "2026-11-07T15:02:49.000Z"
+   },
+   "lastMessage": {
+    "id": "00mw6j8vqg-id00170",
+    "chatId": "id00169",
+    "userId": null,
+    "text": "Hey all, you're in the same heat for Round 3 of Sunrise Heat Climb. Use this chat to coordinate a time & place to play! Games: 3 matches × 2 games, rotating partners.",
+    "createdAt": "2026-11-07T15:02:49.000Z",
+    "reactions": {}
+   },
+   "unread": 1
+  },
+  {
+   "chat": {
+    "id": "id00115",
+    "kind": "group",
+    "title": "Round 2 · Heat 5",
+    "eventId": "id00005",
+    "groupId": "id00005-r2-g5",
+    "clubId": null,
+    "memberIds": [
+     "u-ivy",
+     "u-sofia",
+     "u-raj",
+     "u-demo"
+    ],
+    "lastMessageAt": "2026-11-07T15:01:55.000Z",
+    "createdAt": "2026-11-07T15:01:55.000Z"
+   },
+   "lastMessage": {
+    "id": "00mw6j7q2g-id00116",
+    "chatId": "id00115",
+    "userId": null,
+    "text": "Hey all, you're in the same heat for Round 2 of Sunrise Heat Climb. Use this chat to coordinate a time & place to play! Games: 3 matches × 2 games, rotating partners.",
+    "createdAt": "2026-11-07T15:01:55.000Z",
+    "reactions": {}
+   },
+   "unread": 1
+  },
+  {
+   "chat": {
+    "id": "id00061",
+    "kind": "group",
+    "title": "Round 1 · Heat 6",
+    "eventId": "id00005",
+    "groupId": "id00005-r1-g6",
+    "clubId": null,
+    "memberIds": [
+     "u-luis",
+     "u-emma",
+     "u-noah",
+     "u-demo"
+    ],
+    "lastMessageAt": "2026-11-07T15:01:01.000Z",
+    "createdAt": "2026-11-07T15:01:01.000Z"
+   },
+   "lastMessage": {
+    "id": "00mw6j6keg-id00062",
+    "chatId": "id00061",
+    "userId": null,
+    "text": "Hey all, you're in the same heat for Round 1 of Sunrise Heat Climb. Use this chat to coordinate a time & place to play! Games: 3 matches × 2 games, rotating partners.",
+    "createdAt": "2026-11-07T15:01:01.000Z",
+    "reactions": {}
+   },
+   "unread": 1
+  },
+  {
+   "chat": {
+    "id": "id00030",
+    "kind": "event",
+    "title": "Sunrise Heat Climb",
+    "eventId": "id00005",
+    "groupId": null,
+    "clubId": null,
+    "memberIds": [
+     "u-chen",
+     "u-ana",
+     "u-brooks",
+     "u-priya",
+     "u-hale",
+     "u-sam",
+     "u-dev",
+     "u-nina",
+     "u-marco",
+     "u-lena",
+     "u-omar",
+     "u-grace",
+     "u-tyler",
+     "u-maya",
+     "u-leo",
+     "u-ivy",
+     "u-raj",
+     "u-sofia",
+     "u-ben",
+     "u-kara",
+     "u-luis",
+     "u-emma",
+     "u-noah",
+     "u-demo"
+    ],
+    "lastMessageAt": null,
+    "createdAt": "2026-11-07T15:00:30.000Z"
+   },
+   "lastMessage": null,
+   "unread": 0
+  },
+  {
+   "chat": {
+    "id": "id00002",
+    "kind": "club",
+    "title": "Sample Pickleball Club",
+    "eventId": null,
+    "groupId": null,
+    "clubId": "id00001",
+    "memberIds": [
+     "u-chen",
+     "u-ana",
+     "u-brooks",
+     "u-priya",
+     "u-hale",
+     "u-sam",
+     "u-dev",
+     "u-nina",
+     "u-marco",
+     "u-lena",
+     "u-omar",
+     "u-grace",
+     "u-tyler",
+     "u-maya",
+     "u-leo",
+     "u-ivy",
+     "u-raj",
+     "u-sofia",
+     "u-ben",
+     "u-kara",
+     "u-luis",
+     "u-emma",
+     "u-noah",
+     "u-demo"
+    ],
+    "lastMessageAt": null,
+    "createdAt": "2026-11-07T15:00:02.000Z"
+   },
+   "lastMessage": null,
+   "unread": 0
+  }
+ ],
+ "players": {
+  "u-ana": {
+   "id": "u-ana",
+   "name": "Ana Alvarez",
+   "gender": "f",
+   "duprId": "DEMO-AN02",
+   "rating": 4.31,
+   "singlesRating": 4.06,
+   "reliability": 100
+  },
+  "u-demo": {
+   "id": "u-demo",
+   "name": "Jordan Reyes",
+   "gender": "m",
+   "duprId": "MOCK-DEMO",
+   "rating": 4.12,
+   "singlesRating": 3.86,
+   "reliability": 100
+  },
+  "u-priya": {
+   "id": "u-priya",
+   "name": "Priya Kapoor",
+   "gender": "f",
+   "duprId": "DEMO-PR04",
+   "rating": 4.04,
+   "singlesRating": 3.79,
+   "reliability": 100
+  },
+  "u-ben": {
+   "id": "u-ben",
+   "name": "Ben Ortiz",
+   "gender": "m",
+   "duprId": "DEMO-BE19",
+   "rating": 3.49,
+   "singlesRating": 3.24,
+   "reliability": 70
+  },
+  "u-kara": {
+   "id": "u-kara",
+   "name": "Kara Jones",
+   "gender": "f",
+   "duprId": "DEMO-KA20",
+   "rating": 3.44,
+   "singlesRating": 3.19,
+   "reliability": 100
+  },
+  "u-luis": {
+   "id": "u-luis",
+   "name": "Luis Romero",
+   "gender": "m",
+   "duprId": "DEMO-LU21",
+   "rating": 3.38,
+   "singlesRating": 3.13,
+   "reliability": 100
+  },
+  "u-tyler": {
+   "id": "u-tyler",
+   "name": "Tyler Brooks",
+   "gender": "m",
+   "duprId": "DEMO-TY13",
+   "rating": 3.79,
+   "singlesRating": 3.54,
+   "reliability": 60
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-omar": {
+   "id": "u-omar",
+   "name": "Omar Haddad",
+   "gender": "m",
+   "duprId": "DEMO-OM11",
+   "rating": 3.88,
+   "singlesRating": 3.63,
+   "reliability": 90
+  },
+  "u-maya": {
+   "id": "u-maya",
+   "name": "Maya Singh",
+   "gender": "f",
+   "duprId": "DEMO-MA14",
+   "rating": 3.75,
+   "singlesRating": 3.5,
+   "reliability": 100
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  },
+  "u-raj": {
+   "id": "u-raj",
+   "name": "Raj Mehta",
+   "gender": "m",
+   "duprId": "DEMO-RA17",
+   "rating": 3.6,
+   "singlesRating": 3.35,
+   "reliability": 100
+  },
+  "u-emma": {
+   "id": "u-emma",
+   "name": "Emma Clark",
+   "gender": "f",
+   "duprId": "DEMO-EM22",
+   "rating": 3.31,
+   "singlesRating": 3.06,
+   "reliability": 90
+  },
+  "u-noah": {
+   "id": "u-noah",
+   "name": "Noah Kim",
+   "gender": "m",
+   "duprId": "DEMO-NO23",
+   "rating": 3.22,
+   "singlesRating": 2.97,
+   "reliability": 100
+  },
+  "u-chen": {
+   "id": "u-chen",
+   "name": "Chen Wei",
+   "gender": "m",
+   "duprId": "DEMO-CH01",
+   "rating": 4.38,
+   "singlesRating": 4.13,
+   "reliability": 100
+  },
+  "u-brooks": {
+   "id": "u-brooks",
+   "name": "Brooks Taylor",
+   "gender": "m",
+   "duprId": "DEMO-BR03",
+   "rating": 4.27,
+   "singlesRating": 4.02,
+   "reliability": 90
+  },
+  "u-hale": {
+   "id": "u-hale",
+   "name": "Hale Rivera",
+   "gender": "m",
+   "duprId": "DEMO-HA05",
+   "rating": 4.19,
+   "singlesRating": 3.94,
+   "reliability": 100
+  },
+  "u-sam": {
+   "id": "u-sam",
+   "name": "Sam Okafor",
+   "gender": "m",
+   "duprId": "DEMO-SA06",
+   "rating": 4.06,
+   "singlesRating": 3.81,
+   "reliability": 80
+  }
+ }
+}

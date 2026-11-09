@@ -1,0 +1,34 @@
+{
+ "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1LWRlbW8iLCJwdXJwb3NlIjoic2Vzc2lvbiIsImlhdCI6MTc5NDA2Mzg5MiwiZXhwIjoxNzk5MjQ3ODkyfQ.QTdt7TFbPQusQWL_mpvA1YYZf_bPXr0HNlipt2OLuC4",
+ "user": {
+  "id": "u-demo",
+  "email": "demo@example.com",
+  "name": "Jordan Reyes",
+  "gender": "m",
+  "lat": 30.5083,
+  "lng": -97.6789,
+  "maxDistanceMiles": 75,
+  "formats": [
+   "doubles",
+   "mixed"
+  ]
+ },
+ "dupr": {
+  "connected": false,
+  "duprId": null,
+  "doublesRating": null,
+  "singlesRating": null,
+  "doublesReliability": null,
+  "ratingUpdatedAt": null,
+  "matchesSyncedAt": null
+ },
+ "form": null,
+ "payouts": {
+  "linked": false,
+  "ready": false
+ },
+ "unread": {
+  "notifications": 9,
+  "chats": 4
+ }
+}

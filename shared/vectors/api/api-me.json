@@ -1,0 +1,37 @@
+{
+ "user": {
+  "id": "u-demo",
+  "email": "demo@example.com",
+  "name": "Jordan Reyes",
+  "gender": "m",
+  "lat": 30.5083,
+  "lng": -97.6789,
+  "maxDistanceMiles": 75,
+  "formats": [
+   "doubles",
+   "mixed"
+  ]
+ },
+ "dupr": {
+  "connected": true,
+  "duprId": "MOCK-DEMO",
+  "doublesRating": 4.12,
+  "singlesRating": 3.86,
+  "doublesReliability": 100,
+  "ratingUpdatedAt": "2026-11-07T15:04:52.000Z",
+  "matchesSyncedAt": "2026-11-07T15:04:52.000Z"
+ },
+ "form": {
+  "score": 74,
+  "label": "Rising",
+  "previousScore": 70
+ },
+ "payouts": {
+  "linked": false,
+  "ready": false
+ },
+ "unread": {
+  "notifications": 9,
+  "chats": 4
+ }
+}
