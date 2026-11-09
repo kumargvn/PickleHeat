@@ -1,0 +1,122 @@
+name: App Store listing
+
+# Run by hand from the Actions tab. Captures real screenshots in the iOS simulator
+# and uploads them with the store text in fastlane/metadata to App Store Connect.
+# It never submits the app for review.
+on:
+  workflow_dispatch:
+    inputs:
+      upload:
+        description: "Upload screenshots and text to App Store Connect"
+        type: boolean
+        default: true
+
+jobs:
+  listing:
+    name: Screenshots and store text
+    runs-on: macos-26
+    timeout-minutes: 60
+    env:
+      BUNDLE_ID: com.gudivada.pickleheat
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use latest Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Build for the simulator
+        working-directory: ios
+        run: |
+          brew install xcodegen
+          xcodegen generate
+          set -o pipefail
+          xcodebuild build \
+            -project PickleHeat.xcodeproj \
+            -scheme PickleHeat \
+            -configuration Release \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO | tail -n 20
+
+      - name: Capture screenshots
+        run: |
+          APP="ios/build/Build/Products/Release-iphonesimulator/PickleHeat.app"
+          OUT="fastlane/screenshots/en-US"
+          mkdir -p "$OUT"
+          pick() {
+            xcrun simctl list devices available -j | python3 -c '
+          import json, sys
+          want = sys.argv[1]
+          devices = json.load(sys.stdin)["devices"]
+          runtimes = sorted((k for k in devices if "iOS" in k), reverse=True)
+          print(next(d["udid"] for k in runtimes for d in devices[k] if want in d["name"]))
+          ' "$1"
+          }
+          shoot() {
+            local udid="$1" prefix="$2"
+            xcrun simctl boot "$udid" || true
+            xcrun simctl bootstatus "$udid" -b
+            xcrun simctl status_bar "$udid" override --time "9:41" --batteryState charged --batteryLevel 100 --cellularBars 4 --wifiBars 3 || true
+            xcrun simctl install "$udid" "$APP"
+            n=1
+            for screen in home insights events league create signin; do
+              xcrun simctl launch "$udid" "$BUNDLE_ID" -screenshot "$screen"
+              sleep 10
+              xcrun simctl io "$udid" screenshot "$OUT/${prefix}_${n}_${screen}.png"
+              xcrun simctl terminate "$udid" "$BUNDLE_ID" || true
+              n=$((n + 1))
+            done
+            xcrun simctl shutdown "$udid" || true
+          }
+          shoot "$(pick 'Pro Max')" "iphone69"
+          ls -la "$OUT"
+          python3 -c "
+          import struct, glob
+          for f in sorted(glob.glob('$OUT/*.png')):
+              w, h = struct.unpack('>II', open(f, 'rb').read()[16:24])
+              print(f, w, 'x', h)
+          " | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Save screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-store-screenshots
+          path: fastlane/screenshots
+
+      - name: Upload to App Store Connect
+        if: inputs.upload
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
+        run: |
+          which fastlane || brew install fastlane
+          python3 - <<'EOF'
+          import json, os
+          json.dump({
+              "key_id": os.environ["ASC_KEY_ID"],
+              "issuer_id": os.environ["ASC_ISSUER_ID"],
+              "key": os.environ["ASC_PRIVATE_KEY"],
+              "in_house": False,
+          }, open(os.path.join(os.environ["RUNNER_TEMP"], "asc_key.json"), "w"))
+          EOF
+          fastlane deliver \
+            --api_key_path "$RUNNER_TEMP/asc_key.json" \
+            --app_identifier "$BUNDLE_ID" \
+            --app_version "1.0.0" \
+            --platform ios \
+            --metadata_path fastlane/metadata \
+            --screenshots_path fastlane/screenshots \
+            --skip_binary_upload true \
+            --overwrite_screenshots true \
+            --submit_for_review false \
+            --automatic_release false \
+            --run_precheck_before_submit false \
+            --force true
+
+      - name: Remove API key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/asc_key.json"

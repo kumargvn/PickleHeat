@@ -37,9 +37,17 @@ struct HomeView: View {
         .refreshable { await model.syncDupr() }
         .toolbar(.hidden, for: .navigationBar)
         .navigationDestination(for: String.self) { EventDetailView(eventID: $0) }
+        .onAppear { takePendingCreate() }
+        .onChange(of: model.pendingCreate) { _, _ in takePendingCreate() }
         .sheet(item: $creating) { kind in
             NavigationStack { CreateEventView(kind: kind) }
         }
+    }
+
+    private func takePendingCreate() {
+        guard let k = model.pendingCreate else { return }
+        creating = k
+        model.pendingCreate = nil
     }
 
     private var header: some View {

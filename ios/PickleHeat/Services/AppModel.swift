@@ -15,7 +15,10 @@ final class AppModel: ObservableObject {
     @Published var busy = false
     @Published var errorMessage: String?
     @Published var selectedTab: Tab = .home
-    @Published var eventToOpen: String?
+    /// An event to show in the Events tab (deep links, screenshots).
+    @Published var openEventID: String?
+    /// Opens the Create sheet on Home (screenshots).
+    @Published var pendingCreate: EventKind?
 
     enum Tab: Hashable { case home, events, insights, profile }
 
@@ -32,7 +35,19 @@ final class AppModel: ObservableObject {
 
     // MARK: lifecycle
 
+    /// App Store screenshots: the screenshot workflow launches the simulator app with `-screenshot <scene>`.
+    /// Only honoured in demo mode, so it can never touch a real account.
+    static var screenshotScene: String? {
+        let args = ProcessInfo.processInfo.arguments
+        guard let i = args.firstIndex(of: "-screenshot"), i + 1 < args.count else { return nil }
+        return args[i + 1]
+    }
+
     func start() async {
+        if isDemo, let scene = Self.screenshotScene {
+            await stage(scene)
+            return
+        }
         do {
             if let me = try await service.restore() {
                 apply(me)
@@ -42,6 +57,26 @@ final class AppModel: ObservableObject {
             }
         } catch {
             phase = .signedOut
+        }
+    }
+
+    private func stage(_ scene: String) async {
+        if scene == "signin" { phase = .signedOut; return }
+        _ = try? await service.signIn(identityToken: "demo", name: nil)
+        if scene == "connect" {
+            if let me = try? await service.me() { apply(me) }
+            return
+        }
+        if let me = try? await service.completeDuprConnect() { apply(me) }
+        await refreshAll()
+        switch scene {
+        case "insights": selectedTab = .insights
+        case "events": selectedTab = .events
+        case "league":
+            selectedTab = .events
+            openEventID = SampleData.shared.leagues.first?.id
+        case "create": pendingCreate = .tournament
+        default: selectedTab = .home
         }
     }
 
@@ -194,7 +229,7 @@ final class AppModel: ObservableObject {
         guard url.scheme == AppConfig.callbackScheme else { return }
         if url.host == "events" {
             let id = url.pathComponents.dropFirst().first
-            if let id { eventToOpen = id; selectedTab = .events }
+            if let id { selectedTab = .events; openEventID = id }
         }
     }
 }

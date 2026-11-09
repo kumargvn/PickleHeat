@@ -38,12 +38,9 @@ struct EventsView: View {
             await model.loadRecommendations()
             await model.loadEvents()
         }
-        .onChange(of: model.eventToOpen) { _, id in
-            if id != nil {
-                tab = 1
-                Task { await model.loadEvents() }
-                model.eventToOpen = nil
-            }
+        .navigationDestination(item: $model.openEventID) { EventDetailView(eventID: $0) }
+        .onChange(of: model.openEventID) { _, id in
+            if id != nil { Task { await model.loadEvents() } }
         }
     }
 
