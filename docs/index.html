@@ -1,25 +1,140 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PickleHeat</title>
-<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PickleHeat: pickleball leagues and tournaments</title>
+<meta name="description" content="PickleHeat runs pickleball leagues and tournaments: flex ladders, mixers, round robins, brackets and team events, with confirmed scores and organizer-reviewed results.">
 <link rel="icon" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0A0F24;--surface:#141B38;--surface2:#1C2550;--line:#2A3466;--text:#F4F6FF;--muted:#A9B1D6;--lime:#D4FF3A;--coral:#FF6B4A;--sky:#5CC8FF}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--ink);color:var(--text);font:17px/1.6 Inter,-apple-system,system-ui,sans-serif}
+a{color:var(--lime)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.brand{display:flex;align-items:center;gap:12px;color:var(--text);text-decoration:none;font-weight:800;font-size:20px}
+.brand img{width:40px;height:40px;border-radius:10px}
+nav .links a{color:var(--muted);text-decoration:none;margin-left:20px;font-size:15px}
+nav .links a:hover{color:var(--text)}
+.hero{background:var(--lime);color:var(--ink);border-radius:32px;padding:56px 44px;margin:12px 0 56px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-80px;top:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,var(--coral) 0,transparent 70%);opacity:.35}
+.eyebrow{font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:13px}
+h1{font-size:clamp(38px,6vw,64px);line-height:1.02;letter-spacing:-1.5px;margin:12px 0 16px;max-width:780px}
+.hero p{font-size:20px;max-width:620px;margin:0 0 24px}
+.btn{display:inline-block;background:var(--ink);color:var(--lime);padding:14px 22px;border-radius:14px;text-decoration:none;font-weight:700;margin:4px 8px 4px 0}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+h2{font-size:clamp(28px,4vw,38px);letter-spacing:-.6px;margin:0 0 8px}
+.lead{color:var(--muted);max-width:640px;margin:0 0 28px}
+section{margin:0 0 72px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px}
+.card h3{margin:0 0 6px;font-size:19px}
+.card p{margin:0;color:var(--muted);font-size:15.5px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:var(--surface2);color:var(--sky);margin-bottom:10px}
+.tag.hot{color:var(--coral)}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;counter-reset:step}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:22px;position:relative}
+.step::before{counter-increment:step;content:counter(step);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--lime);color:var(--ink);font-weight:800;margin-bottom:12px}
+.step.key{border-color:var(--lime)}
+.step h3{margin:0 0 6px;font-size:18px}
+.step p{margin:0;color:var(--muted);font-size:15px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.split{grid-template-columns:1fr}.hero{padding:40px 24px}nav .links a.hide-sm{display:none}}
+ul.checks{list-style:none;padding:0;margin:0}
+ul.checks li{padding:8px 0 8px 30px;position:relative;border-bottom:1px solid var(--line)}
+ul.checks li:last-child{border-bottom:0}
+ul.checks li::before{content:"";position:absolute;left:0;top:15px;width:14px;height:14px;border-radius:4px;background:var(--lime)}
+.cta{background:var(--surface2);border-radius:28px;padding:40px;text-align:center}
+.cta .btn{background:var(--lime);color:var(--ink)}
+footer{border-top:1px solid var(--line);padding:28px 0 48px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer a{color:var(--muted)}
+</style>
 </head>
 <body>
-<main>
-<header><img src="logo.png" alt="PickleHeat logo"><span class="muted">Pickleball leagues &amp; form</span></header>
-<section class="hero">
-<h1>Know your form, not just your rating.</h1>
-<p>PickleHeat connects to DUPR once, then scores how you're actually playing. Run leagues and tournaments, collect entry fees, and find events near you that fit your rating.</p>
-<a class="btn" href="app/">Open the web app</a>
+<div class="wrap">
+<nav>
+  <a class="brand" href="./"><img src="logo.png" alt="">PickleHeat</a>
+  <div class="links">
+    <a class="hide-sm" href="#formats">Formats</a>
+    <a class="hide-sm" href="#scores">Scores</a>
+    <a href="#organizers">Organizers</a>
+    <a href="app/">Web app</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="eyebrow">Pickleball leagues &amp; tournaments</div>
+  <h1>Run the league. We'll handle the heat.</h1>
+  <p>PickleHeat schedules rounds, rotates partners, collects scores and keeps standings, so organizers spend less time on spreadsheets and players spend more time on court.</p>
+  <a class="btn" href="app/">Open the web app</a>
+  <a class="btn ghost" href="#organizers">For organizers</a>
+</header>
+
+<section id="formats">
+  <h2>Formats players actually want</h2>
+  <p class="lead">Choose a league style, or run a classic bracket. Everything works on iPhone and on the web.</p>
+  <div class="grid">
+    <div class="card"><span class="tag hot">Signature</span><h3>Heat Climb</h3><p>A flex ladder. Sign up solo, play in heats of 4–5 grouped by rank, and rotate partners. The top of each heat climbs, the bottom drops, and skipping a week keeps your spot.</p></div>
+    <div class="card"><span class="tag hot">Signature</span><h3>Wildfire Mixer</h3><p>A social scramble: a new heat and new partners every round, with individual standings at the end.</p></div>
+    <div class="card"><span class="tag">Classic</span><h3>Round robin &amp; pools</h3><p>Round robins, or pools followed by playoffs, with automatic standings and tiebreakers.</p></div>
+    <div class="card"><span class="tag">Classic</span><h3>Brackets</h3><p>Single or double elimination, seeded the way you choose.</p></div>
+    <div class="card"><span class="tag">Teams</span><h3>MLP &amp; trips</h3><p>Team matches with four lines and a DreamBreaker, plus trips events.</p></div>
+    <div class="card"><span class="tag">Built in</span><h3>Chats &amp; notifications</h3><p>Each heat gets its own chat, plus reminders, subs, attendance, invites and waitlists.</p></div>
+  </div>
 </section>
-<div class="card"><strong>Form score.</strong> Your last 8 DUPR matches, compared with what your rating predicted. 50 = right at your rating, 75+ = hot.</div>
-<div class="card"><strong>Leagues &amp; tournaments.</strong> Round robins, pools, standings, score confirmation and automatic DUPR submission.</div>
-<div class="card"><strong>Entry fees, paid to you.</strong> Players pay by card or Apple Pay through Stripe, straight to the organizer's account.</div>
-<p class="muted"><a href="privacy.html">Privacy Policy</a> · <a href="support.html">Support</a></p>
-</main>
+
+<section id="scores">
+  <h2>Scores you can trust</h2>
+  <p class="lead">Players report results, and organizers have the final say. Nothing is sent to a rating system until the organizer submits it.</p>
+  <div class="flow">
+    <div class="step"><h3>Enter the score</h3><p>A player on either team enters the result right after the match.</p></div>
+    <div class="step"><h3>Other team confirms</h3><p>The opposing team confirms the score or disputes it, and standings update once it's confirmed.</p></div>
+    <div class="step key"><h3>Organizer reviews</h3><p>Confirmed results wait in the league admin's or tournament director's review queue, where they can be edited or deleted.</p></div>
+    <div class="step"><h3>Organizer submits</h3><p>The organizer submits the reviewed results for rating, one at a time or a whole round at once. DUPR integration is in progress.</p></div>
+  </div>
+</section>
+
+<section id="organizers">
+  <h2>Built for organizers</h2>
+  <p class="lead">Clubs, league directors and tournament organizers get one place to run everything.</p>
+  <div class="split">
+    <div class="card">
+      <h3>Run it</h3>
+      <ul class="checks">
+        <li>Clubs with members, admins and recurring leagues</li>
+        <li>Automatic heats, schedules and court assignments</li>
+        <li>Subs, waitlists, attendance and invites</li>
+        <li>A score review queue with edit and delete</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Get paid</h3>
+      <ul class="checks">
+        <li>Players pay entry fees by card or Apple Pay through Stripe</li>
+        <li>Payments go straight to the organizer's own Stripe account</li>
+        <li>Payments happen on the website. The iPhone app takes none.</li>
+        <li>Stats and standings for every player</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Get your league started</h2>
+  <p class="lead" style="margin:8px auto 20px">PickleHeat is in beta on iPhone through TestFlight, and the web app is open to everyone. Questions or want early access for your club?</p>
+  <a class="btn" href="app/">Open the web app</a>
+  <a class="btn" href="support.html" style="background:transparent;color:var(--lime);border:2px solid var(--lime)">Contact us</a>
+</section>
+
+<footer>
+  <span>© 2026 PickleHeat</span>
+  <span><a href="privacy.html">Privacy Policy</a> · <a href="support.html">Support</a></span>
+</footer>
+</div>
 </body>
 </html>
