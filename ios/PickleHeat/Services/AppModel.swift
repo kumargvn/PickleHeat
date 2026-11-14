@@ -31,8 +31,27 @@ final class AppModel: ObservableObject {
     private let location = LocationProvider()
     let web = WebAuth()
 
+    /// This phone's push token, once Apple has given us one.
+    private var deviceToken: String?
+    private var askedForPush = false
+
     init(api: APIClient) {
         self.api = api
+        PushBridge.shared.onToken = { [weak self] token in
+            guard let self else { return }
+            self.deviceToken = token
+            Task { try? await self.api.registerDevice(token, environment: PushBridge.environment) }
+        }
+        PushBridge.shared.onOpen = { [weak self] link in self?.open(link: link) }
+        PushBridge.shared.onArrive = { [weak self] in Task { await self?.refreshMe() } }
+    }
+
+    /// Lock-screen alerts for heats, scores to confirm and chat. Asked once the player is fully set up,
+    /// never in demo mode (there is no server to send them).
+    private func enablePush() {
+        guard !isDemo, !askedForPush else { return }
+        askedForPush = true
+        Task { await PushBridge.shared.enable() }
     }
 
     var isDemo: Bool { api.isDemo }
@@ -85,6 +104,7 @@ final class AppModel: ObservableObject {
     private func apply(_ me: Me) {
         self.me = me
         phase = me.dupr.connected ? .ready : .needsDupr
+        if phase == .ready { enablePush() }
     }
 
     func refreshAll() async {
@@ -132,6 +152,12 @@ final class AppModel: ObservableObject {
     }
 
     func signOut() {
+        // Stop this phone getting the account's notifications, and let the next sign-in register it again.
+        if let device = deviceToken, let session = api.sessionToken {
+            let api = self.api
+            Task { await api.unregisterDevice(device, session: session) }
+        }
+        askedForPush = false
         api.signOut()
         me = nil
         formPayload = nil

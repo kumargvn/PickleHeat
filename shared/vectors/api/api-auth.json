@@ -3,6 +3,8 @@
  "user": {
   "id": "u-demo",
   "email": "demo@example.com",
+  "emailVerified": false,
+  "hasPassword": false,
   "name": "Jordan Reyes",
   "gender": "m",
   "lat": 30.5083,

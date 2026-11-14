@@ -1,6 +1,8 @@
 // PickleHeat web app. Same API as the iPhone app. Entry fees and organizer payouts happen here
 // (the iPhone app sends people to this website for payments).
 
+import { qrSvg } from "./qr.js";
+
 const cfg = window.PICKLEHEAT_CONFIG ?? {};
 const LIVE = !!cfg.PICKLEHEAT_API_URL;
 const TOKEN_KEY = LIVE ? "pickleheat-token" : "pickleheat-demo-token";
@@ -123,7 +125,7 @@ function ring(score, label, size = 128, color = "var(--ink)", track = "rgba(10,1
 
 
 // ---------- routing ----------
-const routes = { signin, handoff, dupr, home, events, entries: payEntry, payouts, clubs: clubPage, create, "new-club": newClub, chats, insights, profile, notifications };
+const routes = { join: joinPage, signin, forgot, reset: resetPage, verify: verifyPage, handoff, dupr, home, events, entries: payEntry, payouts, clubs: clubPage, create, "new-club": newClub, chats, insights, profile, notifications };
 
 async function route() {
   clearInterval(state.poll);
@@ -133,8 +135,9 @@ async function route() {
   const params = new URLSearchParams(query ?? "");
   if (name === "handoff") return handoff(params);
   if (!state.me && store.get()) state.me = await api("GET", "/v1/me").catch(() => null);
-  if (!state.me && name !== "signin") return go("#/signin");
-  if (state.me && !state.me.dupr.connected && !["dupr", "signin", "profile"].includes(name)) return go("#/dupr");
+  const open = ["signin", "forgot", "reset", "verify", "join"]; // pages that work signed out
+  if (!state.me && !open.includes(name)) return go("#/signin");
+  if (state.me && !state.me.dupr.connected && !["dupr", "profile", ...open].includes(name)) return go("#/dupr");
   if (name === "dupr" && params.get("status") === "connected") state.me = await run(() => api("GET", "/v1/me"));
   document.getElementById("nav").hidden = !state.me?.dupr?.connected;
   const tab = name === "clubs" || name === "create" || name === "new-club" || name === "entries" ? "events" : name;
@@ -178,6 +181,7 @@ async function signin() {
       <label id="name-field" ${signupMode ? "" : "hidden"}>Your name<input name="name" autocomplete="name"></label>
       <button class="btn block" type="submit" id="email-go">${signupMode ? "Create account" : "Sign in"}</button>
       <button class="btn secondary block" type="button" data-act="toggle-signup">${signupMode ? "Have an account? Sign in" : "New here? Create an account"}</button>
+      <a href="#/forgot" class="small" style="text-align:center">Forgot your password?</a>
     </form>
     ${LIVE ? "" : `<div class="muted small">or</div><button class="btn secondary block" data-act="demo-signin">Try the demo account</button><p class="small muted">Demo mode: a sample club, Heat Climb league and tournaments. Accounts you create here stay in this browser, and nothing is charged.</p>`}
     <p class="small muted">By continuing you agree to the <a href="../privacy.html">Privacy Policy</a>.</p></div>`;
@@ -185,6 +189,73 @@ async function signin() {
 }
 
 let signupMode = false;
+
+// ---------- join links ----------
+// Someone who opens a join link before they have an account is taken back to that event once they're in.
+const NEXT_KEY = "pickleheat-next";
+function afterSignIn() {
+  let next = null;
+  try { next = sessionStorage.getItem(NEXT_KEY); sessionStorage.removeItem(NEXT_KEY); } catch { /* storage unavailable: just go home */ }
+  return next && /^#\/events\/[A-Za-z0-9_-]{1,64}$/.test(next) ? next : "#/home";
+}
+
+/** The event's own app page, on whichever site this is running on. */
+const joinLink = (id) => `${location.origin}${location.pathname}#/join/${encodeURIComponent(id)}`;
+
+async function joinPage(parts) {
+  const id = parts[0];
+  if (!id) return go("#/home");
+  if (state.me?.dupr.connected) return go(`#/events/${encodeURIComponent(id)}`);
+  const r = await api("GET", `/v1/public/events/${encodeURIComponent(id)}`).catch(() => null);
+  if (!r) return (view.innerHTML = authCard(empty("This event isn't open", "The link may be old, or the organizer hasn't opened registration yet.") + `<a class="btn block" href="#/signin">Go to PickleHeat</a>`));
+  const e = r.event, full = e.entryCount >= e.capacity, solo = individual(e.style) || e.format === "singles";
+  try { sessionStorage.setItem(NEXT_KEY, `#/events/${e.id}`); } catch { /* they'll land on Home instead */ }
+  view.innerHTML = authCard(`<div class="card stack" style="gap:8px">
+      <div class="row wrap" style="gap:6px">${pill(STYLE[e.style].toUpperCase(), "var(--ink)", e.kind === "league" ? "var(--lime)" : "var(--coral)")}${pill(STATUS[e.status])}</div>
+      <h1>${esc(e.name)}</h1>
+      <span class="small muted">${esc(e.clubName ? `${e.clubName} · run by ${e.organizerName}` : `Run by ${e.organizerName}`)}</span>
+      <div class="small stack" style="gap:2px">
+        <span>📅 ${pretty(e.startDate)}${e.kind === "league" && e.weeks ? ` · ${e.weeks} rounds, every ${e.roundDays} days` : e.endDate && e.endDate !== e.startDate ? ` – ${pretty(e.endDate)}` : ""}</span>
+        ${e.venue || e.city ? `<span>📍 ${esc([e.venue, e.city].filter(Boolean).join(" · "))}${e.state ? ", " + esc(e.state) : ""}</span>` : ""}
+        <span>📈 DUPR ${range(e)} · ${FORMAT[e.format]}</span>
+        <span>👥 ${e.entryCount}/${e.capacity} ${solo ? "players" : "teams"}${full ? " · waitlist open" : ""}</span>
+        <span>💳 ${isPaid(e) ? `${money(e.feeCents)} per player${e.memberFeeCents != null && e.memberFeeCents !== e.feeCents ? ` · members ${money(e.memberFeeCents)}` : ""}` : "Free"}</span>
+      </div>
+      ${e.description ? `<p class="small" style="margin:4px 0 0">${esc(e.description)}</p>` : ""}
+      <span class="small muted">${BLURB[e.style]}</span></div>
+    ${state.me
+      ? `<a class="btn block" href="#/dupr">Connect DUPR to ${e.status === "open" ? "join" : "see this event"}</a>`
+      : `<a class="btn block" href="#/signin">${e.status === "open" ? (full ? "Sign in to join the waitlist" : "Sign in to join") : "Sign in to see this event"}</a><p class="small muted" style="text-align:center;margin:0">New to PickleHeat? You can create an account on the next screen.</p>`}`);
+}
+
+// ---------- forgot password, reset, confirm email ----------
+const authCard = (inner) => `<div class="stack" style="max-width:440px;margin:32px auto">${inner}</div>`;
+
+function forgot() {
+  view.innerHTML = authCard(`<h1>Forgot your password?</h1>
+    <p class="muted">Enter the email you signed up with. We'll send a link to choose a new password.</p>
+    <form class="stack" data-form="forgot"><label>Email<input name="email" type="email" autocomplete="email" required></label>
+      <button class="btn block" type="submit">Email me a reset link</button></form>
+    <a href="#/signin" class="small">Back to sign in</a>`);
+}
+
+function resetPage(_parts, params) {
+  const t = params.get("t");
+  if (!t) return go("#/forgot");
+  view.innerHTML = authCard(`<h1>Choose a new password</h1>
+    <form class="stack" data-form="reset"><input type="hidden" name="token" value="${esc(t)}">
+      <label>New password<input name="password" type="password" autocomplete="new-password" minlength="8" required></label>
+      <span class="small muted">At least 8 characters. Anyone signed in with the old password is signed out.</span>
+      <button class="btn block" type="submit">Save and sign in</button></form>`);
+}
+
+async function verifyPage(_parts, params) {
+  const r = params.get("t") ? await api("POST", "/v1/auth/email/verify", { token: params.get("t") }).catch(() => null) : null;
+  if (r && state.me) await refreshMe();
+  view.innerHTML = authCard(r
+    ? `<h1>Email confirmed ✓</h1><p class="muted">${esc(r.email)} is confirmed. You can reset your password by email if you ever forget it.</p><a class="btn block" href="${state.me ? "#/home" : "#/signin"}">${state.me ? "Continue" : "Sign in"}</a>`
+    : `<h1>This link has expired</h1><p class="muted">Sign in and ask for a new confirmation email from your profile.</p><a class="btn block" href="${state.me ? "#/profile" : "#/signin"}">${state.me ? "Go to profile" : "Sign in"}</a>`);
+}
 function loadAppleJs() {
   if (!cfg.APPLE_SERVICES_ID) return;
   const s = document.createElement("script");
@@ -222,7 +293,7 @@ async function signedIn(me, to) {
   store.set(me.token);
   state.me = me;
   state.form = null;
-  go(to ? `#/${to}` : me.dupr.connected ? "#/home" : "#/dupr");
+  go(to ? `#/${to}` : me.dupr.connected ? afterSignIn() : "#/dupr");
 }
 
 /** One-time link from the iPhone app: signs in here and opens the page it asked for (payments, payouts). */
@@ -237,13 +308,13 @@ async function handoff(params) {
 
 // ---------- DUPR ----------
 async function dupr() {
-  if (state.me.dupr.connected) return go("#/home");
+  if (state.me.dupr.connected) return go(afterSignIn());
   view.innerHTML = `<div class="stack" style="max-width:520px;margin:24px auto">
     <div class="hero lime center"><div class="big" style="font-size:40px">Connect DUPR</div>
-      <p>One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR for you.</p></div>
+      <p>One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR once the organizer has reviewed them.</p></div>
     <div class="card stack small">
       <div class="row">${tile("↓", "var(--lime)")} Your DUPR ratings and recent matches come in</div>
-      <div class="row">${tile("↑", "var(--coral)")} Scores both teams confirm go to DUPR</div>
+      <div class="row">${tile("↑", "var(--coral)")} Confirmed scores go to DUPR after the organizer reviews them</div>
       <div class="row">${tile("🔒", "var(--sky)")} You log in on DUPR's own page. PickleHeat never sees your password</div>
     </div>
     <button class="btn block" data-act="connect-dupr">Connect my DUPR account</button>
@@ -360,13 +431,16 @@ function matchCard(m, players, opts) {
     return `<div class="row between"><span style="font-weight:${w === s || mine === s ? 700 : 400}">${opts.home && s === "home" || opts.away && s === "away" ? esc(label) : label} ${w === s ? "✓" : ""}</span>
       <span class="row" style="gap:10px">${games.map((g) => { const v = s === "home" ? g.us : g.them, o = s === "home" ? g.them : g.us; return `<b class="score" style="color:${v > o ? "var(--text)" : "var(--muted)"}">${v}</b>`; }).join("")}</span></div>`;
   };
-  const status = m.duprError ? "DUPR: waiting on player links" : m.status === "scheduled" ? (ready ? "Not played" : "Waiting") : m.status === "reported" ? (canConfirm && mine ? "Confirm this score" : "Awaiting confirmation") : m.duprMatchId && m.duprMatchId !== "none" ? "Sent to DUPR ✓" : "Final";
+  const duprLabel = { ready: opts.manager ? "Ready for DUPR" : "Final · organizer reviews before DUPR", submitted: "Sent to DUPR ✓", failed: opts.manager ? "DUPR didn't accept it yet" : "Final · organizer reviews before DUPR", skipped: "Final · not sent to DUPR", not_rated: "Final" };
+  const status = m.status === "scheduled" ? (ready ? "Not played" : "Waiting") : m.status === "reported" ? (canConfirm && mine ? "Confirm this score" : "Awaiting confirmation") : duprLabel[m.duprStatus] ?? "Final";
+  const alert = opts.manager && m.duprStatus === "failed";
   const tagHtml = (opts.tags ?? []).map((t) => `<span class="tag ${t}">${t.toUpperCase()}</span>`).join("");
   const lines = m.lines?.some((l) => l.games.length) ? `<div class="stack small" style="gap:2px">${m.lines.map((l) => `<div class="row between"><span class="muted">${esc(l.label)}</span><b>${l.games.map((g) => `${g.us}–${g.them}`).join(" ")}</b></div>`).join("")}</div>` : "";
   return `<div class="card stack match" style="gap:8px" id="m-${esc(m.id)}">
-    <div class="row between"><span class="row" style="gap:6px"><span class="tiny muted">${esc(m.label ?? "Match")}</span>${tagHtml}</span><span class="small" style="color:${m.duprError ? "var(--coral)" : "var(--muted)"}">${status}</span></div>
+    <div class="row between"><span class="row" style="gap:6px"><span class="tiny muted">${esc(m.label ?? "Match")}</span>${tagHtml}</span><span class="small" style="color:${alert ? "var(--coral)" : "var(--muted)"}">${status}</span></div>
     ${team("home")}${team("away")}${lines}
     ${canConfirm || canEnter ? `<div class="row wrap">${canConfirm ? `<button class="btn" data-act="confirm-score" data-id="${esc(m.id)}">Confirm ${esc(scoreText(m))}</button>` : ""}${canEnter ? `<button class="btn secondary" data-act="score-form" data-id="${esc(m.id)}">${m.games.length || m.lines?.some((l) => l.games.length) ? "Edit score" : "Enter score"}</button>` : ""}</div>` : ""}
+    ${opts.extra ?? ""}
     <div class="score-slot"></div></div>`;
 }
 
@@ -383,7 +457,7 @@ function scoreForm(id) {
   }
   const slot = document.querySelector(`#m-${CSS.escape(id)} .score-slot`);
   slot.innerHTML = `<form class="stack" data-form="score" data-id="${esc(id)}" style="gap:8px;border-top:1px solid var(--line);padding-top:10px">
-    <span class="small muted">Left number = ${opts.home ? esc(opts.home) : m.homePlayers.map((p) => esc(first(players, p))).join(" & ")}. The other side confirms, then it goes to DUPR.</span>
+    <span class="small muted">Left number = ${opts.home ? esc(opts.home) : m.homePlayers.map((p) => esc(first(players, p))).join(" & ")}. ${opts.manager ? "Organizer entries count right away." : "The other side confirms it."}${state.detail?.event?.submitToDupr ? " The organizer reviews results before they go to DUPR." : ""}</span>
     ${body}<div class="row"><button class="btn" type="submit">Submit</button><button class="btn secondary" type="button" data-act="score-cancel" data-id="${esc(id)}">Cancel</button></div></form>`;
 }
 
@@ -439,7 +513,8 @@ async function eventPage(id, sub) {
   const panes = individual(e.style)
     ? [["overview", "Overview"], ["heats", "Heats"], ["ranks", e.style === "flex_ladder" ? "Ladder" : "Standings"], ["stats", "Stats"], ["players", "Players"]]
     : [["overview", "Overview"], ["matches", "Matches"], ...(e.style === "single_elim" || e.style === "double_elim" ? [["bracket", "Bracket"]] : [["standings", "Standings"]]), ...(e.style === "pools_playoffs" ? [["bracket", "Playoffs"]] : []), ["players", "Teams"]];
-  const pane = state.eventTab[id] ?? "overview";
+  if (d.duprReview) { const n = d.duprReview.ready + d.duprReview.failed; panes.push(["dupr", n ? `DUPR review (${n})` : "DUPR review"]); }
+  const pane = panes.some(([k]) => k === state.eventTab[id]) ? state.eventTab[id] : "overview";
   let body = "";
   if (pane === "overview") body = overview(d);
   else if (pane === "heats") body = await heatsPane(d);
@@ -448,6 +523,7 @@ async function eventPage(id, sub) {
   else if (pane === "matches") body = matchesPane(d);
   else if (pane === "standings") body = standingsPane(d);
   else if (pane === "bracket") body = bracketPane(d);
+  else if (pane === "dupr") body = await reviewPane(d);
   else body = playersPane(d);
   view.innerHTML = `<div class="stack">
     <div class="card stack" style="gap:8px">
@@ -481,8 +557,19 @@ function overview(d) {
   }
   return `<div class="grid">${mine}
     ${e.description ? `<div class="card">${esc(e.description)}</div>` : ""}
-    <div class="card stack" style="gap:6px"><h3>How it works</h3><span class="small muted">${BLURB[e.style]}</span>${e.submitToDupr ? `<span class="small" style="color:var(--lime)"><b>✓ Confirmed scores are sent to DUPR</b></span>` : ""}</div>
-    ${d.isManager ? organizerCard(d) : ""}</div>`;
+    <div class="card stack" style="gap:6px"><h3>How it works</h3><span class="small muted">${BLURB[e.style]}</span>${e.submitToDupr ? `<span class="small" style="color:var(--lime)"><b>✓ Scores go to DUPR after the organizer reviews them</b></span>` : ""}</div>
+    ${d.isManager ? organizerCard(d) : ""}
+    ${e.status !== "draft" ? shareCard(d) : ""}</div>`;
+}
+
+/** A link and QR code that take anyone straight to this event, signed in or not. */
+function shareCard(d) {
+  const url = joinLink(d.event.id);
+  return `<div class="card stack" style="align-items:center;text-align:center"><h3 style="align-self:flex-start">${d.isManager ? "Fill your " + (d.event.kind === "league" ? "league" : "tournament") : "Invite a friend"}</h3>
+    <div style="border-radius:16px;overflow:hidden;line-height:0">${qrSvg(url, { size: 180, label: `QR code to join ${esc(d.event.name)}` })}</div>
+    <span class="small muted">Scan to open this event, or send the link in a group text. People without an account sign up and land right here.</span>
+    <input readonly value="${esc(url)}" aria-label="Join link" onclick="this.select()" style="font-size:13px">
+    <div class="row wrap" style="justify-content:center"><button class="btn" data-act="share" data-name="${esc(d.event.name)}">Share link</button><button class="btn secondary" data-act="copy-join">Copy</button>${d.isManager ? `<button class="btn secondary" data-act="print-qr">Print QR sign</button>` : ""}</div></div>`;
 }
 
 function organizerCard(d) {
@@ -502,6 +589,8 @@ function organizerCard(d) {
     btns.push(`<button class="btn" data-act="ev" data-op="schedule" ${d.entries.length < 2 ? "disabled" : ""}>${d.matches.length ? "Rebuild schedule" : "Build schedule"}</button>`);
   }
   if (e.status === "open") btns.push(`<button class="btn secondary" data-act="ev" data-op="close">Close registration</button>`);
+  const waiting = d.duprReview ? d.duprReview.ready + d.duprReview.failed : 0;
+  if (waiting) btns.unshift(`<button class="btn" data-act="event-tab" data-k="dupr">Review ${waiting} result${waiting === 1 ? "" : "s"} for DUPR</button>`);
   return `<div class="card stack"><h3>Organizer tools</h3>
     ${d.money && isPaid(e) ? `<div class="row between"><div><b class="num">${money(d.money.collectedCents)}</b><br><span class="small muted">collected</span></div><div><b class="num">${d.money.paidEntries}</b><br><span class="small muted">paid</span></div><div><b class="num">${d.money.pendingEntries}</b><br><span class="small muted">pending</span></div></div>` : ""}
     ${btns.join("")}
@@ -563,6 +652,48 @@ async function statsPane(d) {
   return `<div class="card scroll" style="padding:6px 12px"><table><thead><tr><th>Player</th><th>W–L</th><th>Win %</th><th>PF</th><th>PA</th><th>PD</th><th>DUPR ±</th></tr></thead><tbody>
     ${s.rows.map((r) => `<tr style="font-weight:${r.userId === me ? 700 : 400}"><td>${esc(fullName(s.players, r.userId))}</td><td>${r.wins}–${r.losses}</td><td>${Math.round(r.winPct * 100)}%</td><td>${r.pf}</td><td>${r.pa}</td><td>${r.pd >= 0 ? "+" : ""}${r.pd}</td>
       <td style="color:${(r.ratingChange ?? 0) > 0 ? "var(--lime)" : (r.ratingChange ?? 0) < 0 ? "var(--coral)" : "var(--muted)"}">${r.ratingChange == null ? "—" : (r.ratingChange > 0 ? "+" : "") + r.ratingChange.toFixed(2)}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+/** Organizer: confirmed results wait here. Nothing goes to DUPR until the organizer sends it. */
+async function reviewPane(d) {
+  const q = await run(() => api("GET", `/v1/events/${encodeURIComponent(d.event.id)}/dupr`));
+  if (!q) return "";
+  const c = q.counts, sendable = c.ready + c.failed;
+  const where = (i) => (individual(d.event.style) ? `Round ${i.roundNumber}${i.groupNumber ? ` · Heat ${i.groupNumber}` : ""}` : i.match.label ?? `Round ${i.roundNumber}`);
+  const item = (i) => {
+    const m = i.match, id = esc(m.id);
+    const missing = i.missingDupr.map((u) => fullName(q.players, u));
+    const btns = [];
+    if (i.status === "ready" || i.status === "failed") btns.push(`<button class="btn" data-act="dupr-send" data-id="${id}">${i.status === "failed" ? "Try again" : "Send to DUPR"}</button>`, `<button class="btn secondary" data-act="dupr-skip" data-id="${id}">Don't send</button>`);
+    if (i.status === "skipped") btns.push(`<button class="btn secondary" data-act="dupr-send" data-id="${id}">Send to DUPR</button>`);
+    if (i.status === "submitted") btns.push(`<button class="btn secondary" data-act="dupr-skip" data-id="${id}" data-sent="1">Take back from DUPR</button>`);
+    btns.push(`<button class="btn danger" data-act="score-delete" data-id="${id}">Delete result</button>`);
+    const notes = [
+      i.status === "failed" && m.duprError ? `<span class="small" style="color:var(--coral)">${esc(m.duprError)}</span>` : "",
+      missing.length && i.status !== "submitted" ? `<span class="small" style="color:var(--coral)">Not connected to DUPR yet: ${esc(missing.join(", "))}</span>` : "",
+    ].join("");
+    return matchCard({ ...m, label: where(i) }, q.players, {
+      manager: true, gamesPerMatch: d.event.gamesPerMatch,
+      home: m.homeEntryId ? teamName(d, m.homeEntryId) : undefined, away: m.awayEntryId ? teamName(d, m.awayEntryId) : undefined,
+      extra: `${notes}<div class="row wrap">${btns.join("")}</div>`,
+    });
+  };
+  const section = (title, status, hint, folded) => {
+    const items = q.items.filter((i) => i.status === status);
+    if (!items.length) return "";
+    const body = `${hint ? `<p class="small muted" style="margin:0 0 10px">${hint}</p>` : ""}<div class="grid">${items.map(item).join("")}</div>`;
+    return folded ? `<details><summary><b>${title} (${items.length})</b></summary><div style="margin-top:10px">${body}</div></details>` : `<h3>${title} (${items.length})</h3>${body}`;
+  };
+  return `<div class="stack">
+    <div class="card stack" style="gap:8px"><h2>DUPR review</h2>
+      <p class="small muted" style="margin:0">Players enter and confirm scores. Nothing is sent to DUPR until you send it here. Check each result, fix or delete anything that's wrong, then send.</p>
+      <div class="row between"><div><b class="num">${c.ready}</b><br><span class="small muted">ready</span></div><div><b class="num">${c.failed}</b><br><span class="small muted">need attention</span></div><div><b class="num">${c.submitted}</b><br><span class="small muted">on DUPR</span></div></div>
+      ${sendable ? `<button class="btn" data-act="dupr-send-all" data-n="${sendable}">Send all ${sendable} to DUPR</button>` : `<span class="small muted">Nothing is waiting right now.</span>`}</div>
+    ${section("Needs attention", "failed", "You sent these, but DUPR hasn't accepted them. PickleHeat retries every hour.")}
+    ${section("Ready to send", "ready")}
+    ${section("Not sent", "skipped", "These count in PickleHeat but stay off DUPR.")}
+    ${section("On DUPR", "submitted", "Already sent. Take one back if it turns out to be wrong.", true)}
+    ${section("Not rated by DUPR", "not_rated", "Nothing in these results is a singles or doubles game DUPR rates.", true)}</div>`;
 }
 
 const teamName = (d, id) => (d.entries.find((e) => e.id === id) ?? d.waitlist.find((e) => e.id === id))?.teamName ?? "TBD";
@@ -812,10 +943,11 @@ async function profile() {
   view.innerHTML = `<div class="stack" style="max-width:640px;margin:0 auto"><h1>Profile</h1>
     <div class="card stack"><div class="row">${avatar({ name: u.name }, 52)}<div><h2>${esc(u.name)}</h2><span class="small muted">${esc(u.email ?? "")}</span></div></div>
       <label>Gender (for mixed and MLP lines)<select data-change="gender"><option value="">Not set</option><option value="f" ${u.gender === "f" ? "selected" : ""}>Woman</option><option value="m" ${u.gender === "m" ? "selected" : ""}>Man</option></select></label></div>
+    ${u.hasPassword && !u.emailVerified ? `<div class="card stack" style="border-color:var(--coral)"><h3>Confirm your email</h3><span class="small muted">We sent a link to ${esc(u.email)}. Confirming it lets you reset your password if you forget it.</span><button class="btn secondary" data-act="verify-send">Send the link again</button><div id="dev-link"></div></div>` : ""}
     <div class="card stack"><h3>DUPR</h3>
       ${me.dupr.connected ? `<div class="row between"><span>DUPR ID</span><b>${esc(me.dupr.duprId)}</b></div><div class="row between"><span>Doubles</span><b>${r2(me.dupr.doublesRating)}</b></div><div class="row between"><span>Singles</span><b>${r2(me.dupr.singlesRating)}</b></div>
         <div class="row"><button class="btn secondary" data-act="dupr-sync">Sync now</button><button class="btn danger" data-act="dupr-disconnect">Disconnect</button></div>` : `<a class="btn" href="#/dupr">Connect DUPR</a>`}
-      <span class="small muted">Ratings update automatically. Scores both sides confirm are sent to DUPR for you.</span></div>
+      <span class="small muted">Ratings update automatically. Confirmed scores go to DUPR after the organizer reviews them.</span></div>
     <div class="card stack"><h3>Tournament finder</h3>
       <button class="btn secondary" data-act="geo">Use my current location</button>
       <label>Search within <span id="dist-label">${Math.round(u.maxDistanceMiles)}</span> miles<input type="range" min="10" max="300" step="5" value="${u.maxDistanceMiles}" data-change="distance" style="height:auto;padding:0"></label>
@@ -852,9 +984,11 @@ const actions = {
       const r = await run(() => api("POST", "/v1/dupr/connect-session", { client: "web" }));
       if (r) location.href = r.url;
     } else {
-      await run(() => api("POST", "/v1/dupr/link", { userToken: "mock-demo", refreshToken: "refresh-demo" }));
+      // Each demo account gets its own sample DUPR profile, so a second account in this browser can connect too.
+      const who = state.me.user.id === "u-demo" ? "demo" : state.me.user.id.replace(/[^a-z0-9]/gi, "").slice(-6);
+      if (!(await run(() => api("POST", "/v1/dupr/link", { userToken: `mock-${who}`, refreshToken: `refresh-${who}` })))) return;
       state.me = await run(() => api("GET", "/v1/me"));
-      go("#/home");
+      go(afterSignIn());
     }
   },
   signout: () => { store.set(null); state.me = null; state.form = null; state.recs = null; go("#/signin"); },
@@ -872,10 +1006,19 @@ const actions = {
     }, () => toast("Location is off. Allow it in your browser settings."));
   },
   "events-tab": (el) => { state.eventsTab = el.dataset.k; route(); },
+  "copy-join": async () => { await navigator.clipboard?.writeText(joinLink(state.detail.event.id)); toast("Link copied", true); },
+  "print-qr": () => {
+    const e = state.detail.event, w = window.open("", "_blank");
+    if (!w) return toast("Allow pop-ups to print the QR code.");
+    w.document.write(`<!doctype html><title>${esc(e.name)}</title><body style="font-family:-apple-system,Segoe UI,sans-serif;text-align:center;padding:48px"><h1 style="font-size:40px;margin:0 0 8px">${esc(e.name)}</h1><p style="font-size:22px;margin:0 0 24px">Scan to join on PickleHeat</p>${qrSvg(joinLink(e.id), { size: 420, label: "QR code to join" })}<p style="font-size:14px;color:#555;word-break:break-all">${esc(joinLink(e.id))}</p></body>`);
+    w.document.close();
+    w.focus();
+    w.print();
+  },
   "event-tab": (el) => { state.eventTab[state.detail.event.id] = el.dataset.k; route(); },
   "round-sel": (el) => { state.roundSel[state.detail.event.id] = el.dataset.k; route(); },
   share: async (el) => {
-    const url = location.href.split("?")[0];
+    const url = joinLink(state.detail.event.id);
     if (navigator.share) navigator.share({ title: el.dataset.name, text: `Join ${el.dataset.name} on PickleHeat`, url }).catch(() => {});
     else { await navigator.clipboard?.writeText(url); toast("Link copied", true); }
   },
@@ -890,6 +1033,34 @@ const actions = {
   "sub-cancel": async (el) => { if (await run(() => api("POST", `/v1/subs/${encodeURIComponent(el.dataset.id)}/cancel`))) route(); },
   "score-form": (el) => scoreForm(el.dataset.id),
   "score-cancel": (el) => { document.querySelector(`#m-${CSS.escape(el.dataset.id)} .score-slot`).innerHTML = ""; },
+  "verify-send": async () => {
+    const r = await run(() => api("POST", "/v1/auth/email/verify/send"));
+    if (!r) return;
+    toast(LIVE ? "Sent. Check your inbox." : "Demo mode doesn't send email. Use the link below.", true);
+    if (r.devLink) document.getElementById("dev-link").innerHTML = `<a class="small" href="${esc(r.devLink.slice(r.devLink.indexOf("#")))}">Open the confirmation link (demo)</a>`;
+  },
+  "dupr-send": async (el) => {
+    const r = await run(() => api("POST", `/v1/matches/${encodeURIComponent(el.dataset.id)}/dupr/submit`));
+    if (!r) return;
+    if (r.match.duprStatus === "failed") toast(r.match.duprError || "DUPR didn't accept it yet.");
+    else toast(r.match.duprStatus === "not_rated" ? "Nothing in this result is rated by DUPR." : "Sent to DUPR.", true);
+    route();
+  },
+  "dupr-send-all": async (el) => {
+    if (!confirm(`Send ${el.dataset.n} reviewed result${el.dataset.n === "1" ? "" : "s"} to DUPR?`)) return;
+    const r = await run(() => api("POST", `/v1/events/${encodeURIComponent(state.detail.event.id)}/dupr/submit`, {}));
+    if (!r) return;
+    toast(r.failed ? `${r.submitted} sent. ${r.failed} need attention.` : `${r.submitted} sent to DUPR.`, !r.failed);
+    route();
+  },
+  "dupr-skip": async (el) => {
+    if (el.dataset.sent && !confirm("Take this result back from DUPR? The score still counts in PickleHeat.")) return;
+    if (await run(() => api("DELETE", `/v1/matches/${encodeURIComponent(el.dataset.id)}/dupr`))) { toast(el.dataset.sent ? "Taken back from DUPR." : "This result won't be sent.", true); route(); }
+  },
+  "score-delete": async (el) => {
+    if (!confirm("Delete this result? The match goes back to not played, and anything sent to DUPR is taken back.")) return;
+    if (await run(() => api("DELETE", `/v1/matches/${encodeURIComponent(el.dataset.id)}/score`))) { toast("Result deleted.", true); route(); }
+  },
   "confirm-score": async (el) => { if (await run(() => api("POST", `/v1/matches/${encodeURIComponent(el.dataset.id)}/confirm`))) { toast("Confirmed.", true); route(); } },
   "club-join": async (el) => { if (await run(() => api("POST", `/v1/clubs/${encodeURIComponent(el.dataset.id)}/join`))) route(); },
   "club-leave": async (el) => { if (confirm("Leave this club?") && (await run(() => api("POST", `/v1/clubs/${encodeURIComponent(el.dataset.id)}/leave`)))) route(); },
@@ -911,6 +1082,20 @@ const actions = {
 };
 
 const forms = {
+  forgot: async (form) => {
+    const email = new FormData(form).get("email");
+    const r = await run(() => api("POST", "/v1/auth/password/forgot", { email }));
+    if (!r) return;
+    view.innerHTML = authCard(`<h1>Check your email</h1>
+      <p class="muted">If ${esc(email)} has a PickleHeat password, a reset link is on its way. It works once and expires in 30 minutes.</p>
+      ${LIVE ? "" : `<p class="small muted">Demo mode doesn't send email.${r.devLink ? ` <a href="${esc(r.devLink.slice(r.devLink.indexOf("#")))}">Open the reset link</a>` : " Create an account with email first to try this."}</p>`}
+      <a href="#/signin" class="small">Back to sign in</a>`);
+  },
+  reset: async (form) => {
+    const fd = new FormData(form);
+    const r = await api("POST", "/v1/auth/password/reset", { token: fd.get("token"), password: fd.get("password") }).catch((e) => { toast(e.message || "Something went wrong"); return null; });
+    if (r) { toast("Password changed.", true); await signedIn(r); }
+  },
   score: submitScore,
   register: submitRegister,
   create: submitCreate,

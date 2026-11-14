@@ -805,5 +805,7 @@
  "currentRoundId": null,
  "chatId": null,
  "money": null,
- "invites": []
+ "invites": [],
+ "joinUrl": "https://demo.pickleheat.app/app/#/join/id00267",
+ "duprReview": null
 }

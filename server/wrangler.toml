@@ -15,6 +15,14 @@ GOOGLE_CLIENT_IDS = ""
 PLATFORM_FEE_BPS = "0"
 DUPR_ENV = "uat"
 ALLOW_DEV_AUTH = "false"
+# Password reset and email confirmation go out through Resend. Set the secret RESEND_API_KEY, and a sender
+# on a domain you verified in Resend. Until both are set, no email is sent.
+EMAIL_FROM = ""
+# iPhone push notifications: set APNS_KEY_ID and APNS_TEAM_ID here, and the secret APNS_PRIVATE_KEY
+# (the contents of the .p8 key from Apple Developer → Keys → Apple Push Notifications service).
+APNS_KEY_ID = ""
+APNS_TEAM_ID = ""
+APNS_BUNDLE_ID = "com.gudivada.pickleheat"
 SAMPLE_TOURNAMENTS = "true"
 
 # Every hour: refresh DUPR tokens about to expire and retry DUPR uploads that failed.

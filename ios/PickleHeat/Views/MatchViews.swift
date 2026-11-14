@@ -54,7 +54,7 @@ struct MatchCard: View {
                         .foregroundStyle(Theme.ink).background(tagColor(tag), in: Capsule())
                 }
                 Spacer()
-                Text(statusText).font(.system(size: 11, weight: .semibold)).foregroundStyle(match.duprError != nil ? Theme.coral : Theme.muted)
+                Text(statusText).font(.system(size: 11, weight: .semibold)).foregroundStyle(canManage && match.duprStatus == "failed" ? Theme.coral : Theme.muted)
             }
             teamRow(name: homeName ?? names(match.homePlayers), side: "home")
             teamRow(name: awayName ?? names(match.awayPlayers), side: "away")
@@ -123,16 +123,197 @@ struct MatchCard: View {
     }
 
     private var statusText: String {
-        if match.duprError != nil { return "DUPR: waiting on player links" }
         switch match.status {
         case .scheduled: return match.ready ? "Not played" : "Waiting"
         case .reported: return canConfirm && mySide != nil ? "Confirm this score" : "Awaiting confirmation"
-        case .confirmed: return match.duprMatchId != nil && match.duprMatchId != "none" ? "Sent to DUPR ✓" : "Final"
+        case .confirmed:
+            switch match.duprStatus {
+            case "submitted": return "Sent to DUPR ✓"
+            case "ready": return canManage ? "Ready for DUPR" : "Final · organizer reviews before DUPR"
+            case "failed": return canManage ? "DUPR didn't accept it yet" : "Final · organizer reviews before DUPR"
+            case "skipped": return "Final · not sent to DUPR"
+            default: return "Final"
+            }
         }
     }
 
     private func tagTitle(_ t: String) -> String { t == "upset" ? "UPSET" : t == "nailbiter" ? "NAILBITER" : "SMACKDOWN" }
     private func tagColor(_ t: String) -> Color { t == "upset" ? Theme.coral : t == "nailbiter" ? Theme.sky : Theme.lime }
+}
+
+// MARK: DUPR review (organizers)
+
+/// Confirmed results wait here. Nothing goes to DUPR until the organizer sends it.
+struct DuprReviewView: View {
+    @EnvironmentObject var model: AppModel
+    let detail: EventDetail
+    var onChange: () async -> Void
+
+    @State private var queue: ReviewQueue?
+    @State private var loadError: String?
+    @State private var confirmSendAll = false
+    @State private var deleting: ReviewQueue.Item?
+    @State private var takingBack: ReviewQueue.Item?
+
+    private struct Group: Identifiable {
+        let id: String
+        let title: String
+        let hint: String?
+    }
+
+    private static let sections: [Group] = [
+        Group(id: "failed", title: "Needs attention", hint: "You sent these, but DUPR hasn't accepted them. PickleHeat retries every hour."),
+        Group(id: "ready", title: "Ready to send", hint: nil),
+        Group(id: "skipped", title: "Not sent", hint: "These count in PickleHeat but stay off DUPR."),
+        Group(id: "submitted", title: "On DUPR", hint: nil),
+        Group(id: "not_rated", title: "Not rated by DUPR", hint: nil),
+    ]
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                if let q = queue {
+                    summary(q)
+                    ForEach(Self.sections) { group in
+                        section(group, q)
+                    }
+                } else if let loadError {
+                    EmptyState(title: "Couldn't load the review queue", message: loadError)
+                } else {
+                    ProgressView().frame(maxWidth: .infinity).padding(.top, 80)
+                }
+            }
+            .padding(.horizontal, 20)
+            .padding(.bottom, 28)
+        }
+        .screenBackground()
+        .navigationTitle("DUPR review")
+        .navigationBarTitleDisplayMode(.inline)
+        .task { await load() }
+        .refreshable { await load() }
+        .confirmationDialog("Send \(waiting) reviewed result\(waiting == 1 ? "" : "s") to DUPR?", isPresented: $confirmSendAll, titleVisibility: .visible) {
+            Button("Send to DUPR") { act { queue = try await model.api.submitAllToDupr(detail.event.id) } }
+        }
+        .confirmationDialog("Delete this result?", isPresented: Binding(get: { deleting != nil }, set: { if !$0 { deleting = nil } }), titleVisibility: .visible) {
+            Button("Delete result", role: .destructive) {
+                if let id = deleting?.match.id { act { _ = try await model.api.deleteResult(id) } }
+            }
+        } message: {
+            Text("The match goes back to not played, and anything sent to DUPR is taken back.")
+        }
+        .confirmationDialog("Take this result back from DUPR?", isPresented: Binding(get: { takingBack != nil }, set: { if !$0 { takingBack = nil } }), titleVisibility: .visible) {
+            Button("Take back from DUPR", role: .destructive) {
+                if let id = takingBack?.match.id { act { _ = try await model.api.withdrawFromDupr(id) } }
+            }
+        } message: {
+            Text("The score still counts in PickleHeat.")
+        }
+    }
+
+    private var waiting: Int { (queue?.counts.ready ?? 0) + (queue?.counts.failed ?? 0) }
+
+    private func load() async {
+        do {
+            queue = try await model.api.reviewQueue(detail.event.id)
+            loadError = nil
+        } catch {
+            loadError = error.localizedDescription
+        }
+    }
+
+    private func act(_ work: @escaping () async throws -> Void) {
+        Task {
+            await model.run {
+                try await work()
+                await load()
+                await onChange()
+            }
+        }
+    }
+
+    private func summary(_ q: ReviewQueue) -> some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Players enter and confirm scores. Nothing is sent to DUPR until you send it here. Check each result, fix or delete anything that's wrong, then send.")
+                .font(.system(size: 14)).foregroundStyle(Theme.muted)
+            HStack {
+                count(q.counts.ready, "ready")
+                count(q.counts.failed, "need attention")
+                count(q.counts.submitted, "on DUPR")
+            }
+            if waiting > 0 {
+                Button("Send all \(waiting) to DUPR") { confirmSendAll = true }
+                    .buttonStyle(PrimaryButtonStyle())
+                    .accessibilityIdentifier("duprSendAll")
+            } else {
+                Text("Nothing is waiting right now.").font(.system(size: 14)).foregroundStyle(Theme.muted)
+            }
+        }
+        .card()
+    }
+
+    private func count(_ value: Int, _ label: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text("\(value)").font(Theme.display(20)).monospacedDigit()
+            Text(label).font(.system(size: 12)).foregroundStyle(Theme.muted)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func label(_ item: ReviewQueue.Item) -> String {
+        if detail.event.style.individual {
+            let round = "Round \(item.roundNumber ?? item.match.round)"
+            if let g = item.groupNumber { return "\(round) · Heat \(g)" }
+            return round
+        }
+        return item.match.label ?? "Round \(item.roundNumber ?? item.match.round)"
+    }
+
+    @ViewBuilder private func section(_ group: Group, _ q: ReviewQueue) -> some View {
+        let items = q.items.filter { $0.status == group.id }
+        if !items.isEmpty {
+            Text("\(group.title) (\(items.count))").font(Theme.display(17)).padding(.top, 4)
+            if let hint = group.hint { Text(hint).font(.system(size: 13)).foregroundStyle(Theme.muted) }
+            ForEach(items) { item in row(item, q) }
+        }
+    }
+
+    private func labeled(_ item: ReviewQueue.Item) -> EventMatch {
+        var m = item.match
+        m.label = label(item)
+        return m
+    }
+
+    private func row(_ item: ReviewQueue.Item, _ q: ReviewQueue) -> some View {
+        let m = labeled(item)
+        return VStack(alignment: .leading, spacing: 8) {
+            MatchCard(match: m, players: q.players,
+                      homeName: m.homeEntryId.map { detail.teamName($0) }, awayName: m.awayEntryId.map { detail.teamName($0) },
+                      canManage: true) { await load(); await onChange() }
+            if item.status == "failed", let err = item.match.duprError {
+                Text(err).font(.system(size: 13)).foregroundStyle(Theme.coral)
+            }
+            if !item.missingDupr.isEmpty && item.status != "submitted" {
+                Text("Not connected to DUPR yet: \(item.missingDupr.map { q.players.name($0) }.joined(separator: ", "))")
+                    .font(.system(size: 13)).foregroundStyle(Theme.coral)
+            }
+            HStack(spacing: 10) {
+                if item.status == "ready" || item.status == "failed" {
+                    Button(item.status == "failed" ? "Try again" : "Send to DUPR") { act { _ = try await model.api.submitToDupr(item.match.id) } }
+                        .buttonStyle(PrimaryButtonStyle())
+                    Button("Don't send") { act { _ = try await model.api.withdrawFromDupr(item.match.id) } }
+                        .buttonStyle(SecondaryButtonStyle())
+                } else if item.status == "skipped" {
+                    Button("Send to DUPR") { act { _ = try await model.api.submitToDupr(item.match.id) } }
+                        .buttonStyle(SecondaryButtonStyle())
+                } else if item.status == "submitted" {
+                    Button("Take back from DUPR") { takingBack = item }
+                        .buttonStyle(SecondaryButtonStyle())
+                }
+            }
+            Button("Delete result", role: .destructive) { deleting = item }
+                .font(.system(size: 14, weight: .semibold)).foregroundStyle(Theme.coral)
+        }
+    }
 }
 
 // MARK: score entry
@@ -189,7 +370,7 @@ struct ScoreSheet: View {
                     } header: {
                         Text("\(homeName)  vs  \(awayName)")
                     } footer: {
-                        Text("Left number = \(homeName). The other team confirms, then PickleHeat sends it to DUPR.")
+                        Text("Left number = \(homeName). The other team confirms it. The organizer reviews results before they go to DUPR.")
                     }
                 }
             }

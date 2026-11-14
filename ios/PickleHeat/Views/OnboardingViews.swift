@@ -11,13 +11,13 @@ struct SignInView: View {
             Image("Logo").resizable().frame(width: 128, height: 128).clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             VStack(spacing: 10) {
                 Text("PickleHeat").font(Theme.display(44)).tracking(-1)
-                Text("Ladders, leagues, tournaments and\nyour DUPR form, all in one place.")
+                Text("Heat Climb leagues, tournaments and\nyour DUPR form, all in one place.")
                     .font(.system(size: 17)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
             }
             VStack(alignment: .leading, spacing: 14) {
                 feature("flame.fill", Theme.coral, "Form score from your last 8 DUPR matches")
-                feature("person.3.fill", Theme.lime, "Flex ladders: groups of 4, rotating partners")
-                feature("bubble.left.and.bubble.right.fill", Theme.sky, "Group chats to set a time and place")
+                feature("person.3.fill", Theme.lime, "Heat Climb: heats of 4, rotating partners")
+                feature("bubble.left.and.bubble.right.fill", Theme.sky, "Heat chats to set a time and place")
             }
             .padding(.horizontal, 8)
             Spacer()
@@ -76,6 +76,7 @@ struct EmailSignInView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var problem: String?
+    @State private var notice: String?
 
     private var ready: Bool {
         email.contains("@") && password.count >= 8 && (!creating || !name.trimmingCharacters(in: .whitespaces).isEmpty)
@@ -108,6 +109,9 @@ struct EmailSignInView: View {
             if let problem {
                 Section { Text(problem).foregroundStyle(Theme.coral) }
             }
+            if let notice {
+                Section { Text(notice).foregroundStyle(Theme.lime) }
+            }
             Section {
                 Button(creating ? "Create account" : "Sign in") { submit() }
                     .buttonStyle(PrimaryButtonStyle())
@@ -115,6 +119,13 @@ struct EmailSignInView: View {
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                     .accessibilityIdentifier("emailSubmit")
+                if !creating {
+                    Button("Forgot your password?") { forgot() }
+                        .font(.system(size: 15)).foregroundStyle(Theme.sky)
+                        .frame(maxWidth: .infinity)
+                        .listRowBackground(Color.clear)
+                        .disabled(!email.contains("@") || model.busy)
+                }
             }
         }
         .scrollContentBackground(.hidden)
@@ -122,12 +133,29 @@ struct EmailSignInView: View {
         .navigationTitle(creating ? "Create account" : "Sign in")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
-        .onChange(of: creating) { _, _ in problem = nil }
+        .onChange(of: creating) { _, _ in problem = nil; notice = nil }
+    }
+
+    /// The reset link opens the website, where the new password is chosen.
+    private func forgot() {
+        let address = email.trimmingCharacters(in: .whitespaces)
+        Task {
+            problem = nil
+            do {
+                try await model.api.forgotPassword(address)
+                notice = model.isDemo
+                    ? "Demo mode doesn't send email. On the live app, a reset link is emailed to you."
+                    : "If \(address) has a PickleHeat password, a reset link is on its way. It expires in 30 minutes."
+            } catch {
+                problem = error.localizedDescription
+            }
+        }
     }
 
     private func submit() {
         let n = name.trimmingCharacters(in: .whitespaces)
         Task {
+            notice = nil
             problem = await model.signInWithEmail(email.trimmingCharacters(in: .whitespaces), password: password, createName: creating ? n : nil)
             if problem == nil { dismiss() }
         }
@@ -135,7 +163,7 @@ struct EmailSignInView: View {
 }
 
 /// One-time DUPR link. After this, ratings come in automatically and league/tournament
-/// results go back to DUPR without the player doing anything.
+/// results go back to DUPR once the organizer has reviewed and sent them.
 struct DuprConnectView: View {
     @EnvironmentObject var model: AppModel
 
@@ -148,12 +176,12 @@ struct DuprConnectView: View {
             }
             VStack(spacing: 10) {
                 Text("Connect DUPR").font(Theme.display(34))
-                Text("One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR for you.")
+                Text("One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR once the organizer has reviewed them.")
                     .font(.system(size: 16)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
             }
             VStack(alignment: .leading, spacing: 12) {
                 row("arrow.down.circle.fill", Theme.lime, "Your DUPR ratings, reliability and recent matches come in")
-                row("arrow.up.circle.fill", Theme.coral, "Confirmed PickleHeat scores go to DUPR")
+                row("arrow.up.circle.fill", Theme.coral, "Scores go to DUPR after the organizer reviews them")
                 row("lock.fill", Theme.sky, "You log in on DUPR's own page. PickleHeat never sees your password")
             }
             .card()

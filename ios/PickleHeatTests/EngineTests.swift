@@ -173,6 +173,18 @@ final class EngineTests: XCTestCase {
         _ = try decodeAPI("event-scramble", as: EventDetail.self)
     }
 
+    @MainActor func testDuprReviewQueueDecodes() throws {
+        let q = try decodeAPI("dupr-review", as: ReviewQueue.self)
+        XCTAssertTrue(q.enabled)
+        XCTAssertGreaterThan(q.counts.ready, 0, "this week's confirmed scores wait for the organizer")
+        XCTAssertGreaterThan(q.counts.submitted, 0)
+        XCTAssertTrue(q.items.filter { $0.status == "ready" }.allSatisfy { $0.match.duprMatchId == nil })
+        let asOrganizer = try decodeAPI("event-ladder-organizer", as: EventDetail.self)
+        XCTAssertEqual(asOrganizer.duprReview?.ready, q.counts.ready)
+        let asPlayer = try decodeAPI("event-ladder", as: EventDetail.self)
+        XCTAssertNil(asPlayer.duprReview)
+    }
+
     @MainActor func testTeamEventsDecode() throws {
         let bracket = try decodeAPI("event-bracket", as: EventDetail.self)
         XCTAssertTrue(bracket.matches.contains { $0.bracket?.side == "GF" })

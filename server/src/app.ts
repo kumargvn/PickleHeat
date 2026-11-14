@@ -8,15 +8,15 @@ import { MockPaymentProvider } from "./adapters/payments";
 import { db } from "./db";
 import { CORS_HEADERS, HttpError, Router, html, json, numIn, oneOf, optNumIn, optStr, readJson, redirect, str } from "./http";
 import type { Deps, User } from "./ports";
-import { deleteAccount, handoffLink, redeemHandoff, session, signInWithApple, signInWithGoogle, signInWithPassword, signUpWithPassword, userFromRequest } from "./services/auth";
-import { applyRatingWebhook, linkDupr, pullHistory } from "./services/duprSync";
+import { deleteAccount, forgotPassword, handoffLink, redeemHandoff, resetPassword, sendVerification, session, signInWithApple, signInWithGoogle, signInWithPassword, signUpWithPassword, userFromRequest, verifyEmail } from "./services/auth";
+import { applyRatingWebhook, linkDupr, pullHistory, reviewQueue, submitToDupr, withdrawFromDupr } from "./services/duprSync";
 import { canSeeEvent, createEvent, eventFromBody, FORMATS, generateSchedule, markFailed, markPaid, publishEvent, refundEntry, register, requireEvent, startCheckout, withdraw } from "./services/events";
 import { addInvites, parseInviteCsv } from "./services/invites";
 import { acceptSub, cancelSub, closeRound, eventStats, rankings, requestSub, requireRound, roundView, setAttendance, startRound } from "./services/leagues";
-import { confirmScore, reportScore } from "./services/matches";
+import { confirmScore, deleteResult, reportScore, requireMatch } from "./services/matches";
 import { createClub, joinClub, leaveClub, playerInfo, requireManager, setRole } from "./services/people";
-import { createChat, listNotifications, markRead, messages, myChats, postMessage, react } from "./services/social";
-import { cards, clubDetail, discover, eventDetail, liveMatches, meView, myEvents } from "./services/views";
+import { createChat, listNotifications, markRead, messages, myChats, postMessage, react, registerDevice, unregisterDevice } from "./services/social";
+import { cards, clubDetail, discover, eventDetail, liveMatches, meView, myEvents, publicEvent } from "./services/views";
 import { duprConnectPage, page } from "./web/pages";
 
 interface Ctx {
@@ -29,7 +29,7 @@ export function buildRouter(): Router<Ctx> {
   const r = new Router<Ctx>();
 
   r.on("GET", "/v1/health", async (_q, { deps }) =>
-    json({ ok: true, dupr: deps.dupr.name, payments: deps.payments.name, tournamentSources: deps.tournamentSources.map((s) => ({ name: s.name, enabled: s.enabled })) }),
+    json({ ok: true, dupr: deps.dupr.name, payments: deps.payments.name, email: deps.email.name, push: deps.push.name, tournamentSources: deps.tournamentSources.map((s) => ({ name: s.name, enabled: s.enabled })) }),
   );
 
   // ----- accounts -----
@@ -55,6 +55,33 @@ export function buildRouter(): Router<Ctx> {
     const b = await readJson<{ email?: string; password?: string }>(req);
     const user = await signInWithPassword(deps, str(b.email, "email", 200), String(b.password ?? ""));
     return json({ token: await session(deps, user.id), ...(await meView(deps, user)) });
+  });
+
+  // Forgot password: emails a one-time link. The answer is the same whether or not the email has an account.
+  r.on("POST", "/v1/auth/password/forgot", async (req, { deps }) => {
+    const b = await readJson<{ email?: string }>(req);
+    return json(await forgotPassword(deps, str(b.email, "email", 200)));
+  });
+
+  r.on("POST", "/v1/auth/password/reset", async (req, { deps }) => {
+    const b = await readJson<{ token?: string; password?: string }>(req);
+    const user = await resetPassword(deps, str(b.token, "token", 4000), String(b.password ?? ""));
+    return json({ token: await session(deps, user.id), ...(await meView(deps, user)) });
+  });
+
+  r.on("POST", "/v1/auth/email/verify/send", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const r = await sendVerification(deps, user).catch(() => {
+      throw new HttpError(502, "We couldn't send the email. Try again in a moment.", "email_unavailable");
+    });
+    if (!r.sent && !user.emailVerified) throw new HttpError(429, "We just sent one. Check your inbox, or try again in a minute.", "too_soon");
+    return json(r);
+  });
+
+  r.on("POST", "/v1/auth/email/verify", async (req, { deps }) => {
+    const b = await readJson<{ token?: string }>(req);
+    const user = await verifyEmail(deps, str(b.token, "token", 4000));
+    return json({ ok: true, email: user.email });
   });
 
   // App → web, already signed in (payments and payouts live on the web).
@@ -253,6 +280,13 @@ export function buildRouter(): Router<Ctx> {
     return json({ events: await cards(deps, await myEvents(deps, user), user) });
   });
 
+  // The join link: what someone sees before they have an account. Drafts stay private.
+  r.on("GET", "/v1/public/events/:id", async (_req, { deps }, p) => {
+    const ev = await requireEvent(deps, p.id);
+    if (ev.status === "draft") throw new HttpError(404, "Event not found", "not_found");
+    return json({ event: await publicEvent(deps, ev) });
+  });
+
   r.on("GET", "/v1/events/:id", async (req, { deps }, p) => {
     const user = await auth(req, deps);
     const ev = await requireEvent(deps, p.id);
@@ -389,6 +423,54 @@ export function buildRouter(): Router<Ctx> {
   r.on("POST", "/v1/matches/:id/confirm", async (req, { deps }, p) => {
     const user = await auth(req, deps);
     return json({ match: await confirmScore(deps, p.id, user.id) });
+  });
+
+  r.on("DELETE", "/v1/matches/:id/score", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    return json({ match: await deleteResult(deps, p.id, user.id) });
+  });
+
+  // ----- DUPR review queue (organizers) -----
+  // Confirmed results wait here. Nothing reaches DUPR until the organizer submits it.
+  r.on("GET", "/v1/events/:id/dupr", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    return json(await reviewQueue(deps, await requireEvent(deps, p.id), user.id));
+  });
+
+  r.on("POST", "/v1/events/:id/dupr/submit", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const ev = await requireEvent(deps, p.id);
+    const b = await readJson<{ matchIds?: unknown; roundId?: unknown }>(req).catch(() => ({}) as { matchIds?: unknown; roundId?: unknown });
+    const matchIds = Array.isArray(b.matchIds) ? b.matchIds.map(String).slice(0, 500) : null;
+    const r = await submitToDupr(deps, ev, user.id, { matchIds, roundId: typeof b.roundId === "string" ? b.roundId : null });
+    return json({ submitted: r.submitted, failed: r.failed, ...(await reviewQueue(deps, ev, user.id)) });
+  });
+
+  r.on("POST", "/v1/matches/:id/dupr/submit", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const { m, ev } = await requireMatch(deps, p.id);
+    const r = await submitToDupr(deps, ev, user.id, { matchIds: [m.id] });
+    return json({ match: r.matches[0] });
+  });
+
+  r.on("DELETE", "/v1/matches/:id/dupr", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const { m, ev } = await requireMatch(deps, p.id);
+    return json({ match: await withdrawFromDupr(deps, ev, m, user.id) });
+  });
+
+  // ----- push notifications (iPhone) -----
+  r.on("POST", "/v1/me/devices", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ token?: string; environment?: string }>(req);
+    const d = await registerDevice(deps, user.id, str(b.token, "token", 200), String(b.environment ?? "production"));
+    return json({ ok: true, environment: d.environment }, 201);
+  });
+
+  r.on("DELETE", "/v1/me/devices/:token", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    await unregisterDevice(deps, user.id, p.token);
+    return json({ ok: true });
   });
 
   // ----- chat -----

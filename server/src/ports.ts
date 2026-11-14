@@ -34,6 +34,10 @@ export interface User extends Doc {
   appleSub: string | null;
   /** Google account id, once the player has signed in with Google. Absent on older accounts. */
   googleSub?: string | null;
+  /** True once the player has proved they own the email (confirmation link, password reset, Apple or Google). */
+  emailVerified?: boolean;
+  /** Sessions issued before this time (epoch seconds) are no longer accepted. Set when the password is reset. */
+  sessionsValidFrom?: number;
   email: string | null;
   name: string;
   gender: Gender | null;
@@ -259,7 +263,23 @@ export interface Match extends Doc {
   duprMatchId: string | null;
   duprSyncedAt: string | null;
   duprError: string | null;
+  /**
+   * Where a confirmed result stands with DUPR. Two-team confirmation only makes it "ready":
+   * nothing goes to DUPR until the organizer reviews and submits it.
+   * Absent/null: no result yet, or the event doesn't send results to DUPR.
+   */
+  duprStatus?: DuprStatus | null;
+  /** The organizer who submitted it, and when. */
+  duprSubmittedBy?: string | null;
+  duprSubmittedAt?: string | null;
 }
+
+/**
+ * ready: confirmed, waiting in the organizer's review queue.
+ * submitted: sent to DUPR. failed: the organizer submitted it but DUPR hasn't accepted it yet (retried hourly).
+ * skipped: the organizer chose not to send it, or took it back. not_rated: nothing in it counts for DUPR.
+ */
+export type DuprStatus = "ready" | "submitted" | "failed" | "skipped" | "not_rated";
 
 export type PaymentStatus = "pending" | "paid" | "refunded" | "failed";
 
@@ -352,6 +372,53 @@ export interface VerifiedIdentity {
 
 export interface IdentityVerifier {
   verify(identityToken: string): Promise<VerifiedIdentity>;
+}
+
+// ---------- Email (password reset and email confirmation) ----------
+
+export interface EmailMessage {
+  to: string;
+  subject: string;
+  text: string;
+  html: string;
+}
+
+export interface EmailSender {
+  readonly name: string;
+  /** False for the stand-in that sends nothing. */
+  readonly live: boolean;
+  send(m: EmailMessage): Promise<void>;
+}
+
+/** id = `${kind}:${email}`. Stops the same email being sent over and over. */
+export interface EmailThrottle extends Doc {
+  at: string;
+}
+
+// ---------- Push notifications (iPhone lock screen) ----------
+
+/** One iPhone that agreed to notifications. id = the APNs device token. */
+export interface Device extends Doc {
+  userId: string;
+  platform: "ios";
+  /** TestFlight and App Store builds use "production"; builds run from Xcode use "sandbox". */
+  environment: "production" | "sandbox";
+  createdAt: string;
+}
+
+export interface PushMessage {
+  title: string;
+  body: string;
+  /** In-app path opened when the notification is tapped, e.g. "events/<id>". */
+  link: string | null;
+  /** Number for the app icon. */
+  badge?: number;
+}
+
+export interface PushSender {
+  readonly name: string;
+  /** Sends to each device. Returns the tokens Apple says are no longer valid, so they can be forgotten. */
+  send(devices: Device[], m: PushMessage): Promise<string[]>;
 }
 
 // ---------- DUPR (ratings in, matches out) ----------
@@ -456,6 +523,8 @@ export interface Deps {
   identity: IdentityVerifier;
   /** Sign in with Google. null until GOOGLE_CLIENT_IDS is set. */
   google: IdentityVerifier | null;
+  email: EmailSender;
+  push: PushSender;
   dupr: RatingProvider;
   payments: PaymentProvider;
   tournamentSources: TournamentSource[];

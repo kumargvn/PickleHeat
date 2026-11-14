@@ -288,6 +288,9 @@ struct EventMatch: Codable, Hashable, Identifiable {
     var duprMatchId: String?
     var duprSyncedAt: String?
     var duprError: String?
+    /// "ready" (waiting for the organizer), "submitted", "failed", "skipped", "not_rated", or nil.
+    var duprStatus: String?
+    var duprSubmittedAt: String?
 
     var ready: Bool { !homePlayers.isEmpty && !awayPlayers.isEmpty }
     func includes(_ userID: String) -> Bool { homePlayers.contains(userID) || awayPlayers.contains(userID) }
@@ -344,6 +347,38 @@ struct Round: Codable, Hashable, Identifiable {
     var ranking: [RankRow]?
 }
 
+struct DuprReviewCounts: Codable, Hashable {
+    var ready: Int
+    var failed: Int
+    var submitted: Int
+    var waiting: Int { ready + failed }
+}
+
+/// The organizer's DUPR review queue: confirmed results wait here until the organizer sends them.
+struct ReviewQueue: Codable, Hashable {
+    struct Counts: Codable, Hashable {
+        var ready: Int
+        var submitted: Int
+        var failed: Int
+        var skipped: Int
+        var not_rated: Int
+    }
+    struct Item: Codable, Hashable, Identifiable {
+        var match: EventMatch
+        var status: String
+        var roundNumber: Int?
+        var groupNumber: Int?
+        var missingDupr: [String]
+        var id: String { match.id }
+    }
+    var enabled: Bool
+    var counts: Counts
+    var items: [Item]
+    var players: Players
+    var submitted: Int?
+    var failed: Int?
+}
+
 struct Money: Codable, Hashable {
     var collectedCents: Int
     var paidEntries: Int
@@ -381,6 +416,9 @@ struct EventDetail: Codable, Hashable {
     var chatId: String?
     var money: Money?
     var invites: [Invite]
+    var joinUrl: String?
+    /// Organizers only, when the event sends results to DUPR.
+    var duprReview: DuprReviewCounts?
 
     func entry(_ id: String?) -> Entry? { entries.first { $0.id == id } ?? waitlist.first { $0.id == id } }
     func teamName(_ id: String?) -> String { entry(id)?.teamName ?? "TBD" }

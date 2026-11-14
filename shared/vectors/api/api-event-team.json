@@ -225,7 +225,10 @@
    "confirmedBy": "u-ana",
    "duprMatchId": null,
    "duprSyncedAt": null,
-   "duprError": "Every player needs a connected DUPR account before this match can be submitted"
+   "duprError": null,
+   "duprStatus": "ready",
+   "duprSubmittedBy": null,
+   "duprSubmittedAt": null
   },
   {
    "id": "id00287",
@@ -262,9 +265,12 @@
    "status": "confirmed",
    "reportedBy": "u-ana",
    "confirmedBy": "u-ana",
-   "duprMatchId": "mock-match-id00287",
-   "duprSyncedAt": "2026-11-07T15:04:51.000Z",
-   "duprError": null
+   "duprMatchId": null,
+   "duprSyncedAt": null,
+   "duprError": null,
+   "duprStatus": "ready",
+   "duprSubmittedBy": null,
+   "duprSubmittedAt": null
   },
   {
    "id": "id00288",
@@ -450,5 +456,7 @@
  "currentRoundId": null,
  "chatId": "id00285",
  "money": null,
- "invites": []
+ "invites": [],
+ "joinUrl": "https://demo.pickleheat.app/app/#/join/id00280",
+ "duprReview": null
 }

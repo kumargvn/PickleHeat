@@ -6,6 +6,7 @@
 import { db } from "../db";
 import type { Deps, Entry, PickleHeatEvent, User } from "../ports";
 import { createEvent, generateSchedule, publishEvent } from "../services/events";
+import { submitToDupr } from "../services/duprSync";
 import { requestSub, startRound } from "../services/leagues";
 import { reportScore } from "../services/matches";
 import { createClub, joinClub } from "../services/people";
@@ -104,6 +105,9 @@ export async function seedDemo(deps: Deps): Promise<void> {
       if (r === 4 && rand() < 0.55) continue; // the rest of the league is mid-week
       await reportScore(deps, m.id, uid("chen"), { games: [scoreFor(m.homePlayers, m.awayPlayers), scoreFor(m.homePlayers, m.awayPlayers)] });
     }
+    // Earlier weeks: the organizer has already reviewed the results and sent them to DUPR.
+    // This week's confirmed scores are still waiting in the review queue.
+    if (r < 4) await submitToDupr(deps, (await d.events.get(ladder.id))!, uid("chen"), { roundId: round.id });
     if (r === 4) {
       const myGroup = (await d.groups.find({ roundId: round.id, playerIds: [DEMO_USER_ID] }))[0];
       const myMatches = matches.filter((m) => m.groupId === myGroup.id);

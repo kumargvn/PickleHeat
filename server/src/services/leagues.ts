@@ -5,7 +5,7 @@ import { matchTags, playerStats, type MatchTag, type StatRow } from "../domain/s
 import { db } from "../db";
 import { HttpError } from "../http";
 import type { Attendance, Deps, Match, PickleHeatEvent, PlayGroup, RankRow, Round, SubRequest } from "../ports";
-import { uploadMatch } from "./duprSync";
+import { queueForReview } from "./duprSync";
 import { isIndividual } from "./events";
 import { canManage, clubRole, playerInfo, ratingOf, requireManager, type PlayerInfo } from "./people";
 import { addChatMembers, createChat, notify, postMessage, removeChatMember } from "./social";
@@ -92,7 +92,7 @@ export async function closeRound(deps: Deps, round: Round, actorId: string): Pro
     if (m.status !== "reported") continue;
     const c = { ...m, status: "confirmed" as const, confirmedBy: actorId };
     await db(deps).matches.put(c);
-    await uploadMatch(deps, ev, c);
+    await queueForReview(deps, ev, c);
   }
   const final = await db(deps).matches.find({ roundId: round.id });
   const groups = (await db(deps).groups.find({ roundId: round.id })).sort((a, b) => a.number - b.number);

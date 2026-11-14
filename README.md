@@ -4,7 +4,7 @@
 
 Pickleball leagues, tournaments and DUPR form, for iPhone and the web.
 
-- **One-time DUPR connect**, then two-way sync: ratings and match history come in (webhooks + refresh), confirmed PickleHeat match scores go out to DUPR.
+- **One-time DUPR connect**, then two-way sync: ratings and match history come in (webhooks + refresh), confirmed PickleHeat match scores wait in the organizer's review queue and go to DUPR only when the organizer submits them (single or bulk; edit, delete and take-back supported).
 - **Form score (0–100)** from the last 8 DUPR matches: actual point share vs what the rating gap predicts, recency-weighted. Plus insights: record, point share, close games, results vs higher-rated teams, Player DNA and a tip.
 - **Leagues and tournaments**: DUPR rating range, round robins, snake-seeded pools, standings, score report + confirm, playoff seeding.
 - **Entry fees** through Stripe Connect, paid straight to the organizer's linked account (PickleHeat can keep a platform fee).
@@ -77,6 +77,9 @@ Without DUPR or Stripe keys the API uses the stand-in DUPR login and mock paymen
 - **pickleball.com / PickleballTournaments**: ask for a PPA API token; set `PICKLEBALL_COM_API_TOKEN`. Field mapping is in `server/src/adapters/tournamentSources.ts`.
 - **FluidPB**: no public API found. Ask them for one; the adapter is stubbed and off.
 - **Stripe**: create a platform account, turn on Connect (Express), add the webhook `https://<api>/v1/webhooks/payments` for `checkout.session.*` and `account.updated`.
+- **Password reset and email confirmation**: create a [Resend](https://resend.com) account, verify a sending domain, then set the secret `RESEND_API_KEY` and `EMAIL_FROM` (for example `PickleHeat <hello@yourdomain.com>`). Until both are set no email goes out, so "Forgot password" answers normally but nothing arrives.
+- **iPhone push notifications**: Apple Developer → Keys → + → tick **Apple Push Notifications service (APNs)** and download the `.p8`. Set `APNS_KEY_ID`, `APNS_TEAM_ID`, and the secret `APNS_PRIVATE_KEY` (the file's contents). On the App ID `com.gudivada.pickleheat`, tick **Push Notifications**. TestFlight and App Store builds use Apple's production push service.
+- **Join links and QR codes**: every published event has a link (`…/app/#/join/<id>`) that shows the event to anyone and brings them back to it after they sign up. The QR code is drawn in the browser and on the phone; nothing to configure.
 - **Sign in with Google (web)**: Google Cloud → APIs & Services → Credentials → Create OAuth client ID → Web application. Add the site's origin (for example `https://kumargvn.github.io`) under Authorized JavaScript origins. Put the client ID in `GOOGLE_CLIENT_ID` in `docs/app/config.js` and in `GOOGLE_CLIENT_IDS` on the API. The button stays hidden until both are set. A Google sign-in joins an existing Sign in with Apple account with the same email; an email that already has a password keeps signing in with the password.
 - **Sign in with Apple on the web**: create a Services ID (`com.gudivada.pickleheat.web`), add the web app's domain and return URL, and add it to `APPLE_AUDIENCES`.
 

@@ -106,6 +106,10 @@ enum AppConfig {
 
     static let callbackScheme = "pickleheat"
     static let site = URL(string: "https://kumargvn.github.io/PickleHeat/")!
+    /// The join link for an event: opens it on the website for anyone, signed in or not.
+    static func joinURL(eventID: String) -> URL {
+        URL(string: "\(site.absoluteString)app/#/join/\(eventID)") ?? site
+    }
     static let privacyURL = URL(string: "https://kumargvn.github.io/PickleHeat/privacy.html")!
     static let supportURL = URL(string: "https://kumargvn.github.io/PickleHeat/support.html")!
 }
@@ -184,6 +188,24 @@ final class APIClient {
         token = me.token
         return me
     }
+
+    /// Emails a one-time reset link. Succeeds whether or not the email has an account.
+    func forgotPassword(_ email: String) async throws {
+        let _: Done = try await request("POST", "/v1/auth/password/forgot", ["email": email])
+    }
+
+    // MARK: push notifications
+
+    func registerDevice(_ deviceToken: String, environment: String) async throws {
+        let _: Done = try await request("POST", "/v1/me/devices", ["token": deviceToken, "environment": environment])
+    }
+
+    /// Used while signing out, so it takes the session explicitly instead of the one being cleared.
+    func unregisterDevice(_ deviceToken: String, session: String) async {
+        _ = try? await transport.send(method: "DELETE", path: "/v1/me/devices/\(deviceToken)", body: nil, token: session)
+    }
+
+    var sessionToken: String? { token }
 
     func me() async throws -> Me { try await request("GET", "/v1/me") }
 
@@ -329,6 +351,32 @@ final class APIClient {
     func confirmScore(_ matchID: String) async throws -> EventMatch {
         struct R: Decodable { var match: EventMatch }
         let r: R = try await request("POST", "/v1/matches/\(matchID)/confirm")
+        return r.match
+    }
+
+    // MARK: DUPR review (organizers). Nothing goes to DUPR until the organizer sends it.
+
+    func reviewQueue(_ eventID: String) async throws -> ReviewQueue { try await request("GET", "/v1/events/\(eventID)/dupr") }
+
+    /// Sends every result that's ready (or needs another try).
+    func submitAllToDupr(_ eventID: String) async throws -> ReviewQueue { try await request("POST", "/v1/events/\(eventID)/dupr/submit", [:]) }
+
+    func submitToDupr(_ matchID: String) async throws -> EventMatch {
+        struct R: Decodable { var match: EventMatch }
+        let r: R = try await request("POST", "/v1/matches/\(matchID)/dupr/submit")
+        return r.match
+    }
+
+    /// Keeps a result out of DUPR, or takes back one that was sent. The score still counts.
+    func withdrawFromDupr(_ matchID: String) async throws -> EventMatch {
+        struct R: Decodable { var match: EventMatch }
+        let r: R = try await request("DELETE", "/v1/matches/\(matchID)/dupr")
+        return r.match
+    }
+
+    func deleteResult(_ matchID: String) async throws -> EventMatch {
+        struct R: Decodable { var match: EventMatch }
+        let r: R = try await request("DELETE", "/v1/matches/\(matchID)/score")
         return r.match
     }
 

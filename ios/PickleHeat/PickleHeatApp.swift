@@ -2,6 +2,7 @@ import SwiftUI
 
 @main
 struct PickleHeatApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     @StateObject private var model = AppModel(api: APIClient.make())
 
     var body: some Scene {

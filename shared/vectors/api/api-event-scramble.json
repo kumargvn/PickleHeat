@@ -370,5 +370,7 @@
  "currentRoundId": "id00253-r1",
  "chatId": null,
  "money": null,
- "invites": []
+ "invites": [],
+ "joinUrl": "https://demo.pickleheat.app/app/#/join/id00253",
+ "duprReview": null
 }
