@@ -8,7 +8,7 @@ import { MockPaymentProvider } from "./adapters/payments";
 import { db } from "./db";
 import { CORS_HEADERS, HttpError, Router, html, json, numIn, oneOf, optNumIn, optStr, readJson, redirect, str } from "./http";
 import type { Deps, User } from "./ports";
-import { deleteAccount, handoffLink, redeemHandoff, session, signInWithApple, signInWithGoogle, signInWithPassword, signUpWithPassword, userFromRequest } from "./services/auth";
+import { deleteAccount, forgotPassword, handoffLink, redeemHandoff, resetPassword, sendVerification, session, signInWithApple, signInWithGoogle, signInWithPassword, signUpWithPassword, userFromRequest, verifyEmail } from "./services/auth";
 import { applyRatingWebhook, linkDupr, pullHistory, reviewQueue, submitToDupr, withdrawFromDupr } from "./services/duprSync";
 import { canSeeEvent, createEvent, eventFromBody, FORMATS, generateSchedule, markFailed, markPaid, publishEvent, refundEntry, register, requireEvent, startCheckout, withdraw } from "./services/events";
 import { addInvites, parseInviteCsv } from "./services/invites";
@@ -29,7 +29,7 @@ export function buildRouter(): Router<Ctx> {
   const r = new Router<Ctx>();
 
   r.on("GET", "/v1/health", async (_q, { deps }) =>
-    json({ ok: true, dupr: deps.dupr.name, payments: deps.payments.name, tournamentSources: deps.tournamentSources.map((s) => ({ name: s.name, enabled: s.enabled })) }),
+    json({ ok: true, dupr: deps.dupr.name, payments: deps.payments.name, email: deps.email.name, tournamentSources: deps.tournamentSources.map((s) => ({ name: s.name, enabled: s.enabled })) }),
   );
 
   // ----- accounts -----
@@ -55,6 +55,33 @@ export function buildRouter(): Router<Ctx> {
     const b = await readJson<{ email?: string; password?: string }>(req);
     const user = await signInWithPassword(deps, str(b.email, "email", 200), String(b.password ?? ""));
     return json({ token: await session(deps, user.id), ...(await meView(deps, user)) });
+  });
+
+  // Forgot password: emails a one-time link. The answer is the same whether or not the email has an account.
+  r.on("POST", "/v1/auth/password/forgot", async (req, { deps }) => {
+    const b = await readJson<{ email?: string }>(req);
+    return json(await forgotPassword(deps, str(b.email, "email", 200)));
+  });
+
+  r.on("POST", "/v1/auth/password/reset", async (req, { deps }) => {
+    const b = await readJson<{ token?: string; password?: string }>(req);
+    const user = await resetPassword(deps, str(b.token, "token", 4000), String(b.password ?? ""));
+    return json({ token: await session(deps, user.id), ...(await meView(deps, user)) });
+  });
+
+  r.on("POST", "/v1/auth/email/verify/send", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const r = await sendVerification(deps, user).catch(() => {
+      throw new HttpError(502, "We couldn't send the email. Try again in a moment.", "email_unavailable");
+    });
+    if (!r.sent && !user.emailVerified) throw new HttpError(429, "We just sent one. Check your inbox, or try again in a minute.", "too_soon");
+    return json(r);
+  });
+
+  r.on("POST", "/v1/auth/email/verify", async (req, { deps }) => {
+    const b = await readJson<{ token?: string }>(req);
+    const user = await verifyEmail(deps, str(b.token, "token", 4000));
+    return json({ ok: true, email: user.email });
   });
 
   // App → web, already signed in (payments and payouts live on the web).

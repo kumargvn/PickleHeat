@@ -185,6 +185,11 @@ final class APIClient {
         return me
     }
 
+    /// Emails a one-time reset link. Succeeds whether or not the email has an account.
+    func forgotPassword(_ email: String) async throws {
+        let _: Done = try await request("POST", "/v1/auth/password/forgot", ["email": email])
+    }
+
     func me() async throws -> Me { try await request("GET", "/v1/me") }
 
     func updateProfile(_ fields: [String: Any]) async throws -> Me { try await request("PATCH", "/v1/me", fields) }

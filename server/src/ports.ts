@@ -34,6 +34,10 @@ export interface User extends Doc {
   appleSub: string | null;
   /** Google account id, once the player has signed in with Google. Absent on older accounts. */
   googleSub?: string | null;
+  /** True once the player has proved they own the email (confirmation link, password reset, Apple or Google). */
+  emailVerified?: boolean;
+  /** Sessions issued before this time (epoch seconds) are no longer accepted. Set when the password is reset. */
+  sessionsValidFrom?: number;
   email: string | null;
   name: string;
   gender: Gender | null;
@@ -370,6 +374,27 @@ export interface IdentityVerifier {
   verify(identityToken: string): Promise<VerifiedIdentity>;
 }
 
+// ---------- Email (password reset and email confirmation) ----------
+
+export interface EmailMessage {
+  to: string;
+  subject: string;
+  text: string;
+  html: string;
+}
+
+export interface EmailSender {
+  readonly name: string;
+  /** False for the stand-in that sends nothing. */
+  readonly live: boolean;
+  send(m: EmailMessage): Promise<void>;
+}
+
+/** id = `${kind}:${email}`. Stops the same email being sent over and over. */
+export interface EmailThrottle extends Doc {
+  at: string;
+}
+
 // ---------- DUPR (ratings in, matches out) ----------
 
 export interface DuprProfile {
@@ -472,6 +497,7 @@ export interface Deps {
   identity: IdentityVerifier;
   /** Sign in with Google. null until GOOGLE_CLIENT_IDS is set. */
   google: IdentityVerifier | null;
+  email: EmailSender;
   dupr: RatingProvider;
   payments: PaymentProvider;
   tournamentSources: TournamentSource[];

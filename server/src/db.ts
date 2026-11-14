@@ -1,6 +1,6 @@
 // Typed access to every collection.
 import type {
-  Attendance, Chat, ChatRead, Club, ClubMember, Credential, Deps, DuprHistory, DuprLink, Entry, Invite, Match,
+  Attendance, Chat, ChatRead, Club, ClubMember, Credential, Deps, DuprHistory, DuprLink, EmailThrottle, Entry, Invite, Match,
   Message, Notification, Payment, PayoutAccount, PickleHeatEvent, PlayGroup, Round, Store, SubRequest, UsedToken, User,
 } from "./ports";
 
@@ -27,6 +27,7 @@ export function collections(store: Store) {
     notifications: store.collection<Notification>("notifications"),
     invites: store.collection<Invite>("invites"),
     usedTokens: store.collection<UsedToken>("used_tokens"),
+    emailThrottle: store.collection<EmailThrottle>("email_throttle"),
   };
 }
 

@@ -123,7 +123,7 @@ function ring(score, label, size = 128, color = "var(--ink)", track = "rgba(10,1
 
 
 // ---------- routing ----------
-const routes = { signin, handoff, dupr, home, events, entries: payEntry, payouts, clubs: clubPage, create, "new-club": newClub, chats, insights, profile, notifications };
+const routes = { signin, forgot, reset: resetPage, verify: verifyPage, handoff, dupr, home, events, entries: payEntry, payouts, clubs: clubPage, create, "new-club": newClub, chats, insights, profile, notifications };
 
 async function route() {
   clearInterval(state.poll);
@@ -133,8 +133,9 @@ async function route() {
   const params = new URLSearchParams(query ?? "");
   if (name === "handoff") return handoff(params);
   if (!state.me && store.get()) state.me = await api("GET", "/v1/me").catch(() => null);
-  if (!state.me && name !== "signin") return go("#/signin");
-  if (state.me && !state.me.dupr.connected && !["dupr", "signin", "profile"].includes(name)) return go("#/dupr");
+  const open = ["signin", "forgot", "reset", "verify"]; // pages that work signed out
+  if (!state.me && !open.includes(name)) return go("#/signin");
+  if (state.me && !state.me.dupr.connected && !["dupr", "profile", ...open].includes(name)) return go("#/dupr");
   if (name === "dupr" && params.get("status") === "connected") state.me = await run(() => api("GET", "/v1/me"));
   document.getElementById("nav").hidden = !state.me?.dupr?.connected;
   const tab = name === "clubs" || name === "create" || name === "new-club" || name === "entries" ? "events" : name;
@@ -178,6 +179,7 @@ async function signin() {
       <label id="name-field" ${signupMode ? "" : "hidden"}>Your name<input name="name" autocomplete="name"></label>
       <button class="btn block" type="submit" id="email-go">${signupMode ? "Create account" : "Sign in"}</button>
       <button class="btn secondary block" type="button" data-act="toggle-signup">${signupMode ? "Have an account? Sign in" : "New here? Create an account"}</button>
+      <a href="#/forgot" class="small" style="text-align:center">Forgot your password?</a>
     </form>
     ${LIVE ? "" : `<div class="muted small">or</div><button class="btn secondary block" data-act="demo-signin">Try the demo account</button><p class="small muted">Demo mode: a sample club, Heat Climb league and tournaments. Accounts you create here stay in this browser, and nothing is charged.</p>`}
     <p class="small muted">By continuing you agree to the <a href="../privacy.html">Privacy Policy</a>.</p></div>`;
@@ -185,6 +187,35 @@ async function signin() {
 }
 
 let signupMode = false;
+
+// ---------- forgot password, reset, confirm email ----------
+const authCard = (inner) => `<div class="stack" style="max-width:440px;margin:32px auto">${inner}</div>`;
+
+function forgot() {
+  view.innerHTML = authCard(`<h1>Forgot your password?</h1>
+    <p class="muted">Enter the email you signed up with. We'll send a link to choose a new password.</p>
+    <form class="stack" data-form="forgot"><label>Email<input name="email" type="email" autocomplete="email" required></label>
+      <button class="btn block" type="submit">Email me a reset link</button></form>
+    <a href="#/signin" class="small">Back to sign in</a>`);
+}
+
+function resetPage(_parts, params) {
+  const t = params.get("t");
+  if (!t) return go("#/forgot");
+  view.innerHTML = authCard(`<h1>Choose a new password</h1>
+    <form class="stack" data-form="reset"><input type="hidden" name="token" value="${esc(t)}">
+      <label>New password<input name="password" type="password" autocomplete="new-password" minlength="8" required></label>
+      <span class="small muted">At least 8 characters. Anyone signed in with the old password is signed out.</span>
+      <button class="btn block" type="submit">Save and sign in</button></form>`);
+}
+
+async function verifyPage(_parts, params) {
+  const r = params.get("t") ? await api("POST", "/v1/auth/email/verify", { token: params.get("t") }).catch(() => null) : null;
+  if (r && state.me) await refreshMe();
+  view.innerHTML = authCard(r
+    ? `<h1>Email confirmed ✓</h1><p class="muted">${esc(r.email)} is confirmed. You can reset your password by email if you ever forget it.</p><a class="btn block" href="${state.me ? "#/home" : "#/signin"}">${state.me ? "Continue" : "Sign in"}</a>`
+    : `<h1>This link has expired</h1><p class="muted">Sign in and ask for a new confirmation email from your profile.</p><a class="btn block" href="${state.me ? "#/profile" : "#/signin"}">${state.me ? "Go to profile" : "Sign in"}</a>`);
+}
 function loadAppleJs() {
   if (!cfg.APPLE_SERVICES_ID) return;
   const s = document.createElement("script");
@@ -859,6 +890,7 @@ async function profile() {
   view.innerHTML = `<div class="stack" style="max-width:640px;margin:0 auto"><h1>Profile</h1>
     <div class="card stack"><div class="row">${avatar({ name: u.name }, 52)}<div><h2>${esc(u.name)}</h2><span class="small muted">${esc(u.email ?? "")}</span></div></div>
       <label>Gender (for mixed and MLP lines)<select data-change="gender"><option value="">Not set</option><option value="f" ${u.gender === "f" ? "selected" : ""}>Woman</option><option value="m" ${u.gender === "m" ? "selected" : ""}>Man</option></select></label></div>
+    ${u.hasPassword && !u.emailVerified ? `<div class="card stack" style="border-color:var(--coral)"><h3>Confirm your email</h3><span class="small muted">We sent a link to ${esc(u.email)}. Confirming it lets you reset your password if you forget it.</span><button class="btn secondary" data-act="verify-send">Send the link again</button><div id="dev-link"></div></div>` : ""}
     <div class="card stack"><h3>DUPR</h3>
       ${me.dupr.connected ? `<div class="row between"><span>DUPR ID</span><b>${esc(me.dupr.duprId)}</b></div><div class="row between"><span>Doubles</span><b>${r2(me.dupr.doublesRating)}</b></div><div class="row between"><span>Singles</span><b>${r2(me.dupr.singlesRating)}</b></div>
         <div class="row"><button class="btn secondary" data-act="dupr-sync">Sync now</button><button class="btn danger" data-act="dupr-disconnect">Disconnect</button></div>` : `<a class="btn" href="#/dupr">Connect DUPR</a>`}
@@ -937,6 +969,12 @@ const actions = {
   "sub-cancel": async (el) => { if (await run(() => api("POST", `/v1/subs/${encodeURIComponent(el.dataset.id)}/cancel`))) route(); },
   "score-form": (el) => scoreForm(el.dataset.id),
   "score-cancel": (el) => { document.querySelector(`#m-${CSS.escape(el.dataset.id)} .score-slot`).innerHTML = ""; },
+  "verify-send": async () => {
+    const r = await run(() => api("POST", "/v1/auth/email/verify/send"));
+    if (!r) return;
+    toast(LIVE ? "Sent. Check your inbox." : "Demo mode doesn't send email. Use the link below.", true);
+    if (r.devLink) document.getElementById("dev-link").innerHTML = `<a class="small" href="${esc(r.devLink.slice(r.devLink.indexOf("#")))}">Open the confirmation link (demo)</a>`;
+  },
   "dupr-send": async (el) => {
     const r = await run(() => api("POST", `/v1/matches/${encodeURIComponent(el.dataset.id)}/dupr/submit`));
     if (!r) return;
@@ -980,6 +1018,20 @@ const actions = {
 };
 
 const forms = {
+  forgot: async (form) => {
+    const email = new FormData(form).get("email");
+    const r = await run(() => api("POST", "/v1/auth/password/forgot", { email }));
+    if (!r) return;
+    view.innerHTML = authCard(`<h1>Check your email</h1>
+      <p class="muted">If ${esc(email)} has a PickleHeat password, a reset link is on its way. It works once and expires in 30 minutes.</p>
+      ${LIVE ? "" : `<p class="small muted">Demo mode doesn't send email.${r.devLink ? ` <a href="${esc(r.devLink.slice(r.devLink.indexOf("#")))}">Open the reset link</a>` : " Create an account with email first to try this."}</p>`}
+      <a href="#/signin" class="small">Back to sign in</a>`);
+  },
+  reset: async (form) => {
+    const fd = new FormData(form);
+    const r = await api("POST", "/v1/auth/password/reset", { token: fd.get("token"), password: fd.get("password") }).catch((e) => { toast(e.message || "Something went wrong"); return null; });
+    if (r) { toast("Password changed.", true); await signedIn(r); }
+  },
   score: submitScore,
   register: submitRegister,
   create: submitCreate,

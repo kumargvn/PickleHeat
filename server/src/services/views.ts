@@ -16,7 +16,7 @@ export async function meView(deps: Deps, user: User) {
   const history = link ? (await db(deps).history.get(user.id))?.matches ?? [] : [];
   const form = formScore(history);
   return {
-    user: { id: user.id, email: user.email, name: user.name, gender: user.gender, lat: user.lat, lng: user.lng, maxDistanceMiles: user.maxDistanceMiles, formats: user.formats },
+    user: { id: user.id, email: user.email, emailVerified: !!user.emailVerified, hasPassword: !!(user.email && (await db(deps).credentials.get(user.email.toLowerCase()))), name: user.name, gender: user.gender, lat: user.lat, lng: user.lng, maxDistanceMiles: user.maxDistanceMiles, formats: user.formats },
     dupr: link
       ? { connected: true, duprId: link.duprId, doublesRating: link.doublesRating, singlesRating: link.singlesRating, doublesReliability: link.doublesReliability, ratingUpdatedAt: link.ratingUpdatedAt, matchesSyncedAt: link.matchesSyncedAt }
       : { connected: false, duprId: null, doublesRating: null, singlesRating: null, doublesReliability: null, ratingUpdatedAt: null, matchesSyncedAt: null },

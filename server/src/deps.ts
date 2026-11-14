@@ -2,6 +2,7 @@
 
 import { ChainedIdentityVerifier, AppleIdentityVerifier, DevIdentityVerifier, GoogleIdentityVerifier } from "./adapters/identity";
 import { DuprHttpProvider, MockDuprProvider } from "./adapters/dupr";
+import { LogEmailSender, ResendEmailSender } from "./adapters/email";
 import { MockPaymentProvider, StripeConnectProvider } from "./adapters/payments";
 import { SampleTournamentSource } from "./adapters/sample";
 import { FluidPbSource, PickleballComSource, PickleHeatEventsSource } from "./adapters/tournamentSources";
@@ -15,6 +16,9 @@ export interface Env {
   GOOGLE_CLIENT_IDS?: string; // comma separated OAuth client IDs; leave empty to turn Google sign-in off
   ALLOW_DEV_AUTH?: string;
   PLATFORM_FEE_BPS?: string;
+  // Email (password reset, email confirmation): leave empty and no email is sent
+  RESEND_API_KEY?: string;
+  EMAIL_FROM?: string; // "PickleHeat <hello@yourdomain.com>", a sender verified in Resend
   // DUPR: leave empty to use the stand-in until partner keys arrive
   DUPR_ENV?: string; // "uat" | "production"
   DUPR_CLIENT_KEY?: string;
@@ -59,6 +63,7 @@ export function buildDeps(env: Env, store: Store): Deps {
     store,
     identity: allowDevAuth ? new ChainedIdentityVerifier([apple, new DevIdentityVerifier()]) : apple,
     google,
+    email: env.RESEND_API_KEY && env.EMAIL_FROM ? new ResendEmailSender(env.RESEND_API_KEY, env.EMAIL_FROM) : new LogEmailSender(),
     dupr,
     payments,
     tournamentSources: sources,

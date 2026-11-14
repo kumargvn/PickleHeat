@@ -76,6 +76,7 @@ struct EmailSignInView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var problem: String?
+    @State private var notice: String?
 
     private var ready: Bool {
         email.contains("@") && password.count >= 8 && (!creating || !name.trimmingCharacters(in: .whitespaces).isEmpty)
@@ -108,6 +109,9 @@ struct EmailSignInView: View {
             if let problem {
                 Section { Text(problem).foregroundStyle(Theme.coral) }
             }
+            if let notice {
+                Section { Text(notice).foregroundStyle(Theme.lime) }
+            }
             Section {
                 Button(creating ? "Create account" : "Sign in") { submit() }
                     .buttonStyle(PrimaryButtonStyle())
@@ -115,6 +119,13 @@ struct EmailSignInView: View {
                     .listRowBackground(Color.clear)
                     .listRowInsets(EdgeInsets())
                     .accessibilityIdentifier("emailSubmit")
+                if !creating {
+                    Button("Forgot your password?") { forgot() }
+                        .font(.system(size: 15)).foregroundStyle(Theme.sky)
+                        .frame(maxWidth: .infinity)
+                        .listRowBackground(Color.clear)
+                        .disabled(!email.contains("@") || model.busy)
+                }
             }
         }
         .scrollContentBackground(.hidden)
@@ -122,12 +133,29 @@ struct EmailSignInView: View {
         .navigationTitle(creating ? "Create account" : "Sign in")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
-        .onChange(of: creating) { _, _ in problem = nil }
+        .onChange(of: creating) { _, _ in problem = nil; notice = nil }
+    }
+
+    /// The reset link opens the website, where the new password is chosen.
+    private func forgot() {
+        let address = email.trimmingCharacters(in: .whitespaces)
+        Task {
+            problem = nil
+            do {
+                try await model.api.forgotPassword(address)
+                notice = model.isDemo
+                    ? "Demo mode doesn't send email. On the live app, a reset link is emailed to you."
+                    : "If \(address) has a PickleHeat password, a reset link is on its way. It expires in 30 minutes."
+            } catch {
+                problem = error.localizedDescription
+            }
+        }
     }
 
     private func submit() {
         let n = name.trimmingCharacters(in: .whitespaces)
         Task {
+            notice = nil
             problem = await model.signInWithEmail(email.trimmingCharacters(in: .whitespaces), password: password, createName: creating ? n : nil)
             if problem == nil { dismiss() }
         }

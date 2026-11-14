@@ -40,9 +40,11 @@ export function safeEqual(a: string, b: string): boolean {
 
 export interface SessionClaims {
   sub: string; // user id
-  purpose: "session" | "dupr_connect" | "handoff";
+  purpose: "session" | "dupr_connect" | "handoff" | "pw_reset" | "email_verify";
   jti?: string;
   to?: string;
+  /** pw_reset: fingerprint of the password being replaced, so a link dies once it is used. email_verify: the address. */
+  v?: string;
   iat: number;
   exp: number;
 }

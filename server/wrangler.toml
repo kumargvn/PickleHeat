@@ -15,6 +15,9 @@ GOOGLE_CLIENT_IDS = ""
 PLATFORM_FEE_BPS = "0"
 DUPR_ENV = "uat"
 ALLOW_DEV_AUTH = "false"
+# Password reset and email confirmation go out through Resend. Set the secret RESEND_API_KEY, and a sender
+# on a domain you verified in Resend. Until both are set, no email is sent.
+EMAIL_FROM = ""
 SAMPLE_TOURNAMENTS = "true"
 
 # Every hour: refresh DUPR tokens about to expire and retry DUPR uploads that failed.
