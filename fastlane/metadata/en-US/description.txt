@@ -19,7 +19,7 @@ TEAM LEAGUES AND TOURNAMENTS
 • Round robins, pools with playoffs, single and double elimination brackets
 • MLP-style team matches with a DreamBreaker, and trips
 • Set a DUPR range; players outside it can't register
-• Players enter scores, the other side confirms, and results go to DUPR automatically
+• Players enter scores, the other side confirms, and the organizer reviews results before they go to DUPR
 • Waitlists, invites, and stats like upsets, nailbiters and point differential
 
 CLUBS AND CHAT

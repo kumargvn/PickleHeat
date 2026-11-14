@@ -41,7 +41,7 @@ struct ProfileView: View {
                 Button("Sync now") { Task { await model.syncDupr() } }
                 Button("Disconnect DUPR", role: .destructive) { confirmDisconnect = true }
             } header: { Text("DUPR") } footer: {
-                Text("Ratings update automatically when DUPR changes them. Confirmed PickleHeat matches are sent to DUPR for you.")
+                Text("Ratings update automatically when DUPR changes them. Confirmed PickleHeat matches go to DUPR after the organizer reviews them.")
             }
 
             Section {

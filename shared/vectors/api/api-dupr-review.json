@@ -1,0 +1,3298 @@
+{
+ "enabled": true,
+ "counts": {
+  "ready": 5,
+  "submitted": 45,
+  "failed": 9,
+  "skipped": 0,
+  "not_rated": 0
+ },
+ "items": [
+  {
+   "match": {
+    "id": "id00005-r1-g6-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g6",
+    "round": 1,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-luis",
+     "u-emma"
+    ],
+    "awayPlayers": [
+     "u-noah",
+     "u-demo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 8,
+      "them": 11
+     },
+     {
+      "us": 4,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 1,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g6-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g6",
+    "round": 1,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-luis",
+     "u-noah"
+    ],
+    "awayPlayers": [
+     "u-emma",
+     "u-demo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 3,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 4
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 1,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g6-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g6",
+    "round": 1,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-luis",
+     "u-demo"
+    ],
+    "awayPlayers": [
+     "u-emma",
+     "u-noah"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 9
+     },
+     {
+      "us": 11,
+      "them": 8
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 1,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g5-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g5",
+    "round": 2,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ivy",
+     "u-sofia"
+    ],
+    "awayPlayers": [
+     "u-raj",
+     "u-demo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 4,
+      "them": 11
+     },
+     {
+      "us": 8,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 2,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g5-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g5",
+    "round": 2,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ivy",
+     "u-raj"
+    ],
+    "awayPlayers": [
+     "u-sofia",
+     "u-demo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 6
+     },
+     {
+      "us": 11,
+      "them": 10
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 2,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g5-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g5",
+    "round": 2,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ivy",
+     "u-demo"
+    ],
+    "awayPlayers": [
+     "u-sofia",
+     "u-raj"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 4
+     },
+     {
+      "us": 11,
+      "them": 3
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 2,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g4-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g4",
+    "round": 3,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-leo",
+     "u-omar"
+    ],
+    "awayPlayers": [
+     "u-maya",
+     "u-demo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 10,
+      "them": 11
+     },
+     {
+      "us": 6,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 3,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g4-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g4",
+    "round": 3,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-leo",
+     "u-maya"
+    ],
+    "awayPlayers": [
+     "u-omar",
+     "u-demo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 10,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 6
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 3,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g4-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g4",
+    "round": 3,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-leo",
+     "u-demo"
+    ],
+    "awayPlayers": [
+     "u-omar",
+     "u-maya"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 9,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": "Every player needs a connected DUPR account before this match can be submitted",
+    "duprStatus": "failed",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "failed",
+   "roundNumber": 3,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r4-g1-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r4",
+    "groupId": "id00005-r4-g1",
+    "round": 4,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-brooks",
+     "u-dev"
+    ],
+    "awayPlayers": [
+     "u-lena",
+     "u-ana"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 8
+     },
+     {
+      "us": 10,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null,
+    "duprStatus": "ready",
+    "duprSubmittedBy": null,
+    "duprSubmittedAt": null
+   },
+   "status": "ready",
+   "roundNumber": 4,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r4-g2-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r4",
+    "groupId": "id00005-r4-g2",
+    "round": 4,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-chen",
+     "u-hale"
+    ],
+    "awayPlayers": [
+     "u-priya",
+     "u-nina"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 7
+     },
+     {
+      "us": 10,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null,
+    "duprStatus": "ready",
+    "duprSubmittedBy": null,
+    "duprSubmittedAt": null
+   },
+   "status": "ready",
+   "roundNumber": 4,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r4-g5-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r4",
+    "groupId": "id00005-r4-g5",
+    "round": 4,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-omar",
+     "u-raj"
+    ],
+    "awayPlayers": [
+     "u-luis",
+     "u-emma"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 6
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null,
+    "duprStatus": "ready",
+    "duprSubmittedBy": null,
+    "duprSubmittedAt": null
+   },
+   "status": "ready",
+   "roundNumber": 4,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r4-g5-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r4",
+    "groupId": "id00005-r4-g5",
+    "round": 4,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-omar",
+     "u-emma"
+    ],
+    "awayPlayers": [
+     "u-luis",
+     "u-raj"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 8,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 6
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null,
+    "duprStatus": "ready",
+    "duprSubmittedBy": null,
+    "duprSubmittedAt": null
+   },
+   "status": "ready",
+   "roundNumber": 4,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r4-g6-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r4",
+    "groupId": "id00005-r4-g6",
+    "round": 4,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-kara",
+     "u-ben"
+    ],
+    "awayPlayers": [
+     "u-sofia",
+     "u-noah"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-11-06T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 9,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": null,
+    "duprSyncedAt": null,
+    "duprError": null,
+    "duprStatus": "ready",
+    "duprSubmittedBy": null,
+    "duprSubmittedAt": null
+   },
+   "status": "ready",
+   "roundNumber": 4,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g1-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g1",
+    "round": 1,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-chen",
+     "u-ana"
+    ],
+    "awayPlayers": [
+     "u-brooks",
+     "u-hale"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 6
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g1-m1",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g1-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g1",
+    "round": 1,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-chen",
+     "u-brooks"
+    ],
+    "awayPlayers": [
+     "u-ana",
+     "u-hale"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 9
+     },
+     {
+      "us": 11,
+      "them": 10
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g1-m2",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g1-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g1",
+    "round": 1,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-chen",
+     "u-hale"
+    ],
+    "awayPlayers": [
+     "u-ana",
+     "u-brooks"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 9,
+      "them": 11
+     },
+     {
+      "us": 7,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g1-m3",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g2-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g2",
+    "round": 1,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-dev",
+     "u-sam"
+    ],
+    "awayPlayers": [
+     "u-priya",
+     "u-lena"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 3,
+      "them": 11
+     },
+     {
+      "us": 9,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g2-m1",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g2-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g2",
+    "round": 1,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-dev",
+     "u-priya"
+    ],
+    "awayPlayers": [
+     "u-sam",
+     "u-lena"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 3,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 9
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g2-m2",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g2-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g2",
+    "round": 1,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-dev",
+     "u-lena"
+    ],
+    "awayPlayers": [
+     "u-sam",
+     "u-priya"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 5
+     },
+     {
+      "us": 11,
+      "them": 7
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g2-m3",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g3-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g3",
+    "round": 1,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-nina",
+     "u-marco"
+    ],
+    "awayPlayers": [
+     "u-omar",
+     "u-grace"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 7
+     },
+     {
+      "us": 11,
+      "them": 7
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g3-m1",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g3-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g3",
+    "round": 1,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-nina",
+     "u-omar"
+    ],
+    "awayPlayers": [
+     "u-marco",
+     "u-grace"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 10
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g3-m2",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g3-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g3",
+    "round": 1,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-nina",
+     "u-grace"
+    ],
+    "awayPlayers": [
+     "u-marco",
+     "u-omar"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 4
+     },
+     {
+      "us": 11,
+      "them": 3
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g3-m3",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g4-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g4",
+    "round": 1,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-tyler",
+     "u-maya"
+    ],
+    "awayPlayers": [
+     "u-leo",
+     "u-ivy"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 8,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g4-m1",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g4-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g4",
+    "round": 1,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-tyler",
+     "u-leo"
+    ],
+    "awayPlayers": [
+     "u-maya",
+     "u-ivy"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 9,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 3
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g4-m2",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g4-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g4",
+    "round": 1,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-tyler",
+     "u-ivy"
+    ],
+    "awayPlayers": [
+     "u-maya",
+     "u-leo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 5,
+      "them": 11
+     },
+     {
+      "us": 5,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g4-m3",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g5-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g5",
+    "round": 1,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-raj",
+     "u-sofia"
+    ],
+    "awayPlayers": [
+     "u-ben",
+     "u-kara"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 3,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 8
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g5-m1",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g5-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g5",
+    "round": 1,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-raj",
+     "u-ben"
+    ],
+    "awayPlayers": [
+     "u-sofia",
+     "u-kara"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 4,
+      "them": 11
+     },
+     {
+      "us": 5,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g5-m2",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r1-g5-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r1",
+    "groupId": "id00005-r1-g5",
+    "round": 1,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-raj",
+     "u-kara"
+    ],
+    "awayPlayers": [
+     "u-sofia",
+     "u-ben"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-16T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 10,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r1-g5-m3",
+    "duprSyncedAt": "2026-11-07T15:01:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:01:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 1,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g1-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g1",
+    "round": 2,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ana",
+     "u-chen"
+    ],
+    "awayPlayers": [
+     "u-brooks",
+     "u-lena"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 3,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 7
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g1-m1",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g1-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g1",
+    "round": 2,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ana",
+     "u-brooks"
+    ],
+    "awayPlayers": [
+     "u-chen",
+     "u-lena"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 3,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 3
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g1-m2",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g1-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g1",
+    "round": 2,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ana",
+     "u-lena"
+    ],
+    "awayPlayers": [
+     "u-chen",
+     "u-brooks"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 5,
+      "them": 11
+     },
+     {
+      "us": 4,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g1-m3",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g2-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g2",
+    "round": 2,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-hale",
+     "u-dev"
+    ],
+    "awayPlayers": [
+     "u-priya",
+     "u-nina"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 5
+     },
+     {
+      "us": 11,
+      "them": 9
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g2-m1",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g2-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g2",
+    "round": 2,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-hale",
+     "u-priya"
+    ],
+    "awayPlayers": [
+     "u-dev",
+     "u-nina"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 6
+     },
+     {
+      "us": 5,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g2-m2",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g2-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g2",
+    "round": 2,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-hale",
+     "u-nina"
+    ],
+    "awayPlayers": [
+     "u-dev",
+     "u-priya"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 6,
+      "them": 11
+     },
+     {
+      "us": 5,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g2-m3",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g3-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g3",
+    "round": 2,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-sam",
+     "u-grace"
+    ],
+    "awayPlayers": [
+     "u-marco",
+     "u-leo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 5
+     },
+     {
+      "us": 11,
+      "them": 8
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g3-m1",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g3-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g3",
+    "round": 2,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-sam",
+     "u-marco"
+    ],
+    "awayPlayers": [
+     "u-grace",
+     "u-leo"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 10,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g3-m2",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g3-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g3",
+    "round": 2,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-sam",
+     "u-leo"
+    ],
+    "awayPlayers": [
+     "u-grace",
+     "u-marco"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 6,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 7
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g3-m3",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g4-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g4",
+    "round": 2,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-omar",
+     "u-maya"
+    ],
+    "awayPlayers": [
+     "u-tyler",
+     "u-kara"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 6
+     },
+     {
+      "us": 8,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g4-m1",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g4-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g4",
+    "round": 2,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-omar",
+     "u-tyler"
+    ],
+    "awayPlayers": [
+     "u-maya",
+     "u-kara"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 9
+     },
+     {
+      "us": 11,
+      "them": 4
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g4-m2",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g4-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g4",
+    "round": 2,
+    "pool": 4,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-omar",
+     "u-kara"
+    ],
+    "awayPlayers": [
+     "u-maya",
+     "u-tyler"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 10,
+      "them": 11
+     },
+     {
+      "us": 6,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g4-m3",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 4,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g6-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g6",
+    "round": 2,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ben",
+     "u-noah"
+    ],
+    "awayPlayers": [
+     "u-luis",
+     "u-emma"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 7,
+      "them": 11
+     },
+     {
+      "us": 7,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g6-m1",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g6-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g6",
+    "round": 2,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ben",
+     "u-luis"
+    ],
+    "awayPlayers": [
+     "u-noah",
+     "u-emma"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 9
+     },
+     {
+      "us": 11,
+      "them": 10
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g6-m2",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r2-g6-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r2",
+    "groupId": "id00005-r2-g6",
+    "round": 2,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ben",
+     "u-emma"
+    ],
+    "awayPlayers": [
+     "u-noah",
+     "u-luis"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-23T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 10,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 6
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r2-g6-m3",
+    "duprSyncedAt": "2026-11-07T15:02:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:02:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 2,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g1-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g1",
+    "round": 3,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-brooks",
+     "u-chen"
+    ],
+    "awayPlayers": [
+     "u-lena",
+     "u-dev"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 6
+     },
+     {
+      "us": 5,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g1-m1",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g1-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g1",
+    "round": 3,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-brooks",
+     "u-lena"
+    ],
+    "awayPlayers": [
+     "u-chen",
+     "u-dev"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 4
+     },
+     {
+      "us": 11,
+      "them": 8
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g1-m2",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g1-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g1",
+    "round": 3,
+    "pool": 1,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-brooks",
+     "u-dev"
+    ],
+    "awayPlayers": [
+     "u-chen",
+     "u-lena"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 3
+     },
+     {
+      "us": 11,
+      "them": 5
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g1-m3",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 1,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g2-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g2",
+    "round": 3,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ana",
+     "u-priya"
+    ],
+    "awayPlayers": [
+     "u-hale",
+     "u-sam"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 8,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 4
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g2-m1",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g2-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g2",
+    "round": 3,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ana",
+     "u-hale"
+    ],
+    "awayPlayers": [
+     "u-priya",
+     "u-sam"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 5
+     },
+     {
+      "us": 11,
+      "them": 8
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g2-m2",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g2-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g2",
+    "round": 3,
+    "pool": 2,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-ana",
+     "u-sam"
+    ],
+    "awayPlayers": [
+     "u-priya",
+     "u-hale"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 6,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 9
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g2-m3",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 2,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g3-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g3",
+    "round": 3,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-nina",
+     "u-grace"
+    ],
+    "awayPlayers": [
+     "u-marco",
+     "u-tyler"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 7
+     },
+     {
+      "us": 11,
+      "them": 6
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g3-m1",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g3-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g3",
+    "round": 3,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-nina",
+     "u-marco"
+    ],
+    "awayPlayers": [
+     "u-grace",
+     "u-tyler"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 3
+     },
+     {
+      "us": 11,
+      "them": 3
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g3-m2",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g3-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g3",
+    "round": 3,
+    "pool": 3,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-nina",
+     "u-tyler"
+    ],
+    "awayPlayers": [
+     "u-grace",
+     "u-marco"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 10
+     },
+     {
+      "us": 11,
+      "them": 6
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g3-m3",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 3,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g5-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g5",
+    "round": 3,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-kara",
+     "u-ivy"
+    ],
+    "awayPlayers": [
+     "u-raj",
+     "u-luis"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 10,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 6
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g5-m1",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g5-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g5",
+    "round": 3,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-kara",
+     "u-raj"
+    ],
+    "awayPlayers": [
+     "u-ivy",
+     "u-luis"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 9,
+      "them": 11
+     },
+     {
+      "us": 4,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g5-m2",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g5-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g5",
+    "round": 3,
+    "pool": 5,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-kara",
+     "u-luis"
+    ],
+    "awayPlayers": [
+     "u-ivy",
+     "u-raj"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 9,
+      "them": 11
+     },
+     {
+      "us": 10,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g5-m3",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 5,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g6-m1",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g6",
+    "round": 3,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 1",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-sofia",
+     "u-emma"
+    ],
+    "awayPlayers": [
+     "u-ben",
+     "u-noah"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 6
+     },
+     {
+      "us": 11,
+      "them": 3
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g6-m1",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g6-m2",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g6",
+    "round": 3,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 2",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-sofia",
+     "u-ben"
+    ],
+    "awayPlayers": [
+     "u-emma",
+     "u-noah"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 4,
+      "them": 11
+     },
+     {
+      "us": 11,
+      "them": 7
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g6-m2",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 6,
+   "missingDupr": []
+  },
+  {
+   "match": {
+    "id": "id00005-r3-g6-m3",
+    "eventId": "id00005",
+    "roundId": "id00005-r3",
+    "groupId": "id00005-r3-g6",
+    "round": 3,
+    "pool": 6,
+    "bracket": null,
+    "label": "Match 3",
+    "homeEntryId": null,
+    "awayEntryId": null,
+    "homePlayers": [
+     "u-sofia",
+     "u-noah"
+    ],
+    "awayPlayers": [
+     "u-emma",
+     "u-ben"
+    ],
+    "homeDead": false,
+    "awayDead": false,
+    "winnerTo": null,
+    "loserTo": null,
+    "scheduledAt": "2026-10-30T12:00:00Z",
+    "court": null,
+    "games": [
+     {
+      "us": 11,
+      "them": 4
+     },
+     {
+      "us": 5,
+      "them": 11
+     }
+    ],
+    "lines": null,
+    "status": "confirmed",
+    "reportedBy": "u-chen",
+    "confirmedBy": "u-chen",
+    "duprMatchId": "mock-match-id00005-r3-g6-m3",
+    "duprSyncedAt": "2026-11-07T15:03:06.000Z",
+    "duprError": null,
+    "duprStatus": "submitted",
+    "duprSubmittedBy": "u-chen",
+    "duprSubmittedAt": "2026-11-07T15:03:06.000Z"
+   },
+   "status": "submitted",
+   "roundNumber": 3,
+   "groupNumber": 6,
+   "missingDupr": []
+  }
+ ],
+ "players": {
+  "u-chen": {
+   "id": "u-chen",
+   "name": "Chen Wei",
+   "gender": "m",
+   "duprId": "DEMO-CH01",
+   "rating": 4.38,
+   "singlesRating": 4.13,
+   "reliability": 100
+  },
+  "u-ana": {
+   "id": "u-ana",
+   "name": "Ana Alvarez",
+   "gender": "f",
+   "duprId": "DEMO-AN02",
+   "rating": 4.31,
+   "singlesRating": 4.06,
+   "reliability": 100
+  },
+  "u-brooks": {
+   "id": "u-brooks",
+   "name": "Brooks Taylor",
+   "gender": "m",
+   "duprId": "DEMO-BR03",
+   "rating": 4.27,
+   "singlesRating": 4.02,
+   "reliability": 90
+  },
+  "u-hale": {
+   "id": "u-hale",
+   "name": "Hale Rivera",
+   "gender": "m",
+   "duprId": "DEMO-HA05",
+   "rating": 4.19,
+   "singlesRating": 3.94,
+   "reliability": 100
+  },
+  "u-dev": {
+   "id": "u-dev",
+   "name": "Dev Patel",
+   "gender": "m",
+   "duprId": "DEMO-DE07",
+   "rating": 4.1,
+   "singlesRating": 3.85,
+   "reliability": 100
+  },
+  "u-sam": {
+   "id": "u-sam",
+   "name": "Sam Okafor",
+   "gender": "m",
+   "duprId": "DEMO-SA06",
+   "rating": 4.06,
+   "singlesRating": 3.81,
+   "reliability": 80
+  },
+  "u-priya": {
+   "id": "u-priya",
+   "name": "Priya Kapoor",
+   "gender": "f",
+   "duprId": "DEMO-PR04",
+   "rating": 4.04,
+   "singlesRating": 3.79,
+   "reliability": 100
+  },
+  "u-lena": {
+   "id": "u-lena",
+   "name": "Lena Schultz",
+   "gender": "f",
+   "duprId": "DEMO-LE10",
+   "rating": 3.99,
+   "singlesRating": 3.74,
+   "reliability": 100
+  },
+  "u-nina": {
+   "id": "u-nina",
+   "name": "Nina Park",
+   "gender": "f",
+   "duprId": "DEMO-NI08",
+   "rating": 3.98,
+   "singlesRating": 3.73,
+   "reliability": 70
+  },
+  "u-marco": {
+   "id": "u-marco",
+   "name": "Marco Diaz",
+   "gender": "m",
+   "duprId": "DEMO-MA09",
+   "rating": 3.95,
+   "singlesRating": 3.7,
+   "reliability": 100
+  },
+  "u-omar": {
+   "id": "u-omar",
+   "name": "Omar Haddad",
+   "gender": "m",
+   "duprId": "DEMO-OM11",
+   "rating": 3.88,
+   "singlesRating": 3.63,
+   "reliability": 90
+  },
+  "u-grace": {
+   "id": "u-grace",
+   "name": "Grace Lin",
+   "gender": "f",
+   "duprId": "DEMO-GR12",
+   "rating": 3.84,
+   "singlesRating": 3.59,
+   "reliability": 100
+  },
+  "u-tyler": {
+   "id": "u-tyler",
+   "name": "Tyler Brooks",
+   "gender": "m",
+   "duprId": "DEMO-TY13",
+   "rating": 3.79,
+   "singlesRating": 3.54,
+   "reliability": 60
+  },
+  "u-maya": {
+   "id": "u-maya",
+   "name": "Maya Singh",
+   "gender": "f",
+   "duprId": "DEMO-MA14",
+   "rating": 3.75,
+   "singlesRating": 3.5,
+   "reliability": 100
+  },
+  "u-leo": {
+   "id": "u-leo",
+   "name": "Leo Carter",
+   "gender": "m",
+   "duprId": "DEMO-LE15",
+   "rating": 3.71,
+   "singlesRating": 3.46,
+   "reliability": 100
+  },
+  "u-ivy": {
+   "id": "u-ivy",
+   "name": "Ivy Nguyen",
+   "gender": "f",
+   "duprId": "DEMO-IV16",
+   "rating": 3.66,
+   "singlesRating": 3.41,
+   "reliability": 80
+  },
+  "u-raj": {
+   "id": "u-raj",
+   "name": "Raj Mehta",
+   "gender": "m",
+   "duprId": "DEMO-RA17",
+   "rating": 3.6,
+   "singlesRating": 3.35,
+   "reliability": 100
+  },
+  "u-sofia": {
+   "id": "u-sofia",
+   "name": "Sofia Rossi",
+   "gender": "f",
+   "duprId": "DEMO-SO18",
+   "rating": 3.55,
+   "singlesRating": 3.3,
+   "reliability": 100
+  },
+  "u-ben": {
+   "id": "u-ben",
+   "name": "Ben Ortiz",
+   "gender": "m",
+   "duprId": "DEMO-BE19",
+   "rating": 3.49,
+   "singlesRating": 3.24,
+   "reliability": 70
+  },
+  "u-kara": {
+   "id": "u-kara",
+   "name": "Kara Jones",
+   "gender": "f",
+   "duprId": "DEMO-KA20",
+   "rating": 3.44,
+   "singlesRating": 3.19,
+   "reliability": 100
+  },
+  "u-luis": {
+   "id": "u-luis",
+   "name": "Luis Romero",
+   "gender": "m",
+   "duprId": "DEMO-LU21",
+   "rating": 3.38,
+   "singlesRating": 3.13,
+   "reliability": 100
+  },
+  "u-emma": {
+   "id": "u-emma",
+   "name": "Emma Clark",
+   "gender": "f",
+   "duprId": "DEMO-EM22",
+   "rating": 3.31,
+   "singlesRating": 3.06,
+   "reliability": 90
+  },
+  "u-noah": {
+   "id": "u-noah",
+   "name": "Noah Kim",
+   "gender": "m",
+   "duprId": "DEMO-NO23",
+   "rating": 3.22,
+   "singlesRating": 2.97,
+   "reliability": 100
+  },
+  "u-demo": {
+   "id": "u-demo",
+   "name": "Jordan Reyes",
+   "gender": "m",
+   "duprId": "MOCK-DEMO",
+   "rating": 4.12,
+   "singlesRating": 3.86,
+   "reliability": 100
+  }
+ }
+}

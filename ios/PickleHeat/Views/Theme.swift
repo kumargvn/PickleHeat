@@ -77,6 +77,13 @@ struct SecondaryButtonStyle: ButtonStyle {
     }
 }
 
+/// Lets a view pick between button styles at run time.
+struct AnyButtonStyle: ButtonStyle {
+    private let make: (Configuration) -> AnyView
+    init<S: ButtonStyle>(_ style: S) { make = { AnyView(style.makeBody(configuration: $0)) } }
+    func makeBody(configuration: Configuration) -> some View { make(configuration) }
+}
+
 /// The signature ring: form score 0–100.
 struct FormRing: View {
     var score: Int

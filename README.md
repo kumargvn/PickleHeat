@@ -4,7 +4,7 @@
 
 Pickleball leagues, tournaments and DUPR form, for iPhone and the web.
 
-- **One-time DUPR connect**, then two-way sync: ratings and match history come in (webhooks + refresh), confirmed PickleHeat match scores go out to DUPR.
+- **One-time DUPR connect**, then two-way sync: ratings and match history come in (webhooks + refresh), confirmed PickleHeat match scores wait in the organizer's review queue and go to DUPR only when the organizer submits them (single or bulk; edit, delete and take-back supported).
 - **Form score (0–100)** from the last 8 DUPR matches: actual point share vs what the rating gap predicts, recency-weighted. Plus insights: record, point share, close games, results vs higher-rated teams, Player DNA and a tip.
 - **Leagues and tournaments**: DUPR rating range, round robins, snake-seeded pools, standings, score report + confirm, playoff seeding.
 - **Entry fees** through Stripe Connect, paid straight to the organizer's linked account (PickleHeat can keep a platform fee).

@@ -47,7 +47,10 @@
     "confirmedBy": null,
     "duprMatchId": null,
     "duprSyncedAt": null,
-    "duprError": null
+    "duprError": null,
+    "duprStatus": null,
+    "duprSubmittedBy": null,
+    "duprSubmittedAt": null
    },
    "needsMyConfirmation": true
   },

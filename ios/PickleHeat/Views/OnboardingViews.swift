@@ -11,13 +11,13 @@ struct SignInView: View {
             Image("Logo").resizable().frame(width: 128, height: 128).clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             VStack(spacing: 10) {
                 Text("PickleHeat").font(Theme.display(44)).tracking(-1)
-                Text("Ladders, leagues, tournaments and\nyour DUPR form, all in one place.")
+                Text("Heat Climb leagues, tournaments and\nyour DUPR form, all in one place.")
                     .font(.system(size: 17)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
             }
             VStack(alignment: .leading, spacing: 14) {
                 feature("flame.fill", Theme.coral, "Form score from your last 8 DUPR matches")
-                feature("person.3.fill", Theme.lime, "Flex ladders: groups of 4, rotating partners")
-                feature("bubble.left.and.bubble.right.fill", Theme.sky, "Group chats to set a time and place")
+                feature("person.3.fill", Theme.lime, "Heat Climb: heats of 4, rotating partners")
+                feature("bubble.left.and.bubble.right.fill", Theme.sky, "Heat chats to set a time and place")
             }
             .padding(.horizontal, 8)
             Spacer()
@@ -135,7 +135,7 @@ struct EmailSignInView: View {
 }
 
 /// One-time DUPR link. After this, ratings come in automatically and league/tournament
-/// results go back to DUPR without the player doing anything.
+/// results go back to DUPR once the organizer has reviewed and sent them.
 struct DuprConnectView: View {
     @EnvironmentObject var model: AppModel
 
@@ -148,12 +148,12 @@ struct DuprConnectView: View {
             }
             VStack(spacing: 10) {
                 Text("Connect DUPR").font(Theme.display(34))
-                Text("One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR for you.")
+                Text("One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR once the organizer has reviewed them.")
                     .font(.system(size: 16)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
             }
             VStack(alignment: .leading, spacing: 12) {
                 row("arrow.down.circle.fill", Theme.lime, "Your DUPR ratings, reliability and recent matches come in")
-                row("arrow.up.circle.fill", Theme.coral, "Confirmed PickleHeat scores go to DUPR")
+                row("arrow.up.circle.fill", Theme.coral, "Scores go to DUPR after the organizer reviews them")
                 row("lock.fill", Theme.sky, "You log in on DUPR's own page. PickleHeat never sees your password")
             }
             .card()

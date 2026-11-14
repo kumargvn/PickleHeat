@@ -184,7 +184,7 @@ struct EventDetailView: View {
             Text("How it works").font(Theme.display(17))
             Text(d.event.style.blurb).font(.system(size: 14)).foregroundStyle(Theme.muted)
             if d.event.submitToDupr {
-                Label("Confirmed scores are sent to DUPR", systemImage: "checkmark.seal.fill").font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.lime)
+                Label("Scores go to DUPR after the organizer reviews them", systemImage: "checkmark.seal.fill").font(.system(size: 13, weight: .semibold)).foregroundStyle(Theme.lime)
             }
         }
         .card()
@@ -229,6 +229,15 @@ struct EventDetailView: View {
         let e = d.event
         VStack(alignment: .leading, spacing: 12) {
             Text("Organizer tools").font(Theme.display(17))
+            if let review = d.duprReview {
+                NavigationLink {
+                    DuprReviewView(detail: d) { await load() }
+                } label: {
+                    Text(review.waiting > 0 ? "Review \(review.waiting) result\(review.waiting == 1 ? "" : "s") for DUPR" : "DUPR review")
+                }
+                .buttonStyle(review.waiting > 0 ? AnyButtonStyle(PrimaryButtonStyle()) : AnyButtonStyle(SecondaryButtonStyle()))
+                .accessibilityIdentifier("duprReview")
+            }
             if let m = d.money, e.isPaid {
                 HStack {
                     stat(money(m.collectedCents), "collected")

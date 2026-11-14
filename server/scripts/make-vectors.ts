@@ -130,6 +130,9 @@ const ana = (await api("POST", "/v1/auth/apple", undefined, { identityToken: "de
 const mlp = byName("Club MLP Showdown");
 await api("POST", `/v1/events/${mlp.id}/schedule`, ana);
 save("event-mlp", await api("GET", `/v1/events/${mlp.id}`, t));
+const chenToken = (await api("POST", "/v1/auth/apple", undefined, { identityToken: "dev:chen" })).token;
+save("dupr-review", await api("GET", `/v1/events/${ladder.id}/dupr`, chenToken));
+save("event-ladder-organizer", await api("GET", `/v1/events/${ladder.id}`, chenToken));
 const chats = await api("GET", "/v1/chats", t);
 save("chats", chats);
 save("messages", await api("GET", `/v1/chats/${chats.chats[0].chat.id}/messages`, t));

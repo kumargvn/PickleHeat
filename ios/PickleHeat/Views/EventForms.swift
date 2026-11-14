@@ -105,7 +105,7 @@ struct CreateEventView: View {
                 Toggle("Send results to DUPR", isOn: $submitToDupr)
                 Toggle("DUPR-connected players only", isOn: $requireDupr)
             } header: { Text("DUPR") } footer: {
-                Text("Scores go to DUPR once both sides confirm.")
+                Text("Confirmed scores wait for your review. You send them to DUPR.")
             }
 
             Section {

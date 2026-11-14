@@ -64,9 +64,12 @@
      "status": "confirmed",
      "reportedBy": "u-chen",
      "confirmedBy": "u-chen",
-     "duprMatchId": "mock-match-id00005-r4-g1-m1",
-     "duprSyncedAt": "2026-11-07T15:04:06.000Z",
-     "duprError": null
+     "duprMatchId": null,
+     "duprSyncedAt": null,
+     "duprError": null,
+     "duprStatus": "ready",
+     "duprSubmittedBy": null,
+     "duprSubmittedAt": null
     },
     {
      "id": "id00005-r4-g1-m2",
@@ -234,9 +237,12 @@
      "status": "confirmed",
      "reportedBy": "u-chen",
      "confirmedBy": "u-chen",
-     "duprMatchId": "mock-match-id00005-r4-g2-m1",
-     "duprSyncedAt": "2026-11-07T15:04:06.000Z",
-     "duprError": null
+     "duprMatchId": null,
+     "duprSyncedAt": null,
+     "duprError": null,
+     "duprStatus": "ready",
+     "duprSubmittedBy": null,
+     "duprSubmittedAt": null
     },
     {
      "id": "id00005-r4-g2-m2",
@@ -526,7 +532,10 @@
      "confirmedBy": null,
      "duprMatchId": null,
      "duprSyncedAt": null,
-     "duprError": null
+     "duprError": null,
+     "duprStatus": null,
+     "duprSubmittedBy": null,
+     "duprSubmittedAt": null
     },
     {
      "id": "id00005-r4-g4-m2",
@@ -687,9 +696,12 @@
      "status": "confirmed",
      "reportedBy": "u-chen",
      "confirmedBy": "u-chen",
-     "duprMatchId": "mock-match-id00005-r4-g5-m2",
-     "duprSyncedAt": "2026-11-07T15:04:06.000Z",
-     "duprError": null
+     "duprMatchId": null,
+     "duprSyncedAt": null,
+     "duprError": null,
+     "duprStatus": "ready",
+     "duprSubmittedBy": null,
+     "duprSubmittedAt": null
     },
     {
      "id": "id00005-r4-g5-m3",
@@ -730,9 +742,12 @@
      "status": "confirmed",
      "reportedBy": "u-chen",
      "confirmedBy": "u-chen",
-     "duprMatchId": "mock-match-id00005-r4-g5-m3",
-     "duprSyncedAt": "2026-11-07T15:04:06.000Z",
-     "duprError": null
+     "duprMatchId": null,
+     "duprSyncedAt": null,
+     "duprError": null,
+     "duprStatus": "ready",
+     "duprSubmittedBy": null,
+     "duprSubmittedAt": null
     }
    ],
    "standings": [
@@ -900,9 +915,12 @@
      "status": "confirmed",
      "reportedBy": "u-chen",
      "confirmedBy": "u-chen",
-     "duprMatchId": "mock-match-id00005-r4-g6-m3",
-     "duprSyncedAt": "2026-11-07T15:04:06.000Z",
-     "duprError": null
+     "duprMatchId": null,
+     "duprSyncedAt": null,
+     "duprError": null,
+     "duprStatus": "ready",
+     "duprSubmittedBy": null,
+     "duprSubmittedAt": null
     }
    ],
    "standings": [

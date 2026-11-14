@@ -496,5 +496,6 @@
  "currentRoundId": null,
  "chatId": null,
  "money": null,
- "invites": []
+ "invites": [],
+ "duprReview": null
 }

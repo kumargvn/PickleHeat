@@ -332,6 +332,32 @@ final class APIClient {
         return r.match
     }
 
+    // MARK: DUPR review (organizers). Nothing goes to DUPR until the organizer sends it.
+
+    func reviewQueue(_ eventID: String) async throws -> ReviewQueue { try await request("GET", "/v1/events/\(eventID)/dupr") }
+
+    /// Sends every result that's ready (or needs another try).
+    func submitAllToDupr(_ eventID: String) async throws -> ReviewQueue { try await request("POST", "/v1/events/\(eventID)/dupr/submit", [:]) }
+
+    func submitToDupr(_ matchID: String) async throws -> EventMatch {
+        struct R: Decodable { var match: EventMatch }
+        let r: R = try await request("POST", "/v1/matches/\(matchID)/dupr/submit")
+        return r.match
+    }
+
+    /// Keeps a result out of DUPR, or takes back one that was sent. The score still counts.
+    func withdrawFromDupr(_ matchID: String) async throws -> EventMatch {
+        struct R: Decodable { var match: EventMatch }
+        let r: R = try await request("DELETE", "/v1/matches/\(matchID)/dupr")
+        return r.match
+    }
+
+    func deleteResult(_ matchID: String) async throws -> EventMatch {
+        struct R: Decodable { var match: EventMatch }
+        let r: R = try await request("DELETE", "/v1/matches/\(matchID)/score")
+        return r.match
+    }
+
     // MARK: clubs
 
     func clubs() async throws -> ClubsPayload { try await request("GET", "/v1/clubs") }

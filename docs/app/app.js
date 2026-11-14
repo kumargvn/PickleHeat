@@ -240,10 +240,10 @@ async function dupr() {
   if (state.me.dupr.connected) return go("#/home");
   view.innerHTML = `<div class="stack" style="max-width:520px;margin:24px auto">
     <div class="hero lime center"><div class="big" style="font-size:40px">Connect DUPR</div>
-      <p>One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR for you.</p></div>
+      <p>One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR once the organizer has reviewed them.</p></div>
     <div class="card stack small">
       <div class="row">${tile("↓", "var(--lime)")} Your DUPR ratings and recent matches come in</div>
-      <div class="row">${tile("↑", "var(--coral)")} Scores both teams confirm go to DUPR</div>
+      <div class="row">${tile("↑", "var(--coral)")} Confirmed scores go to DUPR after the organizer reviews them</div>
       <div class="row">${tile("🔒", "var(--sky)")} You log in on DUPR's own page. PickleHeat never sees your password</div>
     </div>
     <button class="btn block" data-act="connect-dupr">Connect my DUPR account</button>
@@ -360,13 +360,16 @@ function matchCard(m, players, opts) {
     return `<div class="row between"><span style="font-weight:${w === s || mine === s ? 700 : 400}">${opts.home && s === "home" || opts.away && s === "away" ? esc(label) : label} ${w === s ? "✓" : ""}</span>
       <span class="row" style="gap:10px">${games.map((g) => { const v = s === "home" ? g.us : g.them, o = s === "home" ? g.them : g.us; return `<b class="score" style="color:${v > o ? "var(--text)" : "var(--muted)"}">${v}</b>`; }).join("")}</span></div>`;
   };
-  const status = m.duprError ? "DUPR: waiting on player links" : m.status === "scheduled" ? (ready ? "Not played" : "Waiting") : m.status === "reported" ? (canConfirm && mine ? "Confirm this score" : "Awaiting confirmation") : m.duprMatchId && m.duprMatchId !== "none" ? "Sent to DUPR ✓" : "Final";
+  const duprLabel = { ready: opts.manager ? "Ready for DUPR" : "Final · organizer reviews before DUPR", submitted: "Sent to DUPR ✓", failed: opts.manager ? "DUPR didn't accept it yet" : "Final · organizer reviews before DUPR", skipped: "Final · not sent to DUPR", not_rated: "Final" };
+  const status = m.status === "scheduled" ? (ready ? "Not played" : "Waiting") : m.status === "reported" ? (canConfirm && mine ? "Confirm this score" : "Awaiting confirmation") : duprLabel[m.duprStatus] ?? "Final";
+  const alert = opts.manager && m.duprStatus === "failed";
   const tagHtml = (opts.tags ?? []).map((t) => `<span class="tag ${t}">${t.toUpperCase()}</span>`).join("");
   const lines = m.lines?.some((l) => l.games.length) ? `<div class="stack small" style="gap:2px">${m.lines.map((l) => `<div class="row between"><span class="muted">${esc(l.label)}</span><b>${l.games.map((g) => `${g.us}–${g.them}`).join(" ")}</b></div>`).join("")}</div>` : "";
   return `<div class="card stack match" style="gap:8px" id="m-${esc(m.id)}">
-    <div class="row between"><span class="row" style="gap:6px"><span class="tiny muted">${esc(m.label ?? "Match")}</span>${tagHtml}</span><span class="small" style="color:${m.duprError ? "var(--coral)" : "var(--muted)"}">${status}</span></div>
+    <div class="row between"><span class="row" style="gap:6px"><span class="tiny muted">${esc(m.label ?? "Match")}</span>${tagHtml}</span><span class="small" style="color:${alert ? "var(--coral)" : "var(--muted)"}">${status}</span></div>
     ${team("home")}${team("away")}${lines}
     ${canConfirm || canEnter ? `<div class="row wrap">${canConfirm ? `<button class="btn" data-act="confirm-score" data-id="${esc(m.id)}">Confirm ${esc(scoreText(m))}</button>` : ""}${canEnter ? `<button class="btn secondary" data-act="score-form" data-id="${esc(m.id)}">${m.games.length || m.lines?.some((l) => l.games.length) ? "Edit score" : "Enter score"}</button>` : ""}</div>` : ""}
+    ${opts.extra ?? ""}
     <div class="score-slot"></div></div>`;
 }
 
@@ -383,7 +386,7 @@ function scoreForm(id) {
   }
   const slot = document.querySelector(`#m-${CSS.escape(id)} .score-slot`);
   slot.innerHTML = `<form class="stack" data-form="score" data-id="${esc(id)}" style="gap:8px;border-top:1px solid var(--line);padding-top:10px">
-    <span class="small muted">Left number = ${opts.home ? esc(opts.home) : m.homePlayers.map((p) => esc(first(players, p))).join(" & ")}. The other side confirms, then it goes to DUPR.</span>
+    <span class="small muted">Left number = ${opts.home ? esc(opts.home) : m.homePlayers.map((p) => esc(first(players, p))).join(" & ")}. ${opts.manager ? "Organizer entries count right away." : "The other side confirms it."}${state.detail?.event?.submitToDupr ? " The organizer reviews results before they go to DUPR." : ""}</span>
     ${body}<div class="row"><button class="btn" type="submit">Submit</button><button class="btn secondary" type="button" data-act="score-cancel" data-id="${esc(id)}">Cancel</button></div></form>`;
 }
 
@@ -439,7 +442,8 @@ async function eventPage(id, sub) {
   const panes = individual(e.style)
     ? [["overview", "Overview"], ["heats", "Heats"], ["ranks", e.style === "flex_ladder" ? "Ladder" : "Standings"], ["stats", "Stats"], ["players", "Players"]]
     : [["overview", "Overview"], ["matches", "Matches"], ...(e.style === "single_elim" || e.style === "double_elim" ? [["bracket", "Bracket"]] : [["standings", "Standings"]]), ...(e.style === "pools_playoffs" ? [["bracket", "Playoffs"]] : []), ["players", "Teams"]];
-  const pane = state.eventTab[id] ?? "overview";
+  if (d.duprReview) { const n = d.duprReview.ready + d.duprReview.failed; panes.push(["dupr", n ? `DUPR review (${n})` : "DUPR review"]); }
+  const pane = panes.some(([k]) => k === state.eventTab[id]) ? state.eventTab[id] : "overview";
   let body = "";
   if (pane === "overview") body = overview(d);
   else if (pane === "heats") body = await heatsPane(d);
@@ -448,6 +452,7 @@ async function eventPage(id, sub) {
   else if (pane === "matches") body = matchesPane(d);
   else if (pane === "standings") body = standingsPane(d);
   else if (pane === "bracket") body = bracketPane(d);
+  else if (pane === "dupr") body = await reviewPane(d);
   else body = playersPane(d);
   view.innerHTML = `<div class="stack">
     <div class="card stack" style="gap:8px">
@@ -481,7 +486,7 @@ function overview(d) {
   }
   return `<div class="grid">${mine}
     ${e.description ? `<div class="card">${esc(e.description)}</div>` : ""}
-    <div class="card stack" style="gap:6px"><h3>How it works</h3><span class="small muted">${BLURB[e.style]}</span>${e.submitToDupr ? `<span class="small" style="color:var(--lime)"><b>✓ Confirmed scores are sent to DUPR</b></span>` : ""}</div>
+    <div class="card stack" style="gap:6px"><h3>How it works</h3><span class="small muted">${BLURB[e.style]}</span>${e.submitToDupr ? `<span class="small" style="color:var(--lime)"><b>✓ Scores go to DUPR after the organizer reviews them</b></span>` : ""}</div>
     ${d.isManager ? organizerCard(d) : ""}</div>`;
 }
 
@@ -502,6 +507,8 @@ function organizerCard(d) {
     btns.push(`<button class="btn" data-act="ev" data-op="schedule" ${d.entries.length < 2 ? "disabled" : ""}>${d.matches.length ? "Rebuild schedule" : "Build schedule"}</button>`);
   }
   if (e.status === "open") btns.push(`<button class="btn secondary" data-act="ev" data-op="close">Close registration</button>`);
+  const waiting = d.duprReview ? d.duprReview.ready + d.duprReview.failed : 0;
+  if (waiting) btns.unshift(`<button class="btn" data-act="event-tab" data-k="dupr">Review ${waiting} result${waiting === 1 ? "" : "s"} for DUPR</button>`);
   return `<div class="card stack"><h3>Organizer tools</h3>
     ${d.money && isPaid(e) ? `<div class="row between"><div><b class="num">${money(d.money.collectedCents)}</b><br><span class="small muted">collected</span></div><div><b class="num">${d.money.paidEntries}</b><br><span class="small muted">paid</span></div><div><b class="num">${d.money.pendingEntries}</b><br><span class="small muted">pending</span></div></div>` : ""}
     ${btns.join("")}
@@ -563,6 +570,46 @@ async function statsPane(d) {
   return `<div class="card scroll" style="padding:6px 12px"><table><thead><tr><th>Player</th><th>W–L</th><th>Win %</th><th>PF</th><th>PA</th><th>PD</th><th>DUPR ±</th></tr></thead><tbody>
     ${s.rows.map((r) => `<tr style="font-weight:${r.userId === me ? 700 : 400}"><td>${esc(fullName(s.players, r.userId))}</td><td>${r.wins}–${r.losses}</td><td>${Math.round(r.winPct * 100)}%</td><td>${r.pf}</td><td>${r.pa}</td><td>${r.pd >= 0 ? "+" : ""}${r.pd}</td>
       <td style="color:${(r.ratingChange ?? 0) > 0 ? "var(--lime)" : (r.ratingChange ?? 0) < 0 ? "var(--coral)" : "var(--muted)"}">${r.ratingChange == null ? "—" : (r.ratingChange > 0 ? "+" : "") + r.ratingChange.toFixed(2)}</td></tr>`).join("")}</tbody></table></div>`;
+}
+
+/** Organizer: confirmed results wait here. Nothing goes to DUPR until the organizer sends it. */
+async function reviewPane(d) {
+  const q = await run(() => api("GET", `/v1/events/${encodeURIComponent(d.event.id)}/dupr`));
+  if (!q) return "";
+  const c = q.counts, sendable = c.ready + c.failed;
+  const where = (i) => (individual(d.event.style) ? `Round ${i.roundNumber}${i.groupNumber ? ` · Heat ${i.groupNumber}` : ""}` : i.match.label ?? `Round ${i.roundNumber}`);
+  const item = (i) => {
+    const m = i.match, id = esc(m.id);
+    const missing = i.missingDupr.map((u) => fullName(q.players, u));
+    const btns = [];
+    if (i.status === "ready" || i.status === "failed") btns.push(`<button class="btn" data-act="dupr-send" data-id="${id}">${i.status === "failed" ? "Try again" : "Send to DUPR"}</button>`, `<button class="btn secondary" data-act="dupr-skip" data-id="${id}">Don't send</button>`);
+    if (i.status === "skipped") btns.push(`<button class="btn secondary" data-act="dupr-send" data-id="${id}">Send to DUPR</button>`);
+    if (i.status === "submitted") btns.push(`<button class="btn secondary" data-act="dupr-skip" data-id="${id}" data-sent="1">Take back from DUPR</button>`);
+    btns.push(`<button class="btn danger" data-act="score-delete" data-id="${id}">Delete result</button>`);
+    const notes = [
+      i.status === "failed" && m.duprError ? `<span class="small" style="color:var(--coral)">${esc(m.duprError)}</span>` : "",
+      missing.length && i.status !== "submitted" ? `<span class="small" style="color:var(--coral)">Not connected to DUPR yet: ${esc(missing.join(", "))}</span>` : "",
+    ].join("");
+    return matchCard({ ...m, label: where(i) }, q.players, {
+      manager: true, gamesPerMatch: d.event.gamesPerMatch,
+      home: m.homeEntryId ? teamName(d, m.homeEntryId) : undefined, away: m.awayEntryId ? teamName(d, m.awayEntryId) : undefined,
+      extra: `${notes}<div class="row wrap">${btns.join("")}</div>`,
+    });
+  };
+  const section = (title, status, hint) => {
+    const items = q.items.filter((i) => i.status === status);
+    return items.length ? `<h3>${title} (${items.length})</h3>${hint ? `<p class="small muted" style="margin:0">${hint}</p>` : ""}<div class="grid">${items.map(item).join("")}</div>` : "";
+  };
+  return `<div class="stack">
+    <div class="card stack" style="gap:8px"><h2>DUPR review</h2>
+      <p class="small muted" style="margin:0">Players enter and confirm scores. Nothing is sent to DUPR until you send it here. Check each result, fix or delete anything that's wrong, then send.</p>
+      <div class="row between"><div><b class="num">${c.ready}</b><br><span class="small muted">ready</span></div><div><b class="num">${c.failed}</b><br><span class="small muted">need attention</span></div><div><b class="num">${c.submitted}</b><br><span class="small muted">on DUPR</span></div></div>
+      ${sendable ? `<button class="btn" data-act="dupr-send-all" data-n="${sendable}">Send all ${sendable} to DUPR</button>` : `<span class="small muted">Nothing is waiting right now.</span>`}</div>
+    ${section("Needs attention", "failed", "You sent these, but DUPR hasn't accepted them. PickleHeat retries every hour.")}
+    ${section("Ready to send", "ready")}
+    ${section("Not sent", "skipped", "These count in PickleHeat but stay off DUPR.")}
+    ${section("On DUPR", "submitted")}
+    ${section("Not rated by DUPR", "not_rated", "Nothing in these results is a singles or doubles game DUPR rates.")}</div>`;
 }
 
 const teamName = (d, id) => (d.entries.find((e) => e.id === id) ?? d.waitlist.find((e) => e.id === id))?.teamName ?? "TBD";
@@ -815,7 +862,7 @@ async function profile() {
     <div class="card stack"><h3>DUPR</h3>
       ${me.dupr.connected ? `<div class="row between"><span>DUPR ID</span><b>${esc(me.dupr.duprId)}</b></div><div class="row between"><span>Doubles</span><b>${r2(me.dupr.doublesRating)}</b></div><div class="row between"><span>Singles</span><b>${r2(me.dupr.singlesRating)}</b></div>
         <div class="row"><button class="btn secondary" data-act="dupr-sync">Sync now</button><button class="btn danger" data-act="dupr-disconnect">Disconnect</button></div>` : `<a class="btn" href="#/dupr">Connect DUPR</a>`}
-      <span class="small muted">Ratings update automatically. Scores both sides confirm are sent to DUPR for you.</span></div>
+      <span class="small muted">Ratings update automatically. Confirmed scores go to DUPR after the organizer reviews them.</span></div>
     <div class="card stack"><h3>Tournament finder</h3>
       <button class="btn secondary" data-act="geo">Use my current location</button>
       <label>Search within <span id="dist-label">${Math.round(u.maxDistanceMiles)}</span> miles<input type="range" min="10" max="300" step="5" value="${u.maxDistanceMiles}" data-change="distance" style="height:auto;padding:0"></label>
@@ -890,6 +937,28 @@ const actions = {
   "sub-cancel": async (el) => { if (await run(() => api("POST", `/v1/subs/${encodeURIComponent(el.dataset.id)}/cancel`))) route(); },
   "score-form": (el) => scoreForm(el.dataset.id),
   "score-cancel": (el) => { document.querySelector(`#m-${CSS.escape(el.dataset.id)} .score-slot`).innerHTML = ""; },
+  "dupr-send": async (el) => {
+    const r = await run(() => api("POST", `/v1/matches/${encodeURIComponent(el.dataset.id)}/dupr/submit`));
+    if (!r) return;
+    if (r.match.duprStatus === "failed") toast(r.match.duprError || "DUPR didn't accept it yet.");
+    else toast(r.match.duprStatus === "not_rated" ? "Nothing in this result is rated by DUPR." : "Sent to DUPR.", true);
+    route();
+  },
+  "dupr-send-all": async (el) => {
+    if (!confirm(`Send ${el.dataset.n} reviewed result${el.dataset.n === "1" ? "" : "s"} to DUPR?`)) return;
+    const r = await run(() => api("POST", `/v1/events/${encodeURIComponent(state.detail.event.id)}/dupr/submit`, {}));
+    if (!r) return;
+    toast(r.failed ? `${r.submitted} sent. ${r.failed} need attention.` : `${r.submitted} sent to DUPR.`, !r.failed);
+    route();
+  },
+  "dupr-skip": async (el) => {
+    if (el.dataset.sent && !confirm("Take this result back from DUPR? The score still counts in PickleHeat.")) return;
+    if (await run(() => api("DELETE", `/v1/matches/${encodeURIComponent(el.dataset.id)}/dupr`))) { toast(el.dataset.sent ? "Taken back from DUPR." : "This result won't be sent.", true); route(); }
+  },
+  "score-delete": async (el) => {
+    if (!confirm("Delete this result? The match goes back to not played, and anything sent to DUPR is taken back.")) return;
+    if (await run(() => api("DELETE", `/v1/matches/${encodeURIComponent(el.dataset.id)}/score`))) { toast("Result deleted.", true); route(); }
+  },
   "confirm-score": async (el) => { if (await run(() => api("POST", `/v1/matches/${encodeURIComponent(el.dataset.id)}/confirm`))) { toast("Confirmed.", true); route(); } },
   "club-join": async (el) => { if (await run(() => api("POST", `/v1/clubs/${encodeURIComponent(el.dataset.id)}/join`))) route(); },
   "club-leave": async (el) => { if (confirm("Leave this club?") && (await run(() => api("POST", `/v1/clubs/${encodeURIComponent(el.dataset.id)}/leave`)))) route(); },
