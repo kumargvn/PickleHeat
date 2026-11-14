@@ -37,6 +37,8 @@ targets:
       properties:
         com.apple.developer.applesignin:
           - Default
+        # Push notifications. Xcode switches this to "production" for TestFlight and App Store builds.
+        aps-environment: development
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.gudivada.pickleheat

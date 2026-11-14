@@ -395,6 +395,32 @@ export interface EmailThrottle extends Doc {
   at: string;
 }
 
+// ---------- Push notifications (iPhone lock screen) ----------
+
+/** One iPhone that agreed to notifications. id = the APNs device token. */
+export interface Device extends Doc {
+  userId: string;
+  platform: "ios";
+  /** TestFlight and App Store builds use "production"; builds run from Xcode use "sandbox". */
+  environment: "production" | "sandbox";
+  createdAt: string;
+}
+
+export interface PushMessage {
+  title: string;
+  body: string;
+  /** In-app path opened when the notification is tapped, e.g. "events/<id>". */
+  link: string | null;
+  /** Number for the app icon. */
+  badge?: number;
+}
+
+export interface PushSender {
+  readonly name: string;
+  /** Sends to each device. Returns the tokens Apple says are no longer valid, so they can be forgotten. */
+  send(devices: Device[], m: PushMessage): Promise<string[]>;
+}
+
 // ---------- DUPR (ratings in, matches out) ----------
 
 export interface DuprProfile {
@@ -498,6 +524,7 @@ export interface Deps {
   /** Sign in with Google. null until GOOGLE_CLIENT_IDS is set. */
   google: IdentityVerifier | null;
   email: EmailSender;
+  push: PushSender;
   dupr: RatingProvider;
   payments: PaymentProvider;
   tournamentSources: TournamentSource[];

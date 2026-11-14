@@ -190,6 +190,19 @@ final class APIClient {
         let _: Done = try await request("POST", "/v1/auth/password/forgot", ["email": email])
     }
 
+    // MARK: push notifications
+
+    func registerDevice(_ deviceToken: String, environment: String) async throws {
+        let _: Done = try await request("POST", "/v1/me/devices", ["token": deviceToken, "environment": environment])
+    }
+
+    /// Used while signing out, so it takes the session explicitly instead of the one being cleared.
+    func unregisterDevice(_ deviceToken: String, session: String) async {
+        _ = try? await transport.send(method: "DELETE", path: "/v1/me/devices/\(deviceToken)", body: nil, token: session)
+    }
+
+    var sessionToken: String? { token }
+
     func me() async throws -> Me { try await request("GET", "/v1/me") }
 
     func updateProfile(_ fields: [String: Any]) async throws -> Me { try await request("PATCH", "/v1/me", fields) }

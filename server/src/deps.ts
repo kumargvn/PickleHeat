@@ -3,6 +3,7 @@
 import { ChainedIdentityVerifier, AppleIdentityVerifier, DevIdentityVerifier, GoogleIdentityVerifier } from "./adapters/identity";
 import { DuprHttpProvider, MockDuprProvider } from "./adapters/dupr";
 import { LogEmailSender, ResendEmailSender } from "./adapters/email";
+import { ApnsPushSender, LogPushSender } from "./adapters/push";
 import { MockPaymentProvider, StripeConnectProvider } from "./adapters/payments";
 import { SampleTournamentSource } from "./adapters/sample";
 import { FluidPbSource, PickleballComSource, PickleHeatEventsSource } from "./adapters/tournamentSources";
@@ -19,6 +20,11 @@ export interface Env {
   // Email (password reset, email confirmation): leave empty and no email is sent
   RESEND_API_KEY?: string;
   EMAIL_FROM?: string; // "PickleHeat <hello@yourdomain.com>", a sender verified in Resend
+  // iPhone push notifications: an APNs auth key (.p8) from Apple Developer → Keys. Leave empty and none are sent.
+  APNS_KEY_ID?: string;
+  APNS_TEAM_ID?: string;
+  APNS_PRIVATE_KEY?: string;
+  APNS_BUNDLE_ID?: string;
   // DUPR: leave empty to use the stand-in until partner keys arrive
   DUPR_ENV?: string; // "uat" | "production"
   DUPR_CLIENT_KEY?: string;
@@ -64,6 +70,9 @@ export function buildDeps(env: Env, store: Store): Deps {
     identity: allowDevAuth ? new ChainedIdentityVerifier([apple, new DevIdentityVerifier()]) : apple,
     google,
     email: env.RESEND_API_KEY && env.EMAIL_FROM ? new ResendEmailSender(env.RESEND_API_KEY, env.EMAIL_FROM) : new LogEmailSender(),
+    push: env.APNS_KEY_ID && env.APNS_TEAM_ID && env.APNS_PRIVATE_KEY
+      ? new ApnsPushSender({ keyId: env.APNS_KEY_ID, teamId: env.APNS_TEAM_ID, privateKey: env.APNS_PRIVATE_KEY, topic: env.APNS_BUNDLE_ID ?? "com.gudivada.pickleheat" })
+      : new LogPushSender(),
     dupr,
     payments,
     tournamentSources: sources,

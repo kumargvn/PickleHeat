@@ -15,7 +15,7 @@ import { addInvites, parseInviteCsv } from "./services/invites";
 import { acceptSub, cancelSub, closeRound, eventStats, rankings, requestSub, requireRound, roundView, setAttendance, startRound } from "./services/leagues";
 import { confirmScore, deleteResult, reportScore, requireMatch } from "./services/matches";
 import { createClub, joinClub, leaveClub, playerInfo, requireManager, setRole } from "./services/people";
-import { createChat, listNotifications, markRead, messages, myChats, postMessage, react } from "./services/social";
+import { createChat, listNotifications, markRead, messages, myChats, postMessage, react, registerDevice, unregisterDevice } from "./services/social";
 import { cards, clubDetail, discover, eventDetail, liveMatches, meView, myEvents } from "./services/views";
 import { duprConnectPage, page } from "./web/pages";
 
@@ -29,7 +29,7 @@ export function buildRouter(): Router<Ctx> {
   const r = new Router<Ctx>();
 
   r.on("GET", "/v1/health", async (_q, { deps }) =>
-    json({ ok: true, dupr: deps.dupr.name, payments: deps.payments.name, email: deps.email.name, tournamentSources: deps.tournamentSources.map((s) => ({ name: s.name, enabled: s.enabled })) }),
+    json({ ok: true, dupr: deps.dupr.name, payments: deps.payments.name, email: deps.email.name, push: deps.push.name, tournamentSources: deps.tournamentSources.map((s) => ({ name: s.name, enabled: s.enabled })) }),
   );
 
   // ----- accounts -----
@@ -450,6 +450,20 @@ export function buildRouter(): Router<Ctx> {
     const user = await auth(req, deps);
     const { m, ev } = await requireMatch(deps, p.id);
     return json({ match: await withdrawFromDupr(deps, ev, m, user.id) });
+  });
+
+  // ----- push notifications (iPhone) -----
+  r.on("POST", "/v1/me/devices", async (req, { deps }) => {
+    const user = await auth(req, deps);
+    const b = await readJson<{ token?: string; environment?: string }>(req);
+    const d = await registerDevice(deps, user.id, str(b.token, "token", 200), String(b.environment ?? "production"));
+    return json({ ok: true, environment: d.environment }, 201);
+  });
+
+  r.on("DELETE", "/v1/me/devices/:token", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    await unregisterDevice(deps, user.id, p.token);
+    return json({ ok: true });
   });
 
   // ----- chat -----

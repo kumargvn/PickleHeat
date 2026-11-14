@@ -2,7 +2,7 @@
 
 import { db } from "../db";
 import { HttpError } from "../http";
-import type { Chat, ChatKind, Deps, Message, Notification } from "../ports";
+import type { Chat, ChatKind, Deps, Device, Message, Notification, PushMessage } from "../ports";
 
 // ---------- notifications ----------
 
@@ -11,6 +11,44 @@ export async function notify(deps: Deps, userIds: string[], n: { kind: string; t
   for (const userId of new Set(userIds)) {
     const doc: Notification = { id: deps.newId(), userId, read: false, createdAt: now, ...n };
     await db(deps).notifications.put(doc);
+  }
+  await push(deps, [...new Set(userIds)], { title: n.title, body: n.body, link: n.link });
+}
+
+// ---------- push (iPhone lock screen) ----------
+
+const TOKEN = /^[0-9a-f]{64,200}$/;
+
+/** An iPhone signs up for pushes. A phone belongs to whoever signed in on it last. */
+export async function registerDevice(deps: Deps, userId: string, token: string, environment: string): Promise<Device> {
+  const id = token.trim().toLowerCase();
+  if (!TOKEN.test(id)) throw new HttpError(422, "That isn't a device token", "invalid");
+  const mine = await db(deps).devices.find({ userId });
+  // Keep the newest few, so an old phone doesn't hold a slot forever.
+  for (const old of mine.sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(9)) await db(deps).devices.delete(old.id);
+  const device: Device = { id, userId, platform: "ios", environment: environment === "sandbox" ? "sandbox" : "production", createdAt: deps.now().toISOString() };
+  await db(deps).devices.put(device);
+  return device;
+}
+
+/** Sign-out on that phone: stop sending it this player's notifications. */
+export async function unregisterDevice(deps: Deps, userId: string, token: string): Promise<void> {
+  const d = await db(deps).devices.get(token.trim().toLowerCase());
+  if (d && d.userId === userId) await db(deps).devices.delete(d.id);
+}
+
+/** Sends a push to every phone these players use. Never throws: the in-app notification is the record. */
+export async function push(deps: Deps, userIds: string[], m: PushMessage): Promise<void> {
+  try {
+    for (const userId of userIds) {
+      const devices = await db(deps).devices.find({ userId });
+      if (!devices.length) continue;
+      const badge = (await db(deps).notifications.find({ userId, read: false })).length;
+      const gone = await deps.push.send(devices, { ...m, badge });
+      for (const id of gone) await db(deps).devices.delete(id);
+    }
+  } catch {
+    /* pushes are best-effort */
   }
 }
 
@@ -71,7 +109,12 @@ export async function postMessage(deps: Deps, chatId: string, userId: string | n
   const m: Message = { id: `${now.getTime().toString(36).padStart(10, "0")}-${deps.newId().slice(0, 8)}`, chatId, userId, text: clean, createdAt: now.toISOString(), reactions: {} };
   await db(deps).messages.put(m);
   await db(deps).chats.put({ ...chat, lastMessageAt: m.createdAt });
-  if (userId) await markChatRead(deps, chatId, userId, m.createdAt);
+  if (userId) {
+    await markChatRead(deps, chatId, userId, m.createdAt);
+    // Chat messages reach the lock screen too (no entry in the notification list: the chat badge covers that).
+    const sender = (await db(deps).users.get(userId))?.name.split(" ")[0] ?? "Someone";
+    await push(deps, chat.memberIds.filter((id) => id !== userId), { title: chat.title, body: `${sender}: ${clean.slice(0, 140)}`, link: `chats/${chat.id}` });
+  }
   return m;
 }
 

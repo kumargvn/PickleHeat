@@ -226,6 +226,7 @@ export async function deleteAccount(deps: Deps, userId: string): Promise<void> {
   await d.payouts.delete(userId);
   for (const m of await d.members.find({ userId })) await d.members.delete(m.id);
   for (const n of await d.notifications.find({ userId })) await d.notifications.delete(n.id);
+  for (const dev of await d.devices.find({ userId })) await d.devices.delete(dev.id);
   // Results and entries stay (other players' standings depend on them); the name is gone.
   await d.users.delete(userId);
 }
