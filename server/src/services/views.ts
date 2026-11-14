@@ -51,6 +51,49 @@ export async function eventCard(deps: Deps, ev: PickleHeatEvent, user: User): Pr
   };
 }
 
+/** What anyone with the join link can see before signing in. No player names, emails or chats. */
+export interface PublicEvent {
+  id: string;
+  name: string;
+  description: string;
+  kind: PickleHeatEvent["kind"];
+  style: PickleHeatEvent["style"];
+  format: PickleHeatEvent["format"];
+  status: PickleHeatEvent["status"];
+  startDate: string;
+  endDate: string | null;
+  weeks: number | null;
+  roundDays: number;
+  venue: string;
+  city: string;
+  state: string;
+  minRating: number | null;
+  maxRating: number | null;
+  capacity: number;
+  entryCount: number;
+  feeCents: number;
+  memberFeeCents: number | null;
+  clubName: string | null;
+  organizerName: string;
+  joinUrl: string;
+}
+
+export const joinUrl = (deps: Deps, eventId: string) => `${deps.config.webAppUrl}#/join/${encodeURIComponent(eventId)}`;
+
+export async function publicEvent(deps: Deps, ev: PickleHeatEvent): Promise<PublicEvent> {
+  const entries = await db(deps).entries.find({ eventId: ev.id });
+  const club = ev.clubId ? await db(deps).clubs.get(ev.clubId) : null;
+  const organizer = await db(deps).users.get(ev.organizerId);
+  return {
+    id: ev.id, name: ev.name, description: ev.description, kind: ev.kind, style: ev.style, format: ev.format, status: ev.status,
+    startDate: ev.startDate, endDate: ev.endDate, weeks: ev.weeks, roundDays: ev.roundDays,
+    venue: ev.venue, city: ev.city, state: ev.state, minRating: ev.minRating, maxRating: ev.maxRating,
+    capacity: ev.capacity, entryCount: entries.filter((e) => e.status === "confirmed" || e.status === "pending_payment").length,
+    feeCents: ev.feeCents, memberFeeCents: ev.memberFeeCents,
+    clubName: club?.name ?? null, organizerName: organizer?.name ?? "The organizer", joinUrl: joinUrl(deps, ev.id),
+  };
+}
+
 export async function cards(deps: Deps, events: PickleHeatEvent[], user: User): Promise<EventCard[]> {
   const out: EventCard[] = [];
   for (const e of events) out.push(await eventCard(deps, e, user));
@@ -88,6 +131,8 @@ export interface EventDetail {
   chatId: string | null;
   money: { collectedCents: number; paidEntries: number; pendingEntries: number } | null;
   invites: Invite[];
+  /** The link (and QR code) to share: opens the event for anyone, signed in or not. */
+  joinUrl: string;
   /** Organizers only, when the event sends results to DUPR: how many results are waiting for review. */
   duprReview: { ready: number; failed: number; submitted: number } | null;
 }
@@ -134,6 +179,7 @@ export async function eventDetail(deps: Deps, ev: PickleHeatEvent, user: User): 
     chatId: chat && chat.memberIds.includes(user.id) ? chat.id : null,
     money,
     invites: manager ? await db(deps).invites.find({ eventId: ev.id }) : [],
+    joinUrl: joinUrl(deps, ev.id),
     duprReview: manager && ev.submitToDupr ? await reviewCounts(deps, ev.id) : null,
   };
 }

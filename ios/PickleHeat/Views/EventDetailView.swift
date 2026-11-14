@@ -58,7 +58,7 @@ struct EventDetailView: View {
             }
             if let d = detail {
                 ToolbarItem(placement: .topBarTrailing) {
-                    ShareLink(item: URL(string: "\(AppConfig.site.absoluteString)app/#/events/\(d.event.id)") ?? AppConfig.site, subject: Text(d.event.name), message: Text("Join \(d.event.name) on PickleHeat")) {
+                    ShareLink(item: AppConfig.joinURL(eventID: d.event.id), subject: Text(d.event.name), message: Text("Join \(d.event.name) on PickleHeat")) {
                         Image(systemName: "square.and.arrow.up")
                     }
                 }
@@ -189,6 +189,28 @@ struct EventDetailView: View {
         }
         .card()
         if d.isManager { organizerCard(d) }
+        if d.event.status != .draft { shareCard(d) }
+    }
+
+    /// A link and QR code that take anyone straight to this event, with or without an account.
+    private func shareCard(_ d: EventDetail) -> some View {
+        let url = AppConfig.joinURL(eventID: d.event.id)
+        return VStack(spacing: 12) {
+            Text(d.isManager ? "Fill your \(d.event.kind == .league ? "league" : "tournament")" : "Invite a friend")
+                .font(Theme.display(17)).frame(maxWidth: .infinity, alignment: .leading)
+            if let qr = QRCode.image(for: url.absoluteString) {
+                Image(uiImage: qr).interpolation(.none).resizable().scaledToFit().frame(width: 180, height: 180)
+                    .padding(10).background(Color.white, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .accessibilityLabel("QR code to join \(d.event.name)")
+            }
+            Text("Scan to open this event, or send the link in a group text. People without an account sign up and land right here.")
+                .font(.system(size: 13)).foregroundStyle(Theme.muted).multilineTextAlignment(.center)
+            ShareLink(item: url, subject: Text(d.event.name), message: Text("Join \(d.event.name) on PickleHeat")) {
+                Label("Share link", systemImage: "square.and.arrow.up")
+            }
+            .buttonStyle(PrimaryButtonStyle())
+        }
+        .card()
     }
 
     @ViewBuilder private func myEntryCard(_ d: EventDetail) -> some View {

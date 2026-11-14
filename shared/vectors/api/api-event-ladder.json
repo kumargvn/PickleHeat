@@ -670,5 +670,6 @@
  "chatId": "id00030",
  "money": null,
  "invites": [],
+ "joinUrl": "https://demo.pickleheat.app/app/#/join/id00005",
  "duprReview": null
 }

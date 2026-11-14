@@ -40,6 +40,13 @@ export async function linkDupr(deps: Deps, userId: string, accessToken: string, 
   if (user && (!user.name || user.name === "Player") && profile.name) await db(deps).users.put({ ...user, name: profile.name });
   await pullHistory(deps, link).catch(() => undefined);
   await applyInvitesForUser(deps, userId);
+  // Results the organizer already sent that were only waiting on this player's DUPR link can go now.
+  for (const side of ["homePlayers", "awayPlayers"] as const) {
+    for (const m of await db(deps).matches.find({ status: "confirmed", duprStatus: "failed", [side]: [userId] })) {
+      const ev = await db(deps).events.get(m.eventId);
+      if (ev?.submitToDupr && m.duprSubmittedBy) await upload(deps, ev, m).catch(() => undefined);
+    }
+  }
   return (await db(deps).dupr.get(userId)) ?? link;
 }
 

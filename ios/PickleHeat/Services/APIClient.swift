@@ -106,6 +106,10 @@ enum AppConfig {
 
     static let callbackScheme = "pickleheat"
     static let site = URL(string: "https://kumargvn.github.io/PickleHeat/")!
+    /// The join link for an event: opens it on the website for anyone, signed in or not.
+    static func joinURL(eventID: String) -> URL {
+        URL(string: "\(site.absoluteString)app/#/join/\(eventID)") ?? site
+    }
     static let privacyURL = URL(string: "https://kumargvn.github.io/PickleHeat/privacy.html")!
     static let supportURL = URL(string: "https://kumargvn.github.io/PickleHeat/support.html")!
 }

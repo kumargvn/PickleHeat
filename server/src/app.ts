@@ -16,7 +16,7 @@ import { acceptSub, cancelSub, closeRound, eventStats, rankings, requestSub, req
 import { confirmScore, deleteResult, reportScore, requireMatch } from "./services/matches";
 import { createClub, joinClub, leaveClub, playerInfo, requireManager, setRole } from "./services/people";
 import { createChat, listNotifications, markRead, messages, myChats, postMessage, react, registerDevice, unregisterDevice } from "./services/social";
-import { cards, clubDetail, discover, eventDetail, liveMatches, meView, myEvents } from "./services/views";
+import { cards, clubDetail, discover, eventDetail, liveMatches, meView, myEvents, publicEvent } from "./services/views";
 import { duprConnectPage, page } from "./web/pages";
 
 interface Ctx {
@@ -278,6 +278,13 @@ export function buildRouter(): Router<Ctx> {
   r.on("GET", "/v1/events", async (req, { deps }) => {
     const user = await auth(req, deps);
     return json({ events: await cards(deps, await myEvents(deps, user), user) });
+  });
+
+  // The join link: what someone sees before they have an account. Drafts stay private.
+  r.on("GET", "/v1/public/events/:id", async (_req, { deps }, p) => {
+    const ev = await requireEvent(deps, p.id);
+    if (ev.status === "draft") throw new HttpError(404, "Event not found", "not_found");
+    return json({ event: await publicEvent(deps, ev) });
   });
 
   r.on("GET", "/v1/events/:id", async (req, { deps }, p) => {

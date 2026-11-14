@@ -674,9 +674,10 @@
   "pendingEntries": 0
  },
  "invites": [],
+ "joinUrl": "https://demo.pickleheat.app/app/#/join/id00005",
  "duprReview": {
   "ready": 5,
-  "failed": 9,
-  "submitted": 45
+  "failed": 0,
+  "submitted": 54
  }
 }

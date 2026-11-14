@@ -1,6 +1,8 @@
 // PickleHeat web app. Same API as the iPhone app. Entry fees and organizer payouts happen here
 // (the iPhone app sends people to this website for payments).
 
+import { qrSvg } from "./qr.js";
+
 const cfg = window.PICKLEHEAT_CONFIG ?? {};
 const LIVE = !!cfg.PICKLEHEAT_API_URL;
 const TOKEN_KEY = LIVE ? "pickleheat-token" : "pickleheat-demo-token";
@@ -123,7 +125,7 @@ function ring(score, label, size = 128, color = "var(--ink)", track = "rgba(10,1
 
 
 // ---------- routing ----------
-const routes = { signin, forgot, reset: resetPage, verify: verifyPage, handoff, dupr, home, events, entries: payEntry, payouts, clubs: clubPage, create, "new-club": newClub, chats, insights, profile, notifications };
+const routes = { join: joinPage, signin, forgot, reset: resetPage, verify: verifyPage, handoff, dupr, home, events, entries: payEntry, payouts, clubs: clubPage, create, "new-club": newClub, chats, insights, profile, notifications };
 
 async function route() {
   clearInterval(state.poll);
@@ -133,7 +135,7 @@ async function route() {
   const params = new URLSearchParams(query ?? "");
   if (name === "handoff") return handoff(params);
   if (!state.me && store.get()) state.me = await api("GET", "/v1/me").catch(() => null);
-  const open = ["signin", "forgot", "reset", "verify"]; // pages that work signed out
+  const open = ["signin", "forgot", "reset", "verify", "join"]; // pages that work signed out
   if (!state.me && !open.includes(name)) return go("#/signin");
   if (state.me && !state.me.dupr.connected && !["dupr", "profile", ...open].includes(name)) return go("#/dupr");
   if (name === "dupr" && params.get("status") === "connected") state.me = await run(() => api("GET", "/v1/me"));
@@ -187,6 +189,44 @@ async function signin() {
 }
 
 let signupMode = false;
+
+// ---------- join links ----------
+// Someone who opens a join link before they have an account is taken back to that event once they're in.
+const NEXT_KEY = "pickleheat-next";
+function afterSignIn() {
+  let next = null;
+  try { next = sessionStorage.getItem(NEXT_KEY); sessionStorage.removeItem(NEXT_KEY); } catch { /* storage unavailable: just go home */ }
+  return next && /^#\/events\/[A-Za-z0-9_-]{1,64}$/.test(next) ? next : "#/home";
+}
+
+/** The event's own app page, on whichever site this is running on. */
+const joinLink = (id) => `${location.origin}${location.pathname}#/join/${encodeURIComponent(id)}`;
+
+async function joinPage(parts) {
+  const id = parts[0];
+  if (!id) return go("#/home");
+  if (state.me?.dupr.connected) return go(`#/events/${encodeURIComponent(id)}`);
+  const r = await api("GET", `/v1/public/events/${encodeURIComponent(id)}`).catch(() => null);
+  if (!r) return (view.innerHTML = authCard(empty("This event isn't open", "The link may be old, or the organizer hasn't opened registration yet.") + `<a class="btn block" href="#/signin">Go to PickleHeat</a>`));
+  const e = r.event, full = e.entryCount >= e.capacity, solo = individual(e.style) || e.format === "singles";
+  try { sessionStorage.setItem(NEXT_KEY, `#/events/${e.id}`); } catch { /* they'll land on Home instead */ }
+  view.innerHTML = authCard(`<div class="card stack" style="gap:8px">
+      <div class="row wrap" style="gap:6px">${pill(STYLE[e.style].toUpperCase(), "var(--ink)", e.kind === "league" ? "var(--lime)" : "var(--coral)")}${pill(STATUS[e.status])}</div>
+      <h1>${esc(e.name)}</h1>
+      <span class="small muted">${esc(e.clubName ? `${e.clubName} · run by ${e.organizerName}` : `Run by ${e.organizerName}`)}</span>
+      <div class="small stack" style="gap:2px">
+        <span>📅 ${pretty(e.startDate)}${e.kind === "league" && e.weeks ? ` · ${e.weeks} rounds, every ${e.roundDays} days` : e.endDate && e.endDate !== e.startDate ? ` – ${pretty(e.endDate)}` : ""}</span>
+        ${e.venue || e.city ? `<span>📍 ${esc([e.venue, e.city].filter(Boolean).join(" · "))}${e.state ? ", " + esc(e.state) : ""}</span>` : ""}
+        <span>📈 DUPR ${range(e)} · ${FORMAT[e.format]}</span>
+        <span>👥 ${e.entryCount}/${e.capacity} ${solo ? "players" : "teams"}${full ? " · waitlist open" : ""}</span>
+        <span>💳 ${isPaid(e) ? `${money(e.feeCents)} per player${e.memberFeeCents != null && e.memberFeeCents !== e.feeCents ? ` · members ${money(e.memberFeeCents)}` : ""}` : "Free"}</span>
+      </div>
+      ${e.description ? `<p class="small" style="margin:4px 0 0">${esc(e.description)}</p>` : ""}
+      <span class="small muted">${BLURB[e.style]}</span></div>
+    ${state.me
+      ? `<a class="btn block" href="#/dupr">Connect DUPR to ${e.status === "open" ? "join" : "see this event"}</a>`
+      : `<a class="btn block" href="#/signin">${e.status === "open" ? (full ? "Sign in to join the waitlist" : "Sign in to join") : "Sign in to see this event"}</a><p class="small muted" style="text-align:center;margin:0">New to PickleHeat? You can create an account on the next screen.</p>`}`);
+}
 
 // ---------- forgot password, reset, confirm email ----------
 const authCard = (inner) => `<div class="stack" style="max-width:440px;margin:32px auto">${inner}</div>`;
@@ -253,7 +293,7 @@ async function signedIn(me, to) {
   store.set(me.token);
   state.me = me;
   state.form = null;
-  go(to ? `#/${to}` : me.dupr.connected ? "#/home" : "#/dupr");
+  go(to ? `#/${to}` : me.dupr.connected ? afterSignIn() : "#/dupr");
 }
 
 /** One-time link from the iPhone app: signs in here and opens the page it asked for (payments, payouts). */
@@ -268,7 +308,7 @@ async function handoff(params) {
 
 // ---------- DUPR ----------
 async function dupr() {
-  if (state.me.dupr.connected) return go("#/home");
+  if (state.me.dupr.connected) return go(afterSignIn());
   view.innerHTML = `<div class="stack" style="max-width:520px;margin:24px auto">
     <div class="hero lime center"><div class="big" style="font-size:40px">Connect DUPR</div>
       <p>One time, about 30 seconds. PickleHeat then keeps your rating up to date and sends your league and tournament scores to DUPR once the organizer has reviewed them.</p></div>
@@ -518,7 +558,18 @@ function overview(d) {
   return `<div class="grid">${mine}
     ${e.description ? `<div class="card">${esc(e.description)}</div>` : ""}
     <div class="card stack" style="gap:6px"><h3>How it works</h3><span class="small muted">${BLURB[e.style]}</span>${e.submitToDupr ? `<span class="small" style="color:var(--lime)"><b>✓ Scores go to DUPR after the organizer reviews them</b></span>` : ""}</div>
-    ${d.isManager ? organizerCard(d) : ""}</div>`;
+    ${d.isManager ? organizerCard(d) : ""}
+    ${e.status !== "draft" ? shareCard(d) : ""}</div>`;
+}
+
+/** A link and QR code that take anyone straight to this event, signed in or not. */
+function shareCard(d) {
+  const url = joinLink(d.event.id);
+  return `<div class="card stack" style="align-items:center;text-align:center"><h3 style="align-self:flex-start">${d.isManager ? "Fill your " + (d.event.kind === "league" ? "league" : "tournament") : "Invite a friend"}</h3>
+    <div style="border-radius:16px;overflow:hidden;line-height:0">${qrSvg(url, { size: 180, label: `QR code to join ${esc(d.event.name)}` })}</div>
+    <span class="small muted">Scan to open this event, or send the link in a group text. People without an account sign up and land right here.</span>
+    <input readonly value="${esc(url)}" aria-label="Join link" onclick="this.select()" style="font-size:13px">
+    <div class="row wrap" style="justify-content:center"><button class="btn" data-act="share" data-name="${esc(d.event.name)}">Share link</button><button class="btn secondary" data-act="copy-join">Copy</button>${d.isManager ? `<button class="btn secondary" data-act="print-qr">Print QR sign</button>` : ""}</div></div>`;
 }
 
 function organizerCard(d) {
@@ -627,9 +678,11 @@ async function reviewPane(d) {
       extra: `${notes}<div class="row wrap">${btns.join("")}</div>`,
     });
   };
-  const section = (title, status, hint) => {
+  const section = (title, status, hint, folded) => {
     const items = q.items.filter((i) => i.status === status);
-    return items.length ? `<h3>${title} (${items.length})</h3>${hint ? `<p class="small muted" style="margin:0">${hint}</p>` : ""}<div class="grid">${items.map(item).join("")}</div>` : "";
+    if (!items.length) return "";
+    const body = `${hint ? `<p class="small muted" style="margin:0 0 10px">${hint}</p>` : ""}<div class="grid">${items.map(item).join("")}</div>`;
+    return folded ? `<details><summary><b>${title} (${items.length})</b></summary><div style="margin-top:10px">${body}</div></details>` : `<h3>${title} (${items.length})</h3>${body}`;
   };
   return `<div class="stack">
     <div class="card stack" style="gap:8px"><h2>DUPR review</h2>
@@ -639,8 +692,8 @@ async function reviewPane(d) {
     ${section("Needs attention", "failed", "You sent these, but DUPR hasn't accepted them. PickleHeat retries every hour.")}
     ${section("Ready to send", "ready")}
     ${section("Not sent", "skipped", "These count in PickleHeat but stay off DUPR.")}
-    ${section("On DUPR", "submitted")}
-    ${section("Not rated by DUPR", "not_rated", "Nothing in these results is a singles or doubles game DUPR rates.")}</div>`;
+    ${section("On DUPR", "submitted", "Already sent. Take one back if it turns out to be wrong.", true)}
+    ${section("Not rated by DUPR", "not_rated", "Nothing in these results is a singles or doubles game DUPR rates.", true)}</div>`;
 }
 
 const teamName = (d, id) => (d.entries.find((e) => e.id === id) ?? d.waitlist.find((e) => e.id === id))?.teamName ?? "TBD";
@@ -931,9 +984,11 @@ const actions = {
       const r = await run(() => api("POST", "/v1/dupr/connect-session", { client: "web" }));
       if (r) location.href = r.url;
     } else {
-      await run(() => api("POST", "/v1/dupr/link", { userToken: "mock-demo", refreshToken: "refresh-demo" }));
+      // Each demo account gets its own sample DUPR profile, so a second account in this browser can connect too.
+      const who = state.me.user.id === "u-demo" ? "demo" : state.me.user.id.replace(/[^a-z0-9]/gi, "").slice(-6);
+      if (!(await run(() => api("POST", "/v1/dupr/link", { userToken: `mock-${who}`, refreshToken: `refresh-${who}` })))) return;
       state.me = await run(() => api("GET", "/v1/me"));
-      go("#/home");
+      go(afterSignIn());
     }
   },
   signout: () => { store.set(null); state.me = null; state.form = null; state.recs = null; go("#/signin"); },
@@ -951,10 +1006,19 @@ const actions = {
     }, () => toast("Location is off. Allow it in your browser settings."));
   },
   "events-tab": (el) => { state.eventsTab = el.dataset.k; route(); },
+  "copy-join": async () => { await navigator.clipboard?.writeText(joinLink(state.detail.event.id)); toast("Link copied", true); },
+  "print-qr": () => {
+    const e = state.detail.event, w = window.open("", "_blank");
+    if (!w) return toast("Allow pop-ups to print the QR code.");
+    w.document.write(`<!doctype html><title>${esc(e.name)}</title><body style="font-family:-apple-system,Segoe UI,sans-serif;text-align:center;padding:48px"><h1 style="font-size:40px;margin:0 0 8px">${esc(e.name)}</h1><p style="font-size:22px;margin:0 0 24px">Scan to join on PickleHeat</p>${qrSvg(joinLink(e.id), { size: 420, label: "QR code to join" })}<p style="font-size:14px;color:#555;word-break:break-all">${esc(joinLink(e.id))}</p></body>`);
+    w.document.close();
+    w.focus();
+    w.print();
+  },
   "event-tab": (el) => { state.eventTab[state.detail.event.id] = el.dataset.k; route(); },
   "round-sel": (el) => { state.roundSel[state.detail.event.id] = el.dataset.k; route(); },
   share: async (el) => {
-    const url = location.href.split("?")[0];
+    const url = joinLink(state.detail.event.id);
     if (navigator.share) navigator.share({ title: el.dataset.name, text: `Join ${el.dataset.name} on PickleHeat`, url }).catch(() => {});
     else { await navigator.clipboard?.writeText(url); toast("Link copied", true); }
   },

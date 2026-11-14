@@ -61,6 +61,22 @@ describe("accounts", () => {
     expect((await call("POST", "/v1/auth/google", undefined, { credential: "not-a-token" })).status).toBe(401);
   });
 
+  test("join link: anyone can see an open event, without player details; drafts stay private", async () => {
+    const t = await as("demo");
+    const mixer = await eventByName(t, "Friday Wildfire Mixer");
+    const pub = await call("GET", `/v1/public/events/${mixer.id}`);
+    expect(pub.status).toBe(200);
+    expect(pub.body.event.name).toBe("Friday Wildfire Mixer");
+    expect(pub.body.event.joinUrl).toBe(`http://web.test/app/#/join/${mixer.id}`);
+    expect(pub.body.event.entryCount).toBeGreaterThan(5);
+    expect(JSON.stringify(pub.body)).not.toContain("@example.com");
+    expect(pub.body.event.entries).toBeUndefined();
+    expect((await call("GET", `/v1/events/${mixer.id}`, t)).body.joinUrl).toBe(pub.body.event.joinUrl);
+    const draft = await call("POST", "/v1/events", t, { kind: "tournament", style: "round_robin", format: "doubles", name: "Secret Draft", startDate: "2027-02-01", venue: "Park", city: "Austin", state: "TX", capacity: 4, feeCents: 0 });
+    expect((await call("GET", `/v1/public/events/${draft.body.event.id}`)).status).toBe(404);
+    expect((await call("GET", "/v1/public/events/nope")).status).toBe(404);
+  });
+
   test("email sign-up and login (web)", async () => {
     const s = await call("POST", "/v1/auth/signup", undefined, { email: "New@Example.com", password: "longenough1", name: "New Player" });
     expect(s.status).toBe(201);

@@ -416,6 +416,7 @@ struct EventDetail: Codable, Hashable {
     var chatId: String?
     var money: Money?
     var invites: [Invite]
+    var joinUrl: String?
     /// Organizers only, when the event sends results to DUPR.
     var duprReview: DuprReviewCounts?
 

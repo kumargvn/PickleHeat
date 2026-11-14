@@ -69,14 +69,14 @@ describe("DUPR review queue", () => {
     expect(r.body.match.duprStatus).toBe("failed");
     expect(r.body.match.duprError).toContain("connected DUPR account");
     expect(mock.uploads.length).toBe(before);
-    // The player connects DUPR; the hourly job retries what the organizer already approved.
+    // The player connects DUPR. What the organizer already approved goes right away, with no wait for the hourly job.
     const s = await call("POST", "/v1/dupr/connect-session", demo, { client: "app" });
     await call("POST", "/v1/dupr/link", new URL(s.body.url).searchParams.get("t")!, { userToken: "mock-demo", refreshToken: "refresh-demo" });
-    const job = await runSyncJob(deps);
     // (Their earlier weeks' results were approved too, so those go with it.)
-    expect(job.uploaded).toBeGreaterThanOrEqual(1);
-    expect(job.failed).toBe(0);
-    expect(mock.uploads.length).toBe(before + job.uploaded);
+    expect(mock.uploads.length).toBeGreaterThan(before);
+    expect(mock.uploads.some((u) => u.externalId === matchId)).toBe(true);
+    const job = await runSyncJob(deps);
+    expect(job).toMatchObject({ uploaded: 0, failed: 0 });
     const q = (await call("GET", `/v1/events/${ladderId}/dupr`, chen)).body;
     const mine = q.items.find((i: any) => i.match.id === matchId);
     expect(mine.status).toBe("submitted");

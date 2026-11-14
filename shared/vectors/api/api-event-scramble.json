@@ -371,5 +371,6 @@
  "chatId": null,
  "money": null,
  "invites": [],
+ "joinUrl": "https://demo.pickleheat.app/app/#/join/id00253",
  "duprReview": null
 }
