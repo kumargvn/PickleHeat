@@ -1,4 +1,4 @@
-// Accounts: Sign in with Apple, email + password (web), sessions, and app → web handoff links.
+// Accounts: Sign in with Apple, Sign in with Google, email + password, sessions, and app → web handoff links.
 
 import { checkPassword, hashPassword, signJwt, verifyJwt } from "../adapters/crypto";
 import { db } from "../db";
@@ -55,6 +55,32 @@ export async function signInWithApple(deps: Deps, identityToken: string, name: s
     }
   }
   const user = newUser(deps, { appleSub: id.subject, email: id.email, name: name?.trim().slice(0, 80) || "Player" });
+  await db(deps).users.put(user);
+  await applyInvitesForUser(deps, user.id);
+  return user;
+}
+
+export async function signInWithGoogle(deps: Deps, credential: string): Promise<User> {
+  if (!deps.google) throw new HttpError(501, "Google sign-in isn't set up yet", "unavailable");
+  const id = await deps.google.verify(credential).catch((e) => {
+    throw new HttpError(401, `Sign in failed: ${(e as Error).message}`, "unauthorized");
+  });
+  const existing = (await db(deps).users.find({ googleSub: id.subject }))[0];
+  if (existing) return existing;
+  const email = id.email?.toLowerCase() ?? null;
+  if (email && id.emailVerified) {
+    // A password account's email was never confirmed, so it is not linked automatically:
+    // otherwise someone could sign up with another person's email and wait for them to arrive via Google.
+    if (await db(deps).credentials.get(email)) throw new HttpError(409, "That email already has a password. Sign in with your email and password.", "exists");
+    // Same email from Sign in with Apple (confirmed by Apple)? Link Google to that account.
+    const byEmail = (await db(deps).users.find({ email }))[0] ?? null;
+    if (byEmail) {
+      const linked = { ...byEmail, googleSub: id.subject };
+      await db(deps).users.put(linked);
+      return linked;
+    }
+  }
+  const user = newUser(deps, { googleSub: id.subject, email: id.emailVerified ? email : null, name: id.name?.trim().slice(0, 80) || "Player" });
   await db(deps).users.put(user);
   await applyInvitesForUser(deps, user.id);
   return user;

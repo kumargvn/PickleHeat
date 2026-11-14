@@ -8,7 +8,7 @@ import { MockPaymentProvider } from "./adapters/payments";
 import { db } from "./db";
 import { CORS_HEADERS, HttpError, Router, html, json, numIn, oneOf, optNumIn, optStr, readJson, redirect, str } from "./http";
 import type { Deps, User } from "./ports";
-import { deleteAccount, handoffLink, redeemHandoff, session, signInWithApple, signInWithPassword, signUpWithPassword, userFromRequest } from "./services/auth";
+import { deleteAccount, handoffLink, redeemHandoff, session, signInWithApple, signInWithGoogle, signInWithPassword, signUpWithPassword, userFromRequest } from "./services/auth";
 import { applyRatingWebhook, linkDupr, pullHistory } from "./services/duprSync";
 import { canSeeEvent, createEvent, eventFromBody, FORMATS, generateSchedule, markFailed, markPaid, publishEvent, refundEntry, register, requireEvent, startCheckout, withdraw } from "./services/events";
 import { addInvites, parseInviteCsv } from "./services/invites";
@@ -36,6 +36,12 @@ export function buildRouter(): Router<Ctx> {
   r.on("POST", "/v1/auth/apple", async (req, { deps }) => {
     const b = await readJson<{ identityToken?: string; name?: string }>(req);
     const user = await signInWithApple(deps, str(b.identityToken, "identityToken", 4000), b.name ?? null);
+    return json({ token: await session(deps, user.id), ...(await meView(deps, user)) });
+  });
+
+  r.on("POST", "/v1/auth/google", async (req, { deps }) => {
+    const b = await readJson<{ credential?: string }>(req);
+    const user = await signInWithGoogle(deps, str(b.credential, "credential", 4000));
     return json({ token: await session(deps, user.id), ...(await meView(deps, user)) });
   });
 

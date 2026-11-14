@@ -118,6 +118,19 @@ final class AppModel: ObservableObject {
         }
     }
 
+    /// Email + password. Returns an error message to show next to the form, or nil when signed in.
+    func signInWithEmail(_ email: String, password: String, createName: String?) async -> String? {
+        busy = true
+        defer { busy = false }
+        do {
+            apply(try await api.signInWithEmail(email, password: password, createName: createName))
+            await refreshAll()
+            return nil
+        } catch {
+            return error.localizedDescription
+        }
+    }
+
     func signOut() {
         api.signOut()
         me = nil

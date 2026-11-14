@@ -38,7 +38,7 @@ The apps only talk to the PickleHeat API. Inside the API, each outside service i
 | --- | --- | --- |
 | Hosting | Cloudflare Workers (`src/entry/worker.ts`) | Any JS runtime: Bun, Node 20+, Deno, a container (`src/entry/bun.ts`) |
 | Database | Neon Postgres | Any PostgreSQL. Write a new `Store` for a non-Postgres database |
-| Sign-in | Sign in with Apple | Add an `IdentityVerifier` |
+| Sign-in | Sign in with Apple, Sign in with Google (web), email + password (web and iPhone) | Add an `IdentityVerifier` |
 | Payments | Stripe Connect | Add a `PaymentProvider` |
 | Ratings | DUPR Partner API | `RatingProvider` |
 | Tournament feeds | pickleball.com, FluidPB, sample | Add a `TournamentSource` |
@@ -77,6 +77,7 @@ Without DUPR or Stripe keys the API uses the stand-in DUPR login and mock paymen
 - **pickleball.com / PickleballTournaments**: ask for a PPA API token; set `PICKLEBALL_COM_API_TOKEN`. Field mapping is in `server/src/adapters/tournamentSources.ts`.
 - **FluidPB**: no public API found. Ask them for one; the adapter is stubbed and off.
 - **Stripe**: create a platform account, turn on Connect (Express), add the webhook `https://<api>/v1/webhooks/payments` for `checkout.session.*` and `account.updated`.
+- **Sign in with Google (web)**: Google Cloud → APIs & Services → Credentials → Create OAuth client ID → Web application. Add the site's origin (for example `https://kumargvn.github.io`) under Authorized JavaScript origins. Put the client ID in `GOOGLE_CLIENT_ID` in `docs/app/config.js` and in `GOOGLE_CLIENT_IDS` on the API. The button stays hidden until both are set. A Google sign-in joins an existing Sign in with Apple account with the same email; an email that already has a password keeps signing in with the password.
 - **Sign in with Apple on the web**: create a Services ID (`com.gudivada.pickleheat.web`), add the web app's domain and return URL, and add it to `APPLE_AUDIENCES`.
 
 ## Keeping iOS and the API in agreement

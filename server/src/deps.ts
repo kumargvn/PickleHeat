@@ -1,6 +1,6 @@
 // Builds Deps from environment variables. This is the one place that picks vendors.
 
-import { ChainedIdentityVerifier, AppleIdentityVerifier, DevIdentityVerifier } from "./adapters/identity";
+import { ChainedIdentityVerifier, AppleIdentityVerifier, DevIdentityVerifier, GoogleIdentityVerifier } from "./adapters/identity";
 import { DuprHttpProvider, MockDuprProvider } from "./adapters/dupr";
 import { MockPaymentProvider, StripeConnectProvider } from "./adapters/payments";
 import { SampleTournamentSource } from "./adapters/sample";
@@ -12,6 +12,7 @@ export interface Env {
   WEB_APP_URL?: string;
   JWT_SECRET: string;
   APPLE_AUDIENCES?: string; // comma separated: bundle id, web services id
+  GOOGLE_CLIENT_IDS?: string; // comma separated OAuth client IDs; leave empty to turn Google sign-in off
   ALLOW_DEV_AUTH?: string;
   PLATFORM_FEE_BPS?: string;
   // DUPR: leave empty to use the stand-in until partner keys arrive
@@ -34,6 +35,10 @@ export function buildDeps(env: Env, store: Store): Deps {
   const allowDevAuth = env.ALLOW_DEV_AUTH === "true";
   const apple = new AppleIdentityVerifier((env.APPLE_AUDIENCES ?? "com.gudivada.pickleheat").split(",").map((s) => s.trim()).filter(Boolean));
 
+  const googleIds = (env.GOOGLE_CLIENT_IDS ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  const googleReal = googleIds.length ? new GoogleIdentityVerifier(googleIds) : null;
+  const google = allowDevAuth ? new ChainedIdentityVerifier([...(googleReal ? [googleReal] : []), new DevIdentityVerifier()]) : googleReal;
+
   const dupr = env.DUPR_CLIENT_KEY && env.DUPR_CLIENT_SECRET
     ? new DuprHttpProvider({ env: env.DUPR_ENV === "production" ? "production" : "uat", clientKey: env.DUPR_CLIENT_KEY, clientSecret: env.DUPR_CLIENT_SECRET, clubId: env.DUPR_CLUB_ID })
     : new MockDuprProvider(base);
@@ -53,6 +58,7 @@ export function buildDeps(env: Env, store: Store): Deps {
   return {
     store,
     identity: allowDevAuth ? new ChainedIdentityVerifier([apple, new DevIdentityVerifier()]) : apple,
+    google,
     dupr,
     payments,
     tournamentSources: sources,
