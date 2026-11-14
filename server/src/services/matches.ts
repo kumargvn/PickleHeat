@@ -1,13 +1,14 @@
-// Scores: report, confirm, corrections, bracket advancement, playoffs, DUPR upload.
+// Scores: report, confirm, corrections, deleting a result, bracket advancement, playoffs.
+// A confirmed result joins the organizer's DUPR review queue; it is never uploaded from here.
 
 import { dreamBreaker, linesOutcome } from "../domain/lines";
 import { standings, type Result } from "../domain/schedule";
 import { db } from "../db";
 import { HttpError } from "../http";
 import type { Deps, Line, Match, PickleHeatEvent } from "../ports";
-import { removeFromDupr, uploadMatch } from "./duprSync";
+import { queueForReview, removeFromDupr } from "./duprSync";
 import { advanceBracket, buildPlayoffs, isIndividual } from "./events";
-import { canManage, playerInfo } from "./people";
+import { canManage, playerInfo, requireManager } from "./people";
 import { notify } from "./social";
 
 function validGames(games: unknown, max: number): { us: number; them: number }[] {
@@ -78,7 +79,9 @@ export async function reportScore(deps: Deps, matchId: string, userId: string, b
     next.games = validGames(body.games, isIndividual(ev) ? ev.gamesPerMatch : Math.max(ev.gamesPerMatch, 3));
   }
   next = { ...next, status: manager ? "confirmed" : "reported", reportedBy: userId, confirmedBy: manager ? userId : null };
+  // Correcting a result that's already on DUPR takes it back; the corrected score returns to the review queue.
   if (m.status === "confirmed" && m.duprMatchId) next = await removeFromDupr(deps, next);
+  next = { ...next, duprStatus: null, duprError: null, duprSubmittedBy: null, duprSubmittedAt: null };
   await db(deps).matches.put(next);
   if (next.status === "confirmed") return onConfirmed(deps, ev, next);
   const opponents = side === "home" ? m.awayPlayers : m.homePlayers;
@@ -109,9 +112,36 @@ async function onConfirmed(deps: Deps, ev: PickleHeatEvent, m: Match): Promise<M
     const winnerEntry = w === "home" ? m.homeEntryId : w === "away" ? m.awayEntryId : null;
     if (winnerEntry) await advanceBracket(deps, ev, m, winnerEntry);
   }
-  const uploaded = await uploadMatch(deps, ev, m);
+  const queued = await queueForReview(deps, ev, m);
   if (!isIndividual(ev)) await afterTeamResult(deps, ev);
-  return uploaded;
+  return queued;
+}
+
+/** The organizer deletes a result: the match goes back to "not played" and anything sent to DUPR is taken back. */
+export async function deleteResult(deps: Deps, matchId: string, userId: string): Promise<Match> {
+  const { m, ev } = await requireMatch(deps, matchId);
+  await requireManager(deps, ev, userId);
+  if (m.status === "scheduled" && !m.games.length && !m.lines?.some((l) => l.games.length)) throw new HttpError(409, "There's no score to delete", "invalid");
+  if (m.bracket && m.status === "confirmed") throw new HttpError(409, "Bracket results can't be deleted after they're confirmed, because the winner has already moved on", "locked");
+  if (m.roundId && (await db(deps).rounds.get(m.roundId))?.status === "completed") {
+    throw new HttpError(409, "This round is closed and its standings are final. You can still keep the result out of DUPR.", "locked");
+  }
+  if (!isIndividual(ev) && !m.bracket && (await db(deps).matches.find({ eventId: ev.id })).some((x) => x.bracket)) {
+    throw new HttpError(409, "Playoffs are already set from these results. You can still keep the result out of DUPR.", "locked");
+  }
+  const cleared = await removeFromDupr(deps, m);
+  const next: Match = {
+    ...cleared,
+    games: [],
+    lines: m.lines ? m.lines.filter((l) => l.label !== "DreamBreaker").map((l) => ({ ...l, games: [] })) : null,
+    status: "scheduled", reportedBy: null, confirmedBy: null,
+    duprStatus: null, duprError: null, duprSubmittedBy: null, duprSubmittedAt: null,
+  };
+  await db(deps).matches.put(next);
+  if (ev.status === "completed") await db(deps).events.put({ ...ev, status: "in_progress" });
+  const name = (await playerInfo(deps, [userId]))[userId].name;
+  await notify(deps, [...m.homePlayers, ...m.awayPlayers].filter((id) => id !== userId), { kind: "score_deleted", title: "A score was removed", body: `${name} removed a result in ${ev.name}. Enter it again once it's settled.`, link: `events/${ev.id}` });
+  return next;
 }
 
 /** Team-style results for standings: each line counts as one game. */

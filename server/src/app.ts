@@ -9,11 +9,11 @@ import { db } from "./db";
 import { CORS_HEADERS, HttpError, Router, html, json, numIn, oneOf, optNumIn, optStr, readJson, redirect, str } from "./http";
 import type { Deps, User } from "./ports";
 import { deleteAccount, handoffLink, redeemHandoff, session, signInWithApple, signInWithGoogle, signInWithPassword, signUpWithPassword, userFromRequest } from "./services/auth";
-import { applyRatingWebhook, linkDupr, pullHistory } from "./services/duprSync";
+import { applyRatingWebhook, linkDupr, pullHistory, reviewQueue, submitToDupr, withdrawFromDupr } from "./services/duprSync";
 import { canSeeEvent, createEvent, eventFromBody, FORMATS, generateSchedule, markFailed, markPaid, publishEvent, refundEntry, register, requireEvent, startCheckout, withdraw } from "./services/events";
 import { addInvites, parseInviteCsv } from "./services/invites";
 import { acceptSub, cancelSub, closeRound, eventStats, rankings, requestSub, requireRound, roundView, setAttendance, startRound } from "./services/leagues";
-import { confirmScore, reportScore } from "./services/matches";
+import { confirmScore, deleteResult, reportScore, requireMatch } from "./services/matches";
 import { createClub, joinClub, leaveClub, playerInfo, requireManager, setRole } from "./services/people";
 import { createChat, listNotifications, markRead, messages, myChats, postMessage, react } from "./services/social";
 import { cards, clubDetail, discover, eventDetail, liveMatches, meView, myEvents } from "./services/views";
@@ -389,6 +389,40 @@ export function buildRouter(): Router<Ctx> {
   r.on("POST", "/v1/matches/:id/confirm", async (req, { deps }, p) => {
     const user = await auth(req, deps);
     return json({ match: await confirmScore(deps, p.id, user.id) });
+  });
+
+  r.on("DELETE", "/v1/matches/:id/score", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    return json({ match: await deleteResult(deps, p.id, user.id) });
+  });
+
+  // ----- DUPR review queue (organizers) -----
+  // Confirmed results wait here. Nothing reaches DUPR until the organizer submits it.
+  r.on("GET", "/v1/events/:id/dupr", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    return json(await reviewQueue(deps, await requireEvent(deps, p.id), user.id));
+  });
+
+  r.on("POST", "/v1/events/:id/dupr/submit", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const ev = await requireEvent(deps, p.id);
+    const b = await readJson<{ matchIds?: unknown; roundId?: unknown }>(req).catch(() => ({}) as { matchIds?: unknown; roundId?: unknown });
+    const matchIds = Array.isArray(b.matchIds) ? b.matchIds.map(String).slice(0, 500) : null;
+    const r = await submitToDupr(deps, ev, user.id, { matchIds, roundId: typeof b.roundId === "string" ? b.roundId : null });
+    return json({ submitted: r.submitted, failed: r.failed, ...(await reviewQueue(deps, ev, user.id)) });
+  });
+
+  r.on("POST", "/v1/matches/:id/dupr/submit", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const { m, ev } = await requireMatch(deps, p.id);
+    const r = await submitToDupr(deps, ev, user.id, { matchIds: [m.id] });
+    return json({ match: r.matches[0] });
+  });
+
+  r.on("DELETE", "/v1/matches/:id/dupr", async (req, { deps }, p) => {
+    const user = await auth(req, deps);
+    const { m, ev } = await requireMatch(deps, p.id);
+    return json({ match: await withdrawFromDupr(deps, ev, m, user.id) });
   });
 
   // ----- chat -----

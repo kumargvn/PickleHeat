@@ -112,7 +112,9 @@ describe("flex ladder", () => {
     expect(toConfirm).toBeTruthy();
     const c = await call("POST", `/v1/matches/${toConfirm.match.id}/confirm`, t);
     expect(c.body.match.status).toBe("confirmed");
-    expect(c.body.match.duprMatchId).toBeTruthy();
+    // Both teams agreeing never sends anything to DUPR: the result waits for the organizer.
+    expect(c.body.match.duprMatchId).toBeNull();
+    expect(c.body.match.duprStatus).toBe("ready");
 
     const chat = (await call("GET", `/v1/chats/${myGroup.group.chatId}/messages`, t)).body;
     expect(chat.messages[0].userId).toBeNull(); // bot
@@ -326,7 +328,7 @@ describe("misc", () => {
     expect((await call("GET", "/v1/dupr/mock-login")).headers.get("content-security-policy")).toBe("frame-ancestors 'self'");
   });
 
-  test("mock DUPR received uploads", () => {
+  test("mock DUPR only holds results an organizer submitted", () => {
     expect((deps.dupr as MockDuprProvider).uploads.length).toBeGreaterThan(10);
   });
 

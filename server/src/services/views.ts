@@ -88,6 +88,8 @@ export interface EventDetail {
   chatId: string | null;
   money: { collectedCents: number; paidEntries: number; pendingEntries: number } | null;
   invites: Invite[];
+  /** Organizers only, when the event sends results to DUPR: how many results are waiting for review. */
+  duprReview: { ready: number; failed: number; submitted: number } | null;
 }
 
 export async function eventDetail(deps: Deps, ev: PickleHeatEvent, user: User): Promise<EventDetail> {
@@ -132,7 +134,14 @@ export async function eventDetail(deps: Deps, ev: PickleHeatEvent, user: User): 
     chatId: chat && chat.memberIds.includes(user.id) ? chat.id : null,
     money,
     invites: manager ? await db(deps).invites.find({ eventId: ev.id }) : [],
+    duprReview: manager && ev.submitToDupr ? await reviewCounts(deps, ev.id) : null,
   };
+}
+
+async function reviewCounts(deps: Deps, eventId: string): Promise<{ ready: number; failed: number; submitted: number }> {
+  const ms = (await db(deps).matches.find({ eventId })).filter((m) => m.status === "confirmed");
+  const n = (s: string) => ms.filter((m) => m.duprStatus === s).length;
+  return { ready: n("ready"), failed: n("failed"), submitted: n("submitted") };
 }
 
 function sortKey(m: Match): string {

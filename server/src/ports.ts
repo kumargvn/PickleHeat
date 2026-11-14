@@ -259,7 +259,23 @@ export interface Match extends Doc {
   duprMatchId: string | null;
   duprSyncedAt: string | null;
   duprError: string | null;
+  /**
+   * Where a confirmed result stands with DUPR. Two-team confirmation only makes it "ready":
+   * nothing goes to DUPR until the organizer reviews and submits it.
+   * Absent/null: no result yet, or the event doesn't send results to DUPR.
+   */
+  duprStatus?: DuprStatus | null;
+  /** The organizer who submitted it, and when. */
+  duprSubmittedBy?: string | null;
+  duprSubmittedAt?: string | null;
 }
+
+/**
+ * ready: confirmed, waiting in the organizer's review queue.
+ * submitted: sent to DUPR. failed: the organizer submitted it but DUPR hasn't accepted it yet (retried hourly).
+ * skipped: the organizer chose not to send it, or took it back. not_rated: nothing in it counts for DUPR.
+ */
+export type DuprStatus = "ready" | "submitted" | "failed" | "skipped" | "not_rated";
 
 export type PaymentStatus = "pending" | "paid" | "refunded" | "failed";
 
