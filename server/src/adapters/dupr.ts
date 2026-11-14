@@ -198,6 +198,9 @@ export class MockDuprProvider implements RatingProvider {
   readonly name = "dupr-mock";
   uploads: DuprMatchUpload[] = [];
 
+  /** Clock for the sample match dates; tests and vectors pin it. */
+  today: () => Date = () => new Date();
+
   constructor(private publicBaseUrl: string) {}
 
   ssoUrl(): string {
@@ -223,7 +226,7 @@ export class MockDuprProvider implements RatingProvider {
   }
 
   async matchHistory(): Promise<PlayedMatch[]> {
-    return sampleMatches(new Date().toISOString().slice(0, 10));
+    return sampleMatches(this.today().toISOString().slice(0, 10));
   }
 
   async uploadMatch(m: DuprMatchUpload): Promise<string> {
