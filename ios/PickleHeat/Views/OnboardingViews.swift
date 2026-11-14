@@ -3,6 +3,7 @@ import SwiftUI
 
 struct SignInView: View {
     @EnvironmentObject var model: AppModel
+    @State private var usingEmail = false
 
     var body: some View {
         VStack(spacing: 26) {
@@ -39,6 +40,10 @@ struct SignInView: View {
             .frame(height: 54)
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
 
+            Button("Continue with email") { usingEmail = true }
+                .buttonStyle(SecondaryButtonStyle())
+                .accessibilityIdentifier("continueWithEmail")
+
             if model.isDemo {
                 Button("Try the demo") { Task { await model.signIn(identityToken: "dev:demo", name: nil) } }
                     .buttonStyle(SecondaryButtonStyle())
@@ -50,12 +55,81 @@ struct SignInView: View {
         .padding(24)
         .screenBackground()
         .overlay { if model.busy { ProgressView().controlSize(.large) } }
+        .sheet(isPresented: $usingEmail) { NavigationStack { EmailSignInView() } }
     }
 
     private func feature(_ icon: String, _ color: Color, _ text: String) -> some View {
         HStack(spacing: 14) {
             IconTile(systemName: icon, color: color)
             Text(text).font(.system(size: 15, weight: .medium))
+        }
+    }
+}
+
+/// Email + password sign-in, for players who'd rather not use Sign in with Apple.
+/// The same account works on the website.
+struct EmailSignInView: View {
+    @EnvironmentObject var model: AppModel
+    @Environment(\.dismiss) private var dismiss
+    @State private var creating = false
+    @State private var name = ""
+    @State private var email = ""
+    @State private var password = ""
+    @State private var problem: String?
+
+    private var ready: Bool {
+        email.contains("@") && password.count >= 8 && (!creating || !name.trimmingCharacters(in: .whitespaces).isEmpty)
+    }
+
+    var body: some View {
+        Form {
+            Section {
+                Picker("", selection: $creating) {
+                    Text("Sign in").tag(false)
+                    Text("Create account").tag(true)
+                }
+                .pickerStyle(.segmented)
+                .listRowBackground(Color.clear)
+            }
+            Section {
+                if creating {
+                    TextField("Your name", text: $name).textContentType(.name)
+                }
+                TextField("Email", text: $email)
+                    .textContentType(.username)
+                    .keyboardType(.emailAddress)
+                    .textInputAutocapitalization(.never)
+                    .autocorrectionDisabled()
+                SecureField("Password", text: $password)
+                    .textContentType(creating ? .newPassword : .password)
+            } footer: {
+                if creating { Text("Use at least 8 characters.") }
+            }
+            if let problem {
+                Section { Text(problem).foregroundStyle(Theme.coral) }
+            }
+            Section {
+                Button(creating ? "Create account" : "Sign in") { submit() }
+                    .buttonStyle(PrimaryButtonStyle())
+                    .disabled(!ready || model.busy)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets())
+                    .accessibilityIdentifier("emailSubmit")
+            }
+        }
+        .scrollContentBackground(.hidden)
+        .background(Theme.ink.ignoresSafeArea())
+        .navigationTitle(creating ? "Create account" : "Sign in")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } } }
+        .onChange(of: creating) { _, _ in problem = nil }
+    }
+
+    private func submit() {
+        let n = name.trimmingCharacters(in: .whitespaces)
+        Task {
+            problem = await model.signInWithEmail(email.trimmingCharacters(in: .whitespaces), password: password, createName: creating ? n : nil)
+            if problem == nil { dismiss() }
         }
     }
 }

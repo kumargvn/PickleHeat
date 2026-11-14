@@ -49,6 +49,18 @@ describe("accounts", () => {
     expect(me.body.unread.notifications).toBeGreaterThan(0);
   });
 
+  test("Google sign-in: new account, same account next time, links to an Apple account, never to a password account", async () => {
+    const g = await call("POST", "/v1/auth/google", undefined, { credential: "dev:gina" });
+    expect(g.status).toBe(200);
+    expect(g.body.user.email).toBe("gina@example.com");
+    expect((await call("POST", "/v1/auth/google", undefined, { credential: "dev:gina" })).body.user.id).toBe(g.body.user.id);
+    const apple = await call("POST", "/v1/auth/apple", undefined, { identityToken: "dev:both", name: "Both Ways" });
+    expect((await call("POST", "/v1/auth/google", undefined, { credential: "dev:both" })).body.user.id).toBe(apple.body.user.id);
+    await call("POST", "/v1/auth/signup", undefined, { email: "pw@example.com", password: "longenough1", name: "Pw" });
+    expect((await call("POST", "/v1/auth/google", undefined, { credential: "dev:pw" })).status).toBe(409);
+    expect((await call("POST", "/v1/auth/google", undefined, { credential: "not-a-token" })).status).toBe(401);
+  });
+
   test("email sign-up and login (web)", async () => {
     const s = await call("POST", "/v1/auth/signup", undefined, { email: "New@Example.com", password: "longenough1", name: "New Player" });
     expect(s.status).toBe(201);

@@ -14,6 +14,7 @@ import { handle } from "../src/app";
 import { buildDeps } from "../src/deps";
 import { MemoryStore } from "../src/adapters/memoryStore";
 import { seedDemo } from "../src/demo/seed";
+import { MockDuprProvider } from "../src/adapters/dupr";
 
 const out = join(import.meta.dir, "../../shared/vectors");
 const TODAY = "2026-11-07";
@@ -88,6 +89,7 @@ let n = 0;
 const deps = buildDeps({ PUBLIC_BASE_URL: "https://demo.pickleheat.app", WEB_APP_URL: "https://demo.pickleheat.app/app/", JWT_SECRET: "v".repeat(40), ALLOW_DEV_AUTH: "true", PLATFORM_FEE_BPS: "0" }, new MemoryStore());
 const clock = Date.parse("2026-11-07T15:00:00Z");
 deps.now = () => new Date(clock + n * 1000);
+if (deps.dupr instanceof MockDuprProvider) deps.dupr.today = () => new Date(clock);
 deps.newId = () => `id${String(++n).padStart(5, "0")}`;
 await seedDemo(deps);
 async function api(method: string, path: string, token?: string, body?: unknown) {

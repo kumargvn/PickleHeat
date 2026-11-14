@@ -176,6 +176,15 @@ final class APIClient {
         return me
     }
 
+    /// Email + password: signs in, or creates the account when `createName` is given.
+    func signInWithEmail(_ email: String, password: String, createName: String?) async throws -> Me {
+        var body: [String: Any] = ["email": email, "password": password]
+        if let createName { body["name"] = createName }
+        let me: Me = try await request("POST", createName == nil ? "/v1/auth/login" : "/v1/auth/signup", body)
+        token = me.token
+        return me
+    }
+
     func me() async throws -> Me { try await request("GET", "/v1/me") }
 
     func updateProfile(_ fields: [String: Any]) async throws -> Me { try await request("PATCH", "/v1/me", fields) }

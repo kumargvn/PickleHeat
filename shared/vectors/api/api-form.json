@@ -41,7 +41,7 @@
  "matches": [
   {
    "id": "m1",
-   "playedAt": "2026-11-08T18:00:00Z",
+   "playedAt": "2026-11-06T18:00:00Z",
    "teamRating": 4.08,
    "opponentRating": 4.15,
    "games": [
@@ -63,7 +63,7 @@
   },
   {
    "id": "m2",
-   "playedAt": "2026-11-05T18:00:00Z",
+   "playedAt": "2026-11-03T18:00:00Z",
    "teamRating": 4.1,
    "opponentRating": 3.98,
    "games": [
@@ -89,7 +89,7 @@
   },
   {
    "id": "m3",
-   "playedAt": "2026-11-03T18:00:00Z",
+   "playedAt": "2026-11-01T18:00:00Z",
    "teamRating": 4.05,
    "opponentRating": 4.2,
    "games": [
@@ -111,7 +111,7 @@
   },
   {
    "id": "m4",
-   "playedAt": "2026-10-31T18:00:00Z",
+   "playedAt": "2026-10-29T18:00:00Z",
    "teamRating": 4.12,
    "opponentRating": 4.02,
    "games": [
@@ -133,7 +133,7 @@
   },
   {
    "id": "m5",
-   "playedAt": "2026-10-28T18:00:00Z",
+   "playedAt": "2026-10-26T18:00:00Z",
    "teamRating": 4.07,
    "opponentRating": 4,
    "games": [
@@ -159,7 +159,7 @@
   },
   {
    "id": "m6",
-   "playedAt": "2026-10-25T18:00:00Z",
+   "playedAt": "2026-10-23T18:00:00Z",
    "teamRating": 4.09,
    "opponentRating": 4.11,
    "games": [
@@ -181,7 +181,7 @@
   },
   {
    "id": "m7",
-   "playedAt": "2026-10-21T18:00:00Z",
+   "playedAt": "2026-10-19T18:00:00Z",
    "teamRating": 4.04,
    "opponentRating": 3.95,
    "games": [
@@ -203,7 +203,7 @@
   },
   {
    "id": "m8",
-   "playedAt": "2026-10-17T18:00:00Z",
+   "playedAt": "2026-10-15T18:00:00Z",
    "teamRating": 4.06,
    "opponentRating": 4.01,
    "games": [
@@ -225,7 +225,7 @@
   },
   {
    "id": "m9",
-   "playedAt": "2026-10-13T18:00:00Z",
+   "playedAt": "2026-10-11T18:00:00Z",
    "teamRating": 4.03,
    "opponentRating": 4.08,
    "games": [
@@ -247,7 +247,7 @@
   },
   {
    "id": "m10",
-   "playedAt": "2026-10-09T18:00:00Z",
+   "playedAt": "2026-10-07T18:00:00Z",
    "teamRating": 4.02,
    "opponentRating": 3.94,
    "games": [

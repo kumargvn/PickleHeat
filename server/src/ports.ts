@@ -32,6 +32,8 @@ export type Gender = "m" | "f";
 
 export interface User extends Doc {
   appleSub: string | null;
+  /** Google account id, once the player has signed in with Google. Absent on older accounts. */
+  googleSub?: string | null;
   email: string | null;
   name: string;
   gender: Gender | null;
@@ -343,6 +345,9 @@ export interface UsedToken extends Doc {
 export interface VerifiedIdentity {
   subject: string;
   email: string | null;
+  /** Google only: the email is confirmed by Google, so it is safe to link to an existing account. */
+  emailVerified?: boolean;
+  name?: string | null;
 }
 
 export interface IdentityVerifier {
@@ -449,6 +454,8 @@ export interface TournamentSource {
 export interface Deps {
   store: Store;
   identity: IdentityVerifier;
+  /** Sign in with Google. null until GOOGLE_CLIENT_IDS is set. */
+  google: IdentityVerifier | null;
   dupr: RatingProvider;
   payments: PaymentProvider;
   tournamentSources: TournamentSource[];

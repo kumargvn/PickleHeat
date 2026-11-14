@@ -10,6 +10,8 @@ compatibility_flags = ["nodejs_compat"]
 PUBLIC_BASE_URL = "https://pickleheat-api.YOUR-SUBDOMAIN.workers.dev"
 WEB_APP_URL = "https://kumargvn.github.io/PickleHeat/app/"
 APPLE_AUDIENCES = "com.gudivada.pickleheat"
+# Sign in with Google: the OAuth client ID from Google Cloud (same value as GOOGLE_CLIENT_ID in docs/app/config.js).
+GOOGLE_CLIENT_IDS = ""
 PLATFORM_FEE_BPS = "0"
 DUPR_ENV = "uat"
 ALLOW_DEV_AUTH = "false"

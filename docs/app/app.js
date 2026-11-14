@@ -169,18 +169,19 @@ async function signin() {
     <img src="../logo.png" alt="" style="width:112px;height:112px;border-radius:28px;margin:0 auto">
     <h1 style="font-size:44px">PickleHeat</h1>
     <p class="muted">Heat Climb leagues, tournaments and your DUPR form, all in one place.</p>
-    ${LIVE ? `<div id="appleid-signin" data-color="white" data-border="false" data-type="sign in" style="height:52px;cursor:pointer"></div>
-      <div class="muted small">or use email</div>
-      <form class="stack" id="email-form" style="text-align:left">
-        <label>Email<input name="email" type="email" autocomplete="email" required></label>
-        <label>Password<input name="password" type="password" autocomplete="current-password" minlength="8" required></label>
-        <label id="name-field" hidden>Your name<input name="name" autocomplete="name"></label>
-        <button class="btn block" type="submit" id="email-go">Sign in</button>
-        <button class="btn secondary block" type="button" data-act="toggle-signup">New here? Create an account</button>
-      </form>`
-      : `<button class="btn block" data-act="demo-signin">Try the demo</button><p class="small muted">Demo mode: a sample club, Heat Climb league and tournaments. Nothing leaves your browser and nothing is charged.</p>`}
+    ${LIVE && cfg.GOOGLE_CLIENT_ID ? `<div id="google-signin" style="display:flex;justify-content:center;min-height:44px"></div>` : ""}
+    ${LIVE && cfg.APPLE_SERVICES_ID ? `<div id="appleid-signin" data-color="white" data-border="false" data-type="sign in" style="height:52px;cursor:pointer"></div>` : ""}
+    ${LIVE && (cfg.GOOGLE_CLIENT_ID || cfg.APPLE_SERVICES_ID) ? `<div class="muted small">or use email</div>` : ""}
+    <form class="stack" id="email-form" style="text-align:left">
+      <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      <label>Password<input name="password" type="password" autocomplete="${signupMode ? "new-password" : "current-password"}" minlength="8" required></label>
+      <label id="name-field" ${signupMode ? "" : "hidden"}>Your name<input name="name" autocomplete="name"></label>
+      <button class="btn block" type="submit" id="email-go">${signupMode ? "Create account" : "Sign in"}</button>
+      <button class="btn secondary block" type="button" data-act="toggle-signup">${signupMode ? "Have an account? Sign in" : "New here? Create an account"}</button>
+    </form>
+    ${LIVE ? "" : `<div class="muted small">or</div><button class="btn secondary block" data-act="demo-signin">Try the demo account</button><p class="small muted">Demo mode: a sample club, Heat Climb league and tournaments. Accounts you create here stay in this browser, and nothing is charged.</p>`}
     <p class="small muted">By continuing you agree to the <a href="../privacy.html">Privacy Policy</a>.</p></div>`;
-  if (LIVE) loadAppleJs();
+  if (LIVE) { loadAppleJs(); loadGoogleJs(); }
 }
 
 let signupMode = false;
@@ -189,6 +190,24 @@ function loadAppleJs() {
   const s = document.createElement("script");
   s.src = "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
   s.onload = () => window.AppleID.auth.init({ clientId: cfg.APPLE_SERVICES_ID, scope: "name email", redirectURI: location.origin + location.pathname, usePopup: true });
+  document.head.appendChild(s);
+}
+function loadGoogleJs() {
+  if (!cfg.GOOGLE_CLIENT_ID) return;
+  const draw = () => {
+    const el = document.getElementById("google-signin");
+    if (!el || !window.google?.accounts?.id) return;
+    window.google.accounts.id.initialize({
+      client_id: cfg.GOOGLE_CLIENT_ID,
+      callback: async (r) => signedIn(await run(() => api("POST", "/v1/auth/google", { credential: r.credential }))),
+    });
+    window.google.accounts.id.renderButton(el, { theme: "filled_blue", size: "large", shape: "pill", text: "continue_with", width: Math.min(400, el.offsetWidth || 320) });
+  };
+  if (window.google?.accounts?.id) return draw();
+  const s = document.createElement("script");
+  s.src = "https://accounts.google.com/gsi/client";
+  s.async = true;
+  s.onload = draw;
   document.head.appendChild(s);
 }
 document.addEventListener("AppleIDSignInOnSuccess", async (e) => {
@@ -824,6 +843,7 @@ const actions = {
   "toggle-signup": (el) => {
     signupMode = !signupMode;
     document.getElementById("name-field").hidden = !signupMode;
+    document.querySelector("#email-form [name=password]").autocomplete = signupMode ? "new-password" : "current-password";
     document.getElementById("email-go").textContent = signupMode ? "Create account" : "Sign in";
     el.textContent = signupMode ? "Have an account? Sign in" : "New here? Create an account";
   },
